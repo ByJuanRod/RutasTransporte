@@ -3,6 +3,7 @@ package rutas.com.rutastransporte;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -11,9 +12,13 @@ public class MenuPrincipal extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MenuPrincipal.class.getResource("MenuPrincipal-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Sistema de Gestión de Transporte Público");
         stage.setScene(scene);
+
+        /*Image icono = new  Image(getClass().getResourceAsStream("@imagenes/mapa.png"));
+        stage.getIcons().add(icono);
+        stage.setFullScreen(true);*/
         stage.show();
     }
 }

@@ -73,4 +73,9 @@ public class Ruta {
     public void setTrasbordos(int transbordos) {
         this.trasbordos = transbordos;
     }
+
+    @Override
+    public String toString() {
+        return "Ruta [" + nombre + "]: " + origen.getNombreParada() + " -> " + destino.getNombreParada();
+    }
 }

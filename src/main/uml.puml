@@ -1,27 +1,59 @@
 @startuml
-'https://plantuml.com/class-diagram
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
+enum TipoParada{
+    BUS
+    TAXI
+    TREN
 
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
+    + getImagen()
+    + getTipo()
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+interface Builder{
+    construir()
+}
+
+class Parada{
+    - codigo: String
+    - nombre: String
+    - tipo: TipoParada
+    - direccion: String
+}
+
+class Ruta{
+    - codigo: String
+    - nombre: String
+    - origen: Parada
+    - destino: Parada
+    - distancia: float
+    - tiempo: float
+    - costo: float
+    - trasbordos: int
+
+    + toString()
+}
+
+class RutaBuilder{
+    - Ruta ruta
+    + setCodigo()
+    + setNombre()
+    + setOrigen()
+    + setDestino()
+    + setDistancia()
+    + setTiempo()
+    + setCosto()
+    + setTrasbordos()
+}
+
+Builder <|-- RutaBuilder
+
+enum Colores{
+    FONDO
+    ENFASIS
+    DETALLES
+    DECORATIVOS
+
+    + getColor()
 }
 
 @enduml

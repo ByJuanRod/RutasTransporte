@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="656.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.PrincipalController">
+   <children>
+      <Label layoutX="89.0" layoutY="25.0" text="Bienvenido a Smart Track.">
+         <font>
+            <Font name="Century Gothic Bold" size="28.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.09803921729326248" green="0.09019608050584793" blue="0.23529411852359772" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.2584118438761776">
+                     <color>
+                        <Color red="0.09803921729326248" green="0.09019608050584793" blue="0.23529411852359772" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.6041230345008699">
+                     <color>
+                        <Color red="0.28600001335144043" green="0.49720001220703125" blue="0.550000011920929" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.8090503233430719">
+                     <color>
+                        <Color red="0.2862745225429535" green="0.501960813999176" blue="0.5568627715110779" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.2862745225429535" green="0.501960813999176" blue="0.5568627715110779" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="89.0" layoutY="67.0" text="Encuentra la ruta que más se adapte a tus necesidades.">
+         <font>
+            <Font name="Century Gothic" size="18.0" />
+         </font>
+      </Label>
+      <Circle fill="#49808e" layoutX="44.0" layoutY="61.0" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
+      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="24.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@imagenes/principal.png" />
+         </image>
+      </ImageView>
+      <Line endX="552.6000366210938" layoutX="125.0" layoutY="111.0" startX="-100.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" />
+      <VBox layoutX="26.0" layoutY="129.0" prefHeight="200.0" prefWidth="310.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 10px;">
+         <children>
+            <Label prefHeight="113.0" prefWidth="310.0" style="-fx-alignment: center;" text="Rutas Existentes" textFill="#fafafa">
+               <font>
+                  <Font name="Century Gothic Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label prefHeight="144.0" prefWidth="310.0" style="-fx-alignment: center;" text="0" textFill="#fafafa">
+               <font>
+                  <Font name="Consolas Bold" size="64.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="367.0" layoutY="129.0" prefHeight="200.0" prefWidth="310.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 10px;">
+         <children>
+            <Label prefHeight="113.0" prefWidth="310.0" style="-fx-alignment: center;" text="Paradas Registradas" textFill="#fafafa">
+               <font>
+                  <Font name="Century Gothic Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label prefHeight="144.0" prefWidth="310.0" style="-fx-alignment: center;" text="0" textFill="#fafafa">
+               <font>
+                  <Font name="Consolas Bold" size="64.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <Line endX="552.6000366210938" layoutX="124.0" layoutY="350.0" startX="-100.0" />
+   </children>
+</AnchorPane>
