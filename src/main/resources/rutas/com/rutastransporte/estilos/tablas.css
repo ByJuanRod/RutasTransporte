@@ -1,0 +1,29 @@
+.table-view{
+    -fx-background-color: #19173C;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+}
+
+
+.table-view .column-header{
+    -fx-background-color: #FAFAFA;
+    -fx-border-color: #49808E;
+    -fx-font-weight: bold;
+    -fx-font-family: "Century Gothic";
+    -fx-font-size: 16px;
+}
+
+.table-view .table-row-cell:even {
+    -fx-background-color: #f9f9f9;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: white;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+}
+

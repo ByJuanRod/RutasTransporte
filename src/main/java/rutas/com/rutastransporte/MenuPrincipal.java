@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class MenuPrincipal extends Application {
@@ -16,9 +17,12 @@ public class MenuPrincipal extends Application {
         stage.setTitle("Sistema de Gestión de Transporte Público");
         stage.setScene(scene);
 
-        /*Image icono = new  Image(getClass().getResourceAsStream("@imagenes/mapa.png"));
-        stage.getIcons().add(icono);
-        stage.setFullScreen(true);*/
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        stage.setWidth(screenSize.getWidth() - 20);
+        stage.setHeight(screenSize.getHeight() - 50);
+
+       /* Image icono = new  Image(getClass().getResourceAsStream("@/magenes/mapa.png"));
+        stage.getIcons().add(icono);*/
         stage.show();
     }
 }

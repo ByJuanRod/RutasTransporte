@@ -47,10 +47,12 @@ public class MenuPrincipalController {
 
     public void btnParadasClick(ActionEvent e){
         cambiarSeleccion(btnParadas);
+        cambiarPanel("Paradas");
     }
 
     public void btnRutasClick(ActionEvent e){
         cambiarSeleccion(btnRutas);
+        cambiarPanel("Rutas");
     }
 
     public void btnMapaClick(ActionEvent e){
@@ -59,14 +61,18 @@ public class MenuPrincipalController {
 
     public void btnPrincipalClick(ActionEvent e){
         cambiarSeleccion(btnPrincipal);
+        cambiarPanel("Principal");
     }
-
-
 
     @FXML
     public void initialize(){
+        cambiarPanel("Principal");
+    }
+
+    public void cambiarPanel(String nombreSeccion){
         try{
-            AnchorPane contenido = FXMLLoader.load(getClass().getResource("Principal-view.fxml"));
+            pnlContenedor.getChildren().clear();
+            AnchorPane contenido = FXMLLoader.load(getClass().getResource(nombreSeccion + "-view.fxml"));
             pnlContenedor.setCenter(contenido);
         }
         catch (Exception e){
