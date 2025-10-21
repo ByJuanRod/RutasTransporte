@@ -21,8 +21,8 @@ public class MenuPrincipal extends Application {
         stage.setWidth(screenSize.getWidth() - 20);
         stage.setHeight(screenSize.getHeight() - 50);
 
-       /* Image icono = new  Image(getClass().getResourceAsStream("@/magenes/mapa.png"));
-        stage.getIcons().add(icono);*/
+        Image icono = new  Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/mapa.png"));
+        stage.getIcons().add(icono);
         stage.show();
     }
 }

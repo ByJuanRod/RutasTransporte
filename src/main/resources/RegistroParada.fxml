@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="536.0" prefWidth="827.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.RegistroParadaController">
+   <children>
+      <Circle fill="#1b4b6b" layoutX="44.0" layoutY="44.0" radius="30.0" stroke="BLACK" strokeType="INSIDE" />
+      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="24.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@rutas/com/rutastransporte/imagenes/parada.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="88.0" layoutY="21.0" text="Registro de Parada">
+         <font>
+            <Font name="Century Gothic Bold" size="36.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.2862745225429535" green="0.501960813999176" blue="0.5568627715110779" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.09803921729326248" green="0.09019608050584793" blue="0.23529411852359772" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="23.0" layoutY="102.0" text="Código:">
+         <font>
+            <Font name="Century Gothic Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField layoutX="106.0" layoutY="101.0" prefHeight="26.0" prefWidth="250.0" text="0001">
+         <font>
+            <Font name="Century Gothic" size="14.0" />
+         </font>
+      </TextField>
+   </children>
+</AnchorPane>

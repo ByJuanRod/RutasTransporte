@@ -56,4 +56,10 @@ enum Colores{
     + getColor()
 }
 
+interface CRUD{
+    insertar()
+    eliminar()
+    actualizar()
+}
+
 @enduml
