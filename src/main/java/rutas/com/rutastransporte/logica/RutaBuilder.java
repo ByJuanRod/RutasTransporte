@@ -35,10 +35,6 @@ public class RutaBuilder implements Builder<Ruta> {
         ruta.setTiempo(tiempo);
     }
 
-    public void setTrasbordos(int trasbordos) {
-        ruta.setTrasbordos(trasbordos);
-    }
-
     @Override
     public Ruta construir() {
         return ruta;

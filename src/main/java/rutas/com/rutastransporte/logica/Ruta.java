@@ -8,7 +8,6 @@ public class Ruta {
     private float distancia;
     private float costo;
     private float tiempo;
-    private int trasbordos;
 
     public String getCodigo() {
         return codigo;
@@ -64,14 +63,6 @@ public class Ruta {
 
     public void setTiempo(float tiempo) {
         this.tiempo = tiempo;
-    }
-
-    public int getTrasbordos() {
-        return trasbordos;
-    }
-
-    public void setTrasbordos(int transbordos) {
-        this.trasbordos = transbordos;
     }
 
     @Override

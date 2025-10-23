@@ -1,4 +1,4 @@
-package rutas.com.rutastransporte.utilidades;
+package rutas.com.rutastransporte.logica;
 
 public enum Colores {
     FONDO("#FAFAFA"),
