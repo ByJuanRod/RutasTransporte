@@ -1,4 +1,4 @@
-package rutas.com.rutastransporte;
+package rutas.com.rutastransporte.Controladores;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

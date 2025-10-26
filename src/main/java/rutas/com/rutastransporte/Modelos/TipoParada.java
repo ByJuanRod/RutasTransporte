@@ -1,9 +1,9 @@
-package rutas.com.rutastransporte.logica;
+package rutas.com.rutastransporte.Modelos;
 
 public enum TipoParada {
-    BUS("Parada de Bus","recursos/bus.png"),
-    TAXI("Parada de Taxi","recursos/taxi.png"),
-    TREN("Estación de Tren ","recursos/tren.png");
+    BUS("Parada de Bus","bus.png"),
+    TAXI("Parada de Taxi","taxi.png"),
+    TREN("Estación de Tren ","tren.png");
 
     private final String nombreTipo;
     private final String imagenTipo;

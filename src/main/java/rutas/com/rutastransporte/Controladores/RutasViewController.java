@@ -1,4 +1,4 @@
-package rutas.com.rutastransporte;
+package rutas.com.rutastransporte.Controladores;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import rutas.com.rutastransporte.logica.Ruta;
+import rutas.com.rutastransporte.Modelos.Ruta;
 
 public class RutasViewController {
 

@@ -1,4 +1,4 @@
-package rutas.com.rutastransporte.logica;
+package rutas.com.rutastransporte.Modelos;
 
 import java.util.LinkedList;
 import java.util.Queue;

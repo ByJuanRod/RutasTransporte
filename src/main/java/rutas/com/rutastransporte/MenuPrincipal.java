@@ -24,5 +24,6 @@ public class MenuPrincipal extends Application {
         Image icono = new  Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/mapa.png"));
         stage.getIcons().add(icono);
         stage.show();
+
     }
 }

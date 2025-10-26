@@ -1,4 +1,4 @@
-package rutas.com.rutastransporte.logica;
+package rutas.com.rutastransporte.Modelos;
 
 public interface Builder<T> {
     T construir();

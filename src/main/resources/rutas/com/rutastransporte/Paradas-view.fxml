@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="656.0" prefWidth="802.0" stylesheets="@estilos/tablas.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.ParadasViewController">
+<AnchorPane prefHeight="656.0" prefWidth="802.0" stylesheets="@estilos/tablas.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.Controladores.ParadasViewController">
    <children>
       <Circle fill="#19173c" layoutX="346.8" layoutY="61.0" radius="23.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.leftAnchor="323.8" />
       <Circle fill="#49808e" layoutX="50.0" layoutY="57.0" radius="28.0" stroke="BLACK" strokeType="INSIDE" />
@@ -49,11 +49,11 @@
       <Line endX="100.0" layoutX="199.0" layoutY="85.0" startX="-100.0" />
       <TableView fx:id="tblParadas" layoutX="25.0" layoutY="106.0" prefHeight="478.0" prefWidth="751.0" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="107.0">
         <columns>
-          <TableColumn prefWidth="87.19998407363892" resizable="false" text="Código" />
-          <TableColumn prefWidth="158.40003967285156" resizable="false" text="Nombre" />
-            <TableColumn minWidth="0.0" prefWidth="225.5999298095703" resizable="false" text="Dirección" />
-            <TableColumn minWidth="0.0" prefWidth="184.00006103515625" resizable="false" text="Tipo" />
-            <TableColumn minWidth="0.0" prefWidth="90.4000244140625" resizable="false" />
+          <TableColumn fx:id="colCodigo" prefWidth="87.19998407363892" resizable="false" text="Código" />
+          <TableColumn fx:id="colNombre" prefWidth="158.40003967285156" resizable="false" text="Nombre" />
+            <TableColumn fx:id="colDireccion" minWidth="0.0" prefWidth="225.5999298095703" resizable="false" text="Dirección" />
+            <TableColumn fx:id="colTipo" minWidth="0.0" prefWidth="184.00006103515625" resizable="false" text="Tipo" />
+            <TableColumn fx:id="colImg" minWidth="0.0" prefWidth="90.4000244140625" resizable="false" />
         </columns>
       </TableView>
       <Button fx:id="btnInsertar" layoutX="24.0" layoutY="592.8000000000001" mnemonicParsing="false" onAction="#btnInsertarClick" prefHeight="40.0" prefWidth="188.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 10px;" text="Insertar" textFill="#fafafa" AnchorPane.bottomAnchor="10.399999999999977">

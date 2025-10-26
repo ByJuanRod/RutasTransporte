@@ -1,4 +1,4 @@
-package rutas.com.rutastransporte.logica;
+package rutas.com.rutastransporte.Modelos;
 
 public class Parada {
     private String codigo;

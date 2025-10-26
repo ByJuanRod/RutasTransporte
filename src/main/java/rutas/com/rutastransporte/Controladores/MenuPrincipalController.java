@@ -1,4 +1,4 @@
-package rutas.com.rutastransporte;
+package rutas.com.rutastransporte.Controladores;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import rutas.com.rutastransporte.logica.Colores;
+import rutas.com.rutastransporte.Utilidades.Colores;
 
 public class MenuPrincipalController {
 
@@ -72,7 +72,7 @@ public class MenuPrincipalController {
     public void cambiarPanel(String nombreSeccion){
         try{
             pnlContenedor.getChildren().clear();
-            AnchorPane contenido = FXMLLoader.load(getClass().getResource(nombreSeccion + "-view.fxml"));
+            AnchorPane contenido = FXMLLoader.load(getClass().getResource("/rutas/com/rutastransporte/" + nombreSeccion + "-view.fxml"));
             pnlContenedor.setCenter(contenido);
         }
         catch (Exception e){
