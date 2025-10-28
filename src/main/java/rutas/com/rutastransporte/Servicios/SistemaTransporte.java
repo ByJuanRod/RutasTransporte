@@ -2,6 +2,8 @@ package rutas.com.rutastransporte.Servicios;
 
 import rutas.com.rutastransporte.Modelos.Parada;
 import rutas.com.rutastransporte.Modelos.Ruta;
+import rutas.com.rutastransporte.Modelos.Criterio;
+import rutas.com.rutastransporte.Modelos.RutaPosible;
 
 import java.util.ArrayList;
 
@@ -17,6 +19,8 @@ public class SistemaTransporte {
     private static SistemaTransporte instancia = null;
 
     private GrafoTransporte grafo;
+
+    private Calculador calculador;
 
     private SistemaTransporte() {
         paradas = new ArrayList<>();
@@ -48,8 +52,9 @@ public class SistemaTransporte {
         rutas.add(ruta);
     }
 
-   /* public RutaPosible calcularRutaOptima(Parada origen, Parada destino, Criterio criterio) {
+   public RutaPosible calcularRutaOptima(Parada origen, Parada destino, Criterio criterio) {
+        calculador.setGrafo(grafo);
         return calculador.dijkstra(origen, destino, criterio);
-    }*/
+    }
 
 }
