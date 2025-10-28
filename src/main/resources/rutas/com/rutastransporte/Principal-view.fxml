@@ -137,7 +137,7 @@
                   <Insets bottom="10.0" right="10.0" />
                </FlowPane.margin>
             </AnchorPane>
-            <PieChart prefHeight="400.0" prefWidth="748.0" style="-fx-border-width: 1; -fx-border-color: #19173C; -fx-border-radius: 5px; -fx-background-radius: 5px;" styleClass="chart-pie-label" title="Segmentación de los Métodos de Transporte" />
+            <PieChart fx:id="grSegmentacion" prefHeight="400.0" prefWidth="748.0" style="-fx-border-width: 1; -fx-border-color: #19173C; -fx-border-radius: 5px; -fx-background-radius: 5px;" styleClass="chart-pie-label" title="Segmentación de los Métodos de Transporte" />
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

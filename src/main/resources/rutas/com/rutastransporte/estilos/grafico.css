@@ -1,17 +1,17 @@
 .chart-pie-label {
     -fx-padding: 10px;
-    -fx-font-size: 32px;
+    -fx-font-size: 10px;
     -fx-font-weight: bold;
     -fx-font-family: "Century Gothic";
     -fx-text-fill: #333333;
 }
 
-.data0.chart-pie { -fx-pie-color: #FF6384; }
-.data1.chart-pie { -fx-pie-color: #36A2EB; }
-.data2.chart-pie { -fx-pie-color: #FFCE56; }
-.data3.chart-pie { -fx-pie-color: #4BC0C0; }
-.data4.chart-pie { -fx-pie-color: #9966FF; }
-.data5.chart-pie { -fx-pie-color: #FF9F40; }
+.data0.chart-pie { -fx-pie-color: #19173C; }
+.data1.chart-pie { -fx-pie-color: #49808E; }
+.data2.chart-pie { -fx-pie-color: #1B4B6B; }
+.data3.chart-pie { -fx-pie-color: #6A9AB0; }
+.data4.chart-pie { -fx-pie-color: #64CCC5; }
+.data5.chart-pie { -fx-pie-color: #EAD8B1; }
 
 .chart-title {
     -fx-font-size: 18px;
