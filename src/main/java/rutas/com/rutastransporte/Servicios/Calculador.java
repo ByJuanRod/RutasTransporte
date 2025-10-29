@@ -9,22 +9,18 @@ public class Calculador {
     private GrafoTransporte grafo;
 
     private float getPeso(Ruta ruta, Criterio criterio){
-        switch (criterio) {
-            case MAS_ECONOMICO:
-                return ruta.getCosto();
-            case MAS_CORTA:
-                return ruta.getDistancia();
-            case MAS_RAPIDA:
-                return ruta.getTiempo();
-            default:
-                return 1.0f;
-        }
+        return switch (criterio) {
+            case MAS_ECONOMICO -> ruta.getCosto();
+            case MAS_CORTA -> ruta.getDistancia();
+            case MAS_RAPIDA -> ruta.getTiempo();
+            default -> 1.0f;
+        };
     }
 
     public RutaPosible dijkstra(Parada origen, Parada destino, Criterio criterio) {
         RutaPosible rutaPosible = new RutaPosible();
-        HashMap<Parada, Float> distancias = new HashMap<>();
-        HashMap<Parada, Ruta> anterior = new HashMap<>();
+        Map<Parada, Float> distancias = new HashMap<>();
+        Map<Parada, Ruta> anterior = new HashMap<>();
         Set<Parada> visited = new HashSet<>();
 
         Comparator<Parada> comparador = Comparator.comparing(distancias::get);

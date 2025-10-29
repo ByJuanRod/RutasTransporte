@@ -38,4 +38,14 @@ public class GrafoTransporte {
 
     }
 
+    public void eliminarRuta(Ruta ruta) {
+        Parada origen = ruta.getOrigen();
+        List<Ruta> rutas = listaAdyacencia.get(origen);
+
+        if(rutas != null) {
+            rutas.remove(ruta);
+        }
+
+    }
+
 }
