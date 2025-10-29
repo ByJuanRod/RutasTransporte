@@ -1,6 +1,5 @@
 package rutas.com.rutastransporte.Servicios;
 
-import rutas.com.rutastransporte.Modelos.Arista;
 import rutas.com.rutastransporte.Modelos.Parada;
 import rutas.com.rutastransporte.Modelos.Ruta;
 
