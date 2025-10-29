@@ -1,9 +1,6 @@
 package rutas.com.rutastransporte.Servicios;
 
-import rutas.com.rutastransporte.Modelos.Parada;
-import rutas.com.rutastransporte.Modelos.Ruta;
-import rutas.com.rutastransporte.Modelos.Criterio;
-import rutas.com.rutastransporte.Modelos.RutaPosible;
+import rutas.com.rutastransporte.Modelos.*;
 
 import java.util.ArrayList;
 
@@ -47,8 +44,10 @@ public class SistemaTransporte {
         return rutas;
     }
 
-    public void conectarParadas(Parada origen, Parada destino, Ruta ruta) {
-        grafo.agregarArista(origen, destino, ruta);
+    public void conectarParadas(Parada origen, Parada destinoa) {
+        RutaBuilder rutaBuilder = new RutaBuilder();
+        Ruta ruta = rutaBuilder.construir();
+        grafo.agregarRuta(ruta);
         rutas.add(ruta);
     }
 
