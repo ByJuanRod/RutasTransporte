@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GrafoTransporte {
-    private Map<Parada, List<Arista>> listaAdyacencia;
+    private Map<Parada, List<Ruta>> listaAdyacencia;
 
     public GrafoTransporte() {
         listaAdyacencia = new HashMap<>();
@@ -20,22 +20,23 @@ public class GrafoTransporte {
         listaAdyacencia.putIfAbsent(parada, new ArrayList<>());
     }
 
-    public void agregarArista(Parada origen, Parada destino, Ruta ruta) {
-        Arista arista = new Arista(destino, ruta);
-        listaAdyacencia.get(origen).add(arista);
+    public void agregarRuta(Ruta ruta) {
+        Parada origen = ruta.getOrigen();
+        listaAdyacencia.putIfAbsent(origen, new ArrayList<>());
+        listaAdyacencia.get(origen).add(ruta);
     }
 
-    public List<Arista> getAristas(Parada parada) {
+    public List<Ruta> getRutas(Parada parada) {
         return listaAdyacencia.getOrDefault(parada, new ArrayList<>());
     }
 
     public void eliminarParada(Parada parada) {
         listaAdyacencia.remove(parada);
 
-        for (List<Arista> aristas : listaAdyacencia.values()) {
-            aristas.removeIf(arista -> arista.getRuta().getDestino().equals(parada));
+        for (List<Ruta> rutas : listaAdyacencia.values()) {
+            rutas.removeIf(ruta -> ruta.getDestino().equals(parada));
         }
-    }
 
+    }
 
 }

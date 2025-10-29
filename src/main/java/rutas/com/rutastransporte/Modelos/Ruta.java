@@ -9,6 +9,20 @@ public class Ruta {
     private float costo;
     private float tiempo;
 
+    public Ruta(String codigo, String nombre, Parada origen, Parada destino, float distancia, float costo, float tiempo) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.origen = origen;
+        this.destino = destino;
+        this.distancia = distancia;
+        this.costo = costo;
+        this.tiempo = tiempo;
+    }
+
+    public Ruta(){
+
+    }
+
     public String getCodigo() {
         return codigo;
     }

@@ -1,5 +1,7 @@
 package rutas.com.rutastransporte.Modelos;
 
+import java.util.Objects;
+
 public class Parada {
     private String codigo;
     private String nombreParada;
@@ -44,4 +46,18 @@ public class Parada {
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Parada parada = (Parada) o;
+        return Objects.equals(codigo, parada.codigo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo);
+    }
+
 }

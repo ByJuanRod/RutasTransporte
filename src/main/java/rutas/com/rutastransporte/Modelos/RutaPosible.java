@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class RutaPosible {
-    private Queue<Ruta> camino;
+    private LinkedList<Ruta> camino;
     private float costoTotal;
     private float distanciaTotal;
     private float tiempoTotal;
@@ -18,11 +18,11 @@ public class RutaPosible {
         cantTrasbordos = 0;
     }
 
-    public Queue<Ruta> getCamino() {
+    public LinkedList<Ruta> getCamino() {
         return camino;
     }
 
-    public  void setCamino(Queue<Ruta> camino) {
+    public  void setCamino(LinkedList<Ruta> camino) {
         this.camino = camino;
     }
 
@@ -72,6 +72,11 @@ public class RutaPosible {
 
     public void agregarAlCamino(Ruta ruta){
         camino.add(ruta);
+        cantTrasbordos++;
+    }
+
+    public void agregarAlCaminoFirst(Ruta ruta){
+        camino.addFirst(ruta);
         cantTrasbordos++;
     }
     
