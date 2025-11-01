@@ -9,5 +9,4 @@ public interface Servicio<T> {
 
     void eliminar(T objeto);
 
-    boolean esEliminable(T objeto);
 }

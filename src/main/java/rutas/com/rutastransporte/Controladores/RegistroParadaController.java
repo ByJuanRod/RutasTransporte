@@ -12,16 +12,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.Servicios.Registro;
-import rutas.com.rutastransporte.Servicios.ServicioParadas;
+import rutas.com.rutastransporte.Servicios.ParadasDAO;
 import rutas.com.rutastransporte.Utilidades.Alertas.AlertFactory;
 import rutas.com.rutastransporte.Utilidades.Alertas.Alerta;
 import rutas.com.rutastransporte.Utilidades.Modalidad;
 import rutas.com.rutastransporte.Modelos.Parada;
-import rutas.com.rutastransporte.Servicios.SistemaTransporte;
 import rutas.com.rutastransporte.Modelos.TipoParada;
+import rutas.com.rutastransporte.Servicios.SistemaTransporte;
 
 public class RegistroParadaController implements Registro {
-    private ServicioParadas servicioParadas = new ServicioParadas();
+    private ParadasDAO servicioParadas = new ParadasDAO();
 
     private Parada parada;
 

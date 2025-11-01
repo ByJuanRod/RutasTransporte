@@ -1,5 +1,10 @@
 package rutas.com.rutastransporte.Utilidades;
 
+/*
+    Nombre: Colores
+    Tipo: (Enum)
+    Objetivo: Obtener facilmente los colores que se utilizan frecuentemente en la aplicación.
+ */
 public enum Colores {
     FONDO("#FAFAFA"),
     ENFASIS("#19173C"),

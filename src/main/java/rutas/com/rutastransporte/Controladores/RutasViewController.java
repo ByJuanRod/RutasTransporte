@@ -6,9 +6,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import rutas.com.rutastransporte.Modelos.Ruta;
+import rutas.com.rutastransporte.Modelos.Vista;
+import rutas.com.rutastransporte.StageBuilder;
+import rutas.com.rutastransporte.Utilidades.Modalidad;
 
-public class RutasViewController {
+public class RutasViewController implements Vista<Ruta> {
 
     @FXML
     private TableView<Ruta> tblRutas;
@@ -39,5 +44,22 @@ public class RutasViewController {
 
     public void txtBuscarKeyPressed(KeyEvent e){
 
+    }
+
+    @Override
+    public void crearPantalla(String titulo, Modalidad modalidad, Ruta ruta) {
+        StageBuilder sb = new StageBuilder();
+        sb.setModalidad(Modality.APPLICATION_MODAL);
+        sb.setTitulo(titulo);
+
+        /*Registro controlador = (RegistroParadaController) sb.setContenido("RegistroRuta");
+        controlador.setModalidad(modalidad);
+        controlador.setParada(ruta);
+
+        controlador.cargarDatos();
+        Stage st = sb.construir();
+        controlador.setStage(st);
+
+        st.show();*/
     }
 }

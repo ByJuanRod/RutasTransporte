@@ -51,7 +51,7 @@ public class SistemaTransporte {
         rutas.add(ruta);
     }
 
-   public RutaPosible calcularRutaOptima(Parada origen, Parada destino, Criterio criterio) {
+    public RutaPosible calcularRutaOptima(Parada origen, Parada destino, Criterio criterio) {
         calculador.setGrafo(grafo);
         return calculador.dijkstra(origen, destino, criterio);
     }

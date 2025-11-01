@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="656.0" prefWidth="814.0" stylesheets="@estilos/grafico.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.Controladores.PrincipalController">
+<AnchorPane prefHeight="656.0" prefWidth="814.0" stylesheets="@estilos/grafico.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.Controladores.PrincipalController">
    <children>
       <Label layoutX="89.0" layoutY="25.0" text="Bienvenido a Smart Track.">
          <font>
