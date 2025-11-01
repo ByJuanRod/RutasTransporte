@@ -7,7 +7,6 @@ import rutas.com.rutastransporte.Modelos.Parada;
 import rutas.com.rutastransporte.Modelos.Ruta;
 import rutas.com.rutastransporte.Modelos.TipoParada;
 
-import java.security.KeyPair;
 import java.util.Hashtable;
 
 public class ServicioPrincipal {

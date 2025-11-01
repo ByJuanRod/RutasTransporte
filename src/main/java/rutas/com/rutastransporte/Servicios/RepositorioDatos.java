@@ -28,8 +28,7 @@ public class RepositorioDatos {
         paradas.put(p2.getCodigo(), p2);
         paradas.put(p3.getCodigo(), p3);
 
-        // --- Aquí creas tus rutas ---
-        // (Nota: Las rutas ahora conectan los objetos Parada que ya creaste)
+
         Ruta r1 = new Ruta("R-A", "Ruta A", p1, p2, 10.5f, 50.0f, 15.0f);
         Ruta r2 = new Ruta("R-B", "Ruta B", p1, p3, 8.2f, 40.0f, 12.0f);
         Ruta r3 = new Ruta("R-C", "Ruta C", p2, p3, 5.1f, 25.0f, 8.0f);

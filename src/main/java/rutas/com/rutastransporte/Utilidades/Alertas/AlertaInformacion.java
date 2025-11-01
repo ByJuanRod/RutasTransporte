@@ -2,6 +2,11 @@ package rutas.com.rutastransporte.Utilidades.Alertas;
 
 import javafx.scene.control.Alert;
 
+/*
+    Nombre: AlertaInformacion
+    Tipo: Clase -> Implementa a Alerta
+    Objetivo: Segregar la logica de las alertas informativas.
+ */
 public class AlertaInformacion implements Alerta {
 
     @Override

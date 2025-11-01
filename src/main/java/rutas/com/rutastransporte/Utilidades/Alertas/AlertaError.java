@@ -2,6 +2,11 @@ package rutas.com.rutastransporte.Utilidades.Alertas;
 
 import javafx.scene.control.Alert;
 
+/*
+    Nombre: AlertaError
+    Tipo: Clase -> Implementa a Alerta
+    Objetivo: Segregar la logica de las alertas que informan sobre errores.
+ */
 public class AlertaError implements Alerta {
     @Override
     public Alert crearAlerta(String mensaje, String cabecera) {

@@ -57,6 +57,7 @@ public class MenuPrincipalController {
 
     public void btnMapaClick(ActionEvent e){
         cambiarSeleccion(btnMapa);
+        cambiarPanel("Mapa");
     }
 
     public void btnPrincipalClick(ActionEvent e){

@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import rutas.com.rutastransporte.Servicios.ServicioPrincipal;
-import rutas.com.rutastransporte.Servicios.SistemaTransporte;
 
 public class PrincipalController {
     private ServicioPrincipal servicioPrincipal = new ServicioPrincipal();
