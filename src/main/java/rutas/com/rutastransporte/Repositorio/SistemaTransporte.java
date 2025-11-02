@@ -1,13 +1,12 @@
-package rutas.com.rutastransporte.Servicios;
+package rutas.com.rutastransporte.Repositorio;
 
 import rutas.com.rutastransporte.Modelos.*;
+import rutas.com.rutastransporte.Servicios.Calculador;
+import rutas.com.rutastransporte.Servicios.GrafoTransporte;
 
 import java.util.ArrayList;
 
 public class SistemaTransporte {
-    public static int genCodigoParada = 1;
-
-    public static int genCodigoRuta = 1;
 
     public ArrayList<Parada> paradas;
 
@@ -28,6 +27,7 @@ public class SistemaTransporte {
     public static SistemaTransporte getSistemaTransporte(){
         if(instancia == null){
             instancia = new SistemaTransporte();
+            CargadorDatos.cargarDatosEjemplo();
         }
         return instancia;
     }

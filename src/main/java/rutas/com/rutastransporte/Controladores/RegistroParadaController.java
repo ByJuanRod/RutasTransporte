@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import rutas.com.rutastransporte.Modelos.ParadaBuilder;
 import rutas.com.rutastransporte.Modelos.Registro;
 import rutas.com.rutastransporte.Servicios.ParadasDAO;
 import rutas.com.rutastransporte.Utilidades.Alertas.AlertFactory;
@@ -18,7 +19,6 @@ import rutas.com.rutastransporte.Utilidades.Alertas.Alerta;
 import rutas.com.rutastransporte.Utilidades.Modalidad;
 import rutas.com.rutastransporte.Modelos.Parada;
 import rutas.com.rutastransporte.Modelos.TipoParada;
-import rutas.com.rutastransporte.Servicios.SistemaTransporte;
 
 public class RegistroParadaController implements Registro {
     private ParadasDAO servicioParadas = new ParadasDAO();
@@ -56,6 +56,7 @@ public class RegistroParadaController implements Registro {
         this.parada = parada;
     }
 
+    @Override
     public void setModalidad(Modalidad modalidad){
         this.modalidad = modalidad;
     }
@@ -77,19 +78,20 @@ public class RegistroParadaController implements Registro {
         if(validar()){
             Alerta alerta = alertFactory.obtenerAlerta(Alert.AlertType.INFORMATION);
             if(modalidad == Modalidad.INSERTAR){
-                Parada parada = new Parada(txtCodigo.getText(),txtNombre.getText(),cbxTipoParada.getSelectionModel().getSelectedItem(),txtDireccion.getText());
-                servicioParadas.insertar(parada);
-                alerta.crearAlerta("Parada Insertada Exitosamente.","Registro Insertado.").showAndWait();
+                ParadaBuilder parada = new ParadaBuilder();
+                parada.setNombreParada(txtNombre.getText());
+                parada.setTipo(cbxTipoParada.getSelectionModel().getSelectedItem());
+                parada.setUbicacion(txtDireccion.getText());
+                servicioParadas.insertar(parada.construir());
+                alerta.crearAlerta("Parada Insertada Exitosamente.","Registro Insertado.").show();
                 limpiar();
-                txtCodigo.setText(String.valueOf(SistemaTransporte.genCodigoParada));
             }
             else{
                 parada.setNombreParada(txtNombre.getText());
                 parada.setTipo(cbxTipoParada.getSelectionModel().getSelectedItem());
                 parada.setUbicacion(txtDireccion.getText());
                 servicioParadas.actualizar(parada);
-                alerta.crearAlerta("Parada Modificada Exitosamente.","Registro Modificado.").showAndWait();
-
+                alerta.crearAlerta("Parada Modificada Exitosamente.","Registro Modificado.").show();
             }
         }
     }
@@ -107,10 +109,10 @@ public class RegistroParadaController implements Registro {
         imgTransporte.setImage(img);
     }
 
-    void cargarDatos(){
+    @Override
+    public void cargarDatos(){
         txtNombre.requestFocus();
         if(modalidad.equals(Modalidad.ACTUALIZAR)){
-            txtCodigo.setText(parada.getCodigo());
             txtDireccion.setText(parada.getUbicacion());
             txtNombre.setText(parada.getNombreParada());
             cbxTipoParada.setValue(parada.getTipo());
@@ -118,7 +120,6 @@ public class RegistroParadaController implements Registro {
             imgRealizar.setImage(new Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/editar.png")));
         }
         else{
-            txtCodigo.setText(String.valueOf(SistemaTransporte.genCodigoParada));
             cbxTipoParada.setValue(TipoParada.BUS);
         }
 
@@ -130,11 +131,11 @@ public class RegistroParadaController implements Registro {
         Alerta alerta = alertFactory.obtenerAlerta(Alert.AlertType.CONFIRMATION);
 
         if(txtNombre.getText().trim().isEmpty()){
-            alerta.crearAlerta("El campo de nombre es obligatorio.","Registro Obligatorio.").showAndWait();
+            alerta.crearAlerta("El campo de nombre es obligatorio.","Registro Obligatorio.").show();
             return false;
         }
         else if(txtDireccion.getText().trim().isEmpty()){
-            alerta.crearAlerta("El campo de dirección es obligatorio.","Registro Obligatorio.").showAndWait();
+            alerta.crearAlerta("El campo de dirección es obligatorio.","Registro Obligatorio.").show();
             return false;
         }
 

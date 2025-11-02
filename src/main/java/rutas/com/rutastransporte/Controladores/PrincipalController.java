@@ -26,6 +26,7 @@ public class PrincipalController {
     }
 
     public void cargarDatos(){
+
         lblCantRutas.setText(String.valueOf(servicioPrincipal.getCantRutas()));
         lblCantParadas.setText(String.valueOf(servicioPrincipal.getCantParadas()));
         grSegmentacion.setLabelsVisible(true);
