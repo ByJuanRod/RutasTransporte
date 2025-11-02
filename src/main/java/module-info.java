@@ -4,7 +4,6 @@ module rutas.com.rutastransporte {
     requires java.desktop;
     requires javafx.graphics;
 
-
     opens rutas.com.rutastransporte to javafx.fxml;
     exports rutas.com.rutastransporte;
     exports rutas.com.rutastransporte.Modelos;

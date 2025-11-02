@@ -49,10 +49,10 @@
       <Line endX="100.0" layoutX="199.0" layoutY="85.0" startX="-100.0" />
       <TableView fx:id="tblRutas" layoutX="26.4" layoutY="107.2" prefHeight="478.0" prefWidth="751.0" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="107.0">
         <columns>
-          <TableColumn prefWidth="87.19998407363892" resizable="false" text="Código" />
-          <TableColumn prefWidth="148.80001068115234" resizable="false" text="Nombre" />
-            <TableColumn minWidth="0.0" prefWidth="232.80001831054688" resizable="false" text="Origen" />
-            <TableColumn minWidth="0.0" prefWidth="266.3999938964844" resizable="false" text="Destino" />
+          <TableColumn fx:id="colCodigo" prefWidth="87.19998407363892" resizable="false" text="Código" />
+          <TableColumn fx:id="colNombre" prefWidth="148.80001068115234" resizable="false" text="Nombre" />
+            <TableColumn fx:id="colOrigen" minWidth="0.0" prefWidth="232.80001831054688" resizable="false" text="Origen" />
+            <TableColumn fx:id="colDestino" minWidth="0.0" prefWidth="266.3999938964844" resizable="false" text="Destino" />
         </columns>
       </TableView>
       <Button fx:id="btnInsertar" layoutX="24.0" layoutY="592.8000000000001" mnemonicParsing="false" onAction="#btnInsertarClick" prefHeight="40.0" prefWidth="188.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 10px;" text="Insertar" textFill="#fafafa" AnchorPane.bottomAnchor="10.399999999999977">

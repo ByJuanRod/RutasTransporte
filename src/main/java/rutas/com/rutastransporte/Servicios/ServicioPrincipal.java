@@ -1,5 +1,4 @@
 package rutas.com.rutastransporte.Servicios;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
@@ -29,6 +28,7 @@ public class ServicioPrincipal {
 
             return Math.round(costoTotal  / getCantRutas());
         }
+
     }
 
     public Hashtable<TipoParada, Integer> getSegmentacion(){

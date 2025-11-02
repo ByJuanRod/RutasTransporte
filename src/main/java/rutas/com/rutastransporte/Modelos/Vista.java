@@ -9,4 +9,10 @@ import rutas.com.rutastransporte.Utilidades.Modalidad;
  */
 public interface Vista<T> {
     void crearPantalla(String titulo, Modalidad modalidad, T objeto);
+
+    void cargarDatos();
+
+    void filtrar();
+
+    void configurarColumnas();
 }

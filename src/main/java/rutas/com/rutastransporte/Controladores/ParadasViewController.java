@@ -2,34 +2,28 @@ package rutas.com.rutastransporte.Controladores;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import rutas.com.rutastransporte.Excepciones.NotEliminableException;
 import rutas.com.rutastransporte.Modelos.Vista;
+import rutas.com.rutastransporte.Servicios.ParadasDAO;
 import rutas.com.rutastransporte.StageBuilder;
 import rutas.com.rutastransporte.Utilidades.Modalidad;
 import rutas.com.rutastransporte.Modelos.Parada;
 
 public class ParadasViewController implements Vista<Parada> {
+    private ParadasDAO paradasDAO = new ParadasDAO();
 
     @FXML
-    private static TableView<Parada> tblParadas;
+    private TableView<Parada> tblParadas;
 
     @FXML
     private TextField txtBuscar;
-
-    @FXML
-    private Button btnEliminar;
-
-    @FXML
-    private Button btnInsertar;
-
-    @FXML
-    private Button btnActualizar;
 
     @FXML
     private TableColumn<Parada, String> colCodigo;
@@ -44,15 +38,51 @@ public class ParadasViewController implements Vista<Parada> {
     private TableColumn<Parada, String> colTipo;
 
     @FXML
-    private TableColumn<Parada, String> colImg;
+    private TableColumn<Parada, ImageView> colImg;
+
+    @FXML
+    public void initialize(){
+        configurarColumnas();
+        cargarDatos();
+    }
 
     public void btnEliminarClick(ActionEvent e){
+        Parada paradaSeleccionada = tblParadas.getSelectionModel().getSelectedItem();
 
+        if (paradaSeleccionada == null) {
+            mostrarAlerta("Selección requerida", "Por favor, seleccione una parada para eliminar.");
+            return;
+        }
+
+        try {
+            Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmacion.setTitle("Confirmar eliminación");
+            confirmacion.setHeaderText("¿Está seguro de eliminar la parada?");
+            confirmacion.setContentText("Parada: " + paradaSeleccionada.getNombreParada());
+            confirmacion.showAndWait().ifPresent(response -> {
+                if (response == javafx.scene.control.ButtonType.OK) {
+                    try {
+                        paradasDAO.eliminar(paradaSeleccionada);
+                        cargarDatos();
+                        mostrarAlerta("Éxito", "Parada eliminada correctamente.");
+                    } catch (NotEliminableException ex) {
+                        mostrarAlerta("Error", ex.getMessage());
+                    }
+                }
+            });
+
+        } catch (Exception ex) {
+            mostrarAlerta("Error", "Ocurrió un error al eliminar la parada: " + ex.getMessage());
+        }
     }
 
     public void btnActualizarClick(ActionEvent e){
         Parada parada = tblParadas.getSelectionModel().getSelectedItem();
-        crearPantalla("Modificar Parada", Modalidad.ACTUALIZAR,parada);
+        if (parada == null) {
+            mostrarAlerta("Selección requerida", "Por favor, seleccione una parada para modificar.");
+            return;
+        }
+        crearPantalla("Modificar Parada", Modalidad.ACTUALIZAR, parada);
     }
 
     public void btnInsertarClick(ActionEvent e){
@@ -60,7 +90,7 @@ public class ParadasViewController implements Vista<Parada> {
     }
 
     public void txtBuscarKeyPressed(KeyEvent e){
-
+        filtrar();
     }
 
     @Override
@@ -77,6 +107,62 @@ public class ParadasViewController implements Vista<Parada> {
         Stage st = sb.construir();
         controlador.setStage(st);
 
+        st.setOnHidden(event -> cargarDatos());
+
         st.show();
+    }
+
+    @Override
+    public void cargarDatos() {
+        tblParadas.getItems().clear();
+        tblParadas.setItems(paradasDAO.getParadas());
+    }
+
+    @Override
+    public void filtrar() {
+        String textoBusqueda = txtBuscar.getText().trim();
+
+        if (textoBusqueda.isEmpty()) {
+            cargarDatos();
+        } else {
+            //tblParadas.setItems(paradasDAO.buscarPorNombre(textoBusqueda));
+        }
+    }
+
+    @Override
+    public void configurarColumnas() {
+        colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombreParada"));
+        colDireccion.setCellValueFactory(new PropertyValueFactory<>("ubicacion"));
+
+        colTipo.setCellValueFactory(cellData ->
+                javafx.beans.binding.Bindings.createStringBinding(() ->
+                        cellData.getValue().getTipo().getTipo()
+                )
+        );
+
+        colImg.setCellValueFactory(cellData -> {
+            String nombreImagen = cellData.getValue().getTipo().getImagen();
+            ImageView imageView = new ImageView();
+
+            try {
+                Image image = new Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + nombreImagen));
+                imageView.setImage(image);
+                imageView.setFitWidth(24);
+                imageView.setFitHeight(24);
+            } catch (Exception e) {
+
+            }
+
+            return new javafx.beans.property.SimpleObjectProperty<>(imageView);
+        });
+    }
+
+    private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 }

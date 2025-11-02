@@ -22,13 +22,12 @@ public class SistemaTransporte {
         paradas = new ArrayList<>();
         rutas = new ArrayList<>();
         grafo = new GrafoTransporte();
-
-        CargadorDatos.cargarDatosEjemplo();
     }
 
     public static SistemaTransporte getSistemaTransporte(){
         if(instancia == null){
             instancia = new SistemaTransporte();
+            CargadorDatos.cargarDatosEjemplo();
         }
         return instancia;
     }
