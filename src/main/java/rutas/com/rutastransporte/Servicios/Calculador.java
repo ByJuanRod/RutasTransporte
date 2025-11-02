@@ -71,6 +71,7 @@ public class Calculador {
             rutaPosible.agregarCosto(ruta.getCosto());
             rutaPosible.agregarDistancia(ruta.getDistancia());
             rutaPosible.agregarTiempo(ruta.getTiempo());
+            rutaPosible.setCriterio(criterio);
 
             pasoActual = ruta.getOrigen();
         }

@@ -1,9 +1,10 @@
 package rutas.com.rutastransporte.Servicios;
 
 import rutas.com.rutastransporte.Exceptions.NotEliminableException;
+import rutas.com.rutastransporte.Modelos.CRUD;
 import rutas.com.rutastransporte.Modelos.Parada;
 
-public class ParadasDAO implements Servicio<Parada>{
+public class ParadasDAO implements CRUD<Parada> {
 
     @Override
     public void insertar(Parada parada) {
@@ -22,7 +23,6 @@ public class ParadasDAO implements Servicio<Parada>{
 
     @Override
     public void eliminar(Parada parada) throws NotEliminableException {
-
 
     }
 

@@ -2,6 +2,11 @@ package rutas.com.rutastransporte.Modelos;
 
 import java.util.Objects;
 
+/*
+    Nombre: Parada
+    Tipo: Clase
+    Objetivo: Representar el modelo de las paradas.
+ */
 public class Parada {
     private String codigo;
     private String nombreParada;

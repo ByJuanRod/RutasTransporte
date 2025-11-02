@@ -1,5 +1,10 @@
 package rutas.com.rutastransporte.Modelos;
 
+/*
+    Nombre: Ruta
+    Tipo: Clase
+    Objetivo: Representar el modelo de las rutas.
+ */
 public class Ruta {
     private String codigo;
     private String nombre;
