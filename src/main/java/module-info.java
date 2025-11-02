@@ -17,4 +17,6 @@ module rutas.com.rutastransporte {
     opens rutas.com.rutastransporte.Controladores to javafx.fxml;
     exports rutas.com.rutastransporte.Utilidades.Alertas;
     opens rutas.com.rutastransporte.Utilidades.Alertas to javafx.fxml;
+    exports rutas.com.rutastransporte.Repositorio;
+    opens rutas.com.rutastransporte.Repositorio to javafx.fxml;
 }

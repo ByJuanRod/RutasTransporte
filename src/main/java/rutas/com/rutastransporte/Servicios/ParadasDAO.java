@@ -1,6 +1,6 @@
 package rutas.com.rutastransporte.Servicios;
 
-import rutas.com.rutastransporte.Exceptions.NotEliminableException;
+import rutas.com.rutastransporte.Excepciones.NotEliminableException;
 import rutas.com.rutastransporte.Modelos.CRUD;
 import rutas.com.rutastransporte.Modelos.Parada;
 

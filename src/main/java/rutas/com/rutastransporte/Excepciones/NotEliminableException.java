@@ -1,4 +1,4 @@
-package rutas.com.rutastransporte.Exceptions;
+package rutas.com.rutastransporte.Excepciones;
 
 /*
     Nombre: NotEliminableException

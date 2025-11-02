@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import rutas.com.rutastransporte.Modelos.Registro;
 import rutas.com.rutastransporte.Modelos.Ruta;
 import rutas.com.rutastransporte.Modelos.Vista;
 import rutas.com.rutastransporte.StageBuilder;
@@ -39,7 +40,7 @@ public class RutasViewController implements Vista<Ruta> {
     }
 
     public void btnInsertarClick(ActionEvent e){
-
+        crearPantalla("Insertar Ruta",Modalidad.INSERTAR,null);
     }
 
     public void txtBuscarKeyPressed(KeyEvent e){
@@ -52,14 +53,14 @@ public class RutasViewController implements Vista<Ruta> {
         sb.setModalidad(Modality.APPLICATION_MODAL);
         sb.setTitulo(titulo);
 
-        /*Registro controlador = (RegistroParadaController) sb.setContenido("RegistroRuta");
+        RegistroRutaController controlador = (RegistroRutaController) sb.setContenido("RegistroRuta");
         controlador.setModalidad(modalidad);
-        controlador.setParada(ruta);
+        controlador.setRuta(ruta);
 
         controlador.cargarDatos();
         Stage st = sb.construir();
         controlador.setStage(st);
 
-        st.show();*/
+        st.show();
     }
 }

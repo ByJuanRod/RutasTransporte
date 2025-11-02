@@ -17,12 +17,12 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="550.0" prefWidth="827.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.Controladores.RegistroParadaController">
+<AnchorPane prefHeight="550.0" prefWidth="827.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.Controladores.RegistroRutaController">
    <children>
-      <Pane layoutY="-6.0" prefHeight="550.0" prefWidth="178.0" style="-fx-background-color: #19173C;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane layoutY="-6.0" prefHeight="550.0" prefWidth="178.0" style="-fx-background-color: #1B4B6B;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Circle fill="#49808e" layoutX="42.0" layoutY="508.0" radius="79.0" stroke="WHITE" strokeType="INSIDE" />
-            <Circle fill="#1b4b6b" layoutX="37.0" layoutY="513.0" radius="57.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fill="#49808e" layoutX="52.0" layoutY="498.0" radius="89.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fill="#201e43" layoutX="40.0" layoutY="510.0" radius="60.0" stroke="WHITE" strokeType="INSIDE" />
          </children></Pane>
       <Circle fill="#1b4b6b" layoutX="273.0" layoutY="51.0" radius="30.0" stroke="BLACK" strokeType="INSIDE" />
       <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="253.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
@@ -52,72 +52,112 @@
          </textFill>
       </Label>
       <Line endX="250.00003051757812" layoutX="419.0" layoutY="81.0" startX="-100.0" />
-      <Button layoutX="251.0" layoutY="489.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="162.0" style="-fx-background-color: #1B4B6B; -fx-text-fill: white;" text="Insertar">
+      <Label layoutX="243.0" layoutY="111.0" text="Nombre:">
          <font>
-            <Font name="Century Gothic Bold" size="14.0" />
+            <Font name="Century Gothic Bold" size="18.0" />
          </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <Button layoutX="447.0" layoutY="489.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="162.0" style="-fx-background-color: #1B4B6B; -fx-text-fill: white;" text="Limpiar">
+      </Label>
+      <TextField fx:id="txtNombre" layoutX="347.0" layoutY="105.0" prefHeight="26.0" prefWidth="300.0" promptText="Nombre....">
+         <font>
+            <Font name="Century Gothic" size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="243.0" layoutY="165.0" text="Origen:">
+         <font>
+            <Font name="Century Gothic Bold" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbxOrigen" layoutX="347.0" layoutY="164.0" prefHeight="26.0" prefWidth="300.0" />
+      <Label layoutX="243.0" layoutY="222.0" text="Destino:">
+         <font>
+            <Font name="Century Gothic Bold" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbxDestino" layoutX="346.0" layoutY="220.0" prefHeight="26.0" prefWidth="300.0" />
+      <Label layoutX="246.0" layoutY="277.0" text="Distancia:">
+         <font>
+            <Font name="Century Gothic Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="246.0" layoutY="332.0" text="Tiempo:">
+         <font>
+            <Font name="Century Gothic Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="247.0" layoutY="384.0" text="Costo:">
+         <font>
+            <Font name="Century Gothic Bold" size="18.0" />
+         </font>
+      </Label>
+      <Spinner fx:id="spnCosto" layoutX="347.0" layoutY="383.0" prefHeight="26.0" prefWidth="300.0" />
+      <Spinner fx:id="spnKM" layoutX="347.0" layoutY="275.0" prefHeight="26.0" prefWidth="103.0" />
+      <Spinner fx:id="spnHoras" layoutX="346.0" layoutY="330.0" prefHeight="26.0" prefWidth="103.0" />
+      <Label layoutX="459.0" layoutY="276.0" text="(km)">
+         <font>
+            <Font name="Century Gothic Bold" size="18.0" />
+         </font>
+      </Label>
+      <Spinner fx:id="spnM" layoutX="505.0" layoutY="275.0" prefHeight="26.0" prefWidth="103.0" />
+      <Label layoutX="617.0" layoutY="277.0" text="(m)">
+         <font>
+            <Font name="Century Gothic Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="459.0" layoutY="332.0" text="(h)">
+         <font>
+            <Font name="Century Gothic Bold" size="18.0" />
+         </font>
+      </Label>
+      <Spinner fx:id="spnMinutos" layoutX="505.0" layoutY="330.0" prefHeight="26.0" prefWidth="103.0" />
+      <Label layoutX="617.0" layoutY="331.0" text="(min)">
+         <font>
+            <Font name="Century Gothic Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnRealizar" layoutX="251.0" layoutY="449.0" mnemonicParsing="false" onAction="#btnRealizarClick" prefHeight="40.0" prefWidth="162.0" style="-fx-background-color: #1B4B6B; -fx-text-fill: white;" text="Insertar">
          <font>
             <Font name="Century Gothic Bold" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <graphic>
+            <ImageView fx:id="imgRealizar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" translateX="-30.0">
+               <image>
+                  <Image url="@imagenes/agregar.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
-      <Label layoutX="243.0" layoutY="106.0" text="Código:">
+      <Button fx:id="btnLimpiar" layoutX="437.0" layoutY="449.0" mnemonicParsing="false" onAction="#btnLimpiarClick" prefHeight="40.0" prefWidth="162.0" style="-fx-background-color: #1B4B6B; -fx-text-fill: white;" text="Limpiar">
          <font>
-            <Font name="Century Gothic Bold" size="18.0" />
+            <Font name="Century Gothic Bold" size="14.0" />
          </font>
-      </Label>
-      <TextField fx:id="txtCodigo" layoutX="347.0" layoutY="101.0" prefHeight="26.0" prefWidth="300.0" text="0001">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" translateX="-30.0">
+               <image>
+                  <Image url="@imagenes/limpiar.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="btnCerrar" layoutX="646.0" layoutY="496.0" mnemonicParsing="false" onAction="#btnCerrarClick" prefHeight="40.0" prefWidth="162.0" style="-fx-background-color: #201E43; -fx-text-fill: white;" text="Cerrar">
          <font>
-            <Font name="Century Gothic" size="14.0" />
+            <Font name="Century Gothic Bold" size="14.0" />
          </font>
-      </TextField>
-      <Label layoutX="243.0" layoutY="164.0" text="Nombre:">
-         <font>
-            <Font name="Century Gothic Bold" size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtNombre" layoutX="347.0" layoutY="158.0" prefHeight="26.0" prefWidth="300.0" promptText="Nombre....">
-         <font>
-            <Font name="Century Gothic" size="14.0" />
-         </font>
-      </TextField>
-      <Label layoutX="243.0" layoutY="218.0" text="Origen:">
-         <font>
-            <Font name="Century Gothic Bold" size="18.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="cbxOrigen" layoutX="347.0" layoutY="217.0" prefHeight="26.0" prefWidth="300.0" />
-      <Label layoutX="243.0" layoutY="275.0" text="Destino:">
-         <font>
-            <Font name="Century Gothic Bold" size="18.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="cbxDestino" layoutX="346.0" layoutY="273.0" prefHeight="26.0" prefWidth="300.0" />
-      <Label layoutX="246.0" layoutY="330.0" text="Distancia:">
-         <font>
-            <Font name="Century Gothic Bold" size="18.0" />
-         </font>
-      </Label>
-      <ComboBox layoutX="659.0" layoutY="330.0" prefHeight="26.0" prefWidth="53.0" />
-      <Label layoutX="246.0" layoutY="385.0" text="Tiempo:">
-         <font>
-            <Font name="Century Gothic Bold" size="18.0" />
-         </font>
-      </Label>
-      <ComboBox layoutX="659.0" layoutY="384.0" prefHeight="26.0" prefWidth="53.0" />
-      <Label layoutX="247.0" layoutY="437.0" text="Costo:">
-         <font>
-            <Font name="Century Gothic Bold" size="18.0" />
-         </font>
-      </Label>
-      <Spinner fx:id="spnCosto" layoutX="347.0" layoutY="436.0" prefHeight="26.0" prefWidth="300.0" />
-      <Spinner fx:id="spnDistancia" layoutX="347.0" layoutY="328.0" prefHeight="26.0" prefWidth="300.0" />
-      <Spinner fx:id="spnTiempo" layoutX="346.0" layoutY="383.0" prefHeight="26.0" prefWidth="300.0" />
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" translateX="-30.0">
+               <image>
+                  <Image url="@imagenes/cerrar.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

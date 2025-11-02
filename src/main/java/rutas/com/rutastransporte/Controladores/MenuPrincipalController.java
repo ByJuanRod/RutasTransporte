@@ -5,13 +5,17 @@ import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import rutas.com.rutastransporte.Utilidades.Alertas.AlertFactory;
+import rutas.com.rutastransporte.Utilidades.Alertas.Alerta;
 import rutas.com.rutastransporte.Utilidades.Colores;
 
 public class MenuPrincipalController {
+    private AlertFactory alert = new AlertFactory();
 
     @FXML
     private BorderPane pnlContenedor;
@@ -77,7 +81,8 @@ public class MenuPrincipalController {
             pnlContenedor.setCenter(contenido);
         }
         catch (Exception e){
-            e.printStackTrace();
+            Alerta alt = alert.obtenerAlerta(Alert.AlertType.ERROR);
+            alt.crearAlerta("Error al cargar el apartado seleccionado.","Error").show();
         }
     }
 
