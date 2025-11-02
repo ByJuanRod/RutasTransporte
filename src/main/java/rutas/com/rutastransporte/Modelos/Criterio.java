@@ -1,10 +1,19 @@
 package rutas.com.rutastransporte.Modelos;
 
+/*
+    Nombre: Criterio
+    Tipo: Enum
+    Valores: MAS_ECONOMICO, MAS_CORTA, MAS_RAPIDA, MENOS_TRASBORDOS
+    Estructura:
+        (String) nombre: Representa el nombre del criterio indicador.
+        (String) imagen: Representa la imagen que representa ese criterio.
+    Objetivo: Representa los distintos criterios por los que se puede filtrar una ruta.
+ */
 public enum Criterio {
-    MAS_ECONOMICO("Más Económica",""),
-    MAS_CORTA("Más Corta",""),
-    MAS_RAPIDA("Más Rápida",""),
-    MENOS_TRASBORDOS("Menos Trasbordos","");
+    MAS_ECONOMICO("Ruta Más Económica","ahorro.png"),
+    MAS_CORTA("Ruta Más Corta","distancia.png"),
+    MAS_RAPIDA("Ruta Más Rápida","tiempo.png"),
+    MENOS_TRASBORDOS("Ruta con Menos Trasbordos","trasbordos.png");
 
     private final String nombre;
     private final String imagen;

@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import rutas.com.rutastransporte.Servicios.Registro;
+import rutas.com.rutastransporte.Modelos.Registro;
 import rutas.com.rutastransporte.Servicios.ParadasDAO;
 import rutas.com.rutastransporte.Utilidades.Alertas.AlertFactory;
 import rutas.com.rutastransporte.Utilidades.Alertas.Alerta;

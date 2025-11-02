@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 
 <AnchorPane prefHeight="570.0" prefWidth="840.0" style="-fx-background-color: #19173C; -fx-border-radius: 10px; -fx-background-radius: 10px;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.Controladores.MapaViewController">
    <children>
-      <AnchorPane prefHeight="357.0" prefWidth="840.0" style="-fx-background-color: #FAFAFA;" AnchorPane.bottomAnchor="213.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <AnchorPane layoutX="14.0" layoutY="335.0" prefHeight="209.0" prefWidth="840.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane prefHeight="344.0" prefWidth="840.0" style="-fx-background-color: #FAFAFA;" AnchorPane.bottomAnchor="310.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane layoutX="14.0" layoutY="335.0" prefHeight="311.0" prefWidth="840.0" style="-fx-background-color: BLACK;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <AnchorPane layoutX="14.0" layoutY="-4.0" prefHeight="54.0" prefWidth="840.0" style="-fx-background-color: #1B4B6B;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-4.0" />
+            <AnchorPane layoutY="-79.2" prefHeight="68.0" prefWidth="840.0" style="-fx-background-color: #1B4B6B; -fx-border-color: WHITE;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Circle fill="#19173c" layoutX="39.0" layoutY="36.0" radius="25.0" stroke="WHITE" strokeType="INSIDE" />
+                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="23.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@imagenes/mapa.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <VBox fx:id="pnlContenedor" layoutX="-229.0" layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="234.0" prefWidth="837.0" style="-fx-background-color: #19173C;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+               <padding>
+                  <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </VBox>
          </children>
       </AnchorPane>
    </children>

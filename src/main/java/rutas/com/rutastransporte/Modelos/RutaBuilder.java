@@ -1,5 +1,10 @@
 package rutas.com.rutastransporte.Modelos;
 
+/*
+    Nombre: RutaBuilder
+    Tipo: Clase -> Implementar a Builder<Ruta>
+    Objetivo: Facilitar la construcción de objetos de tipo ruta.
+ */
 public class RutaBuilder implements Builder<Ruta> {
     private final Ruta ruta;
 

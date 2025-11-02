@@ -1,6 +1,6 @@
-package rutas.com.rutastransporte.Servicios;
+package rutas.com.rutastransporte.Modelos;
 
-public interface Servicio<T> {
+public interface CRUD<T> {
     void insertar(T objeto);
 
     T buscarByCodigo(String codigo);

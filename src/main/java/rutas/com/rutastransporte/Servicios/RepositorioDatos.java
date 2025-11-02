@@ -16,6 +16,8 @@ public class RepositorioDatos {
         this.paradas = new HashMap<>();
         this.rutasByCodigo = new HashMap<>();
         this.rutas = new ArrayList<>();
+
+        cargarDatos();
     }
 
     public void cargarDatos(){
