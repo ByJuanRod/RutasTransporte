@@ -2,6 +2,7 @@ package rutas.com.rutastransporte.Controladores;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -10,9 +11,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
-import rutas.com.rutastransporte.Modelos.Criterio;
 import rutas.com.rutastransporte.Modelos.RutaPosible;
-import rutas.com.rutastransporte.Recursos;
+import rutas.com.rutastransporte.Utilidades.Colores;
 
 public class ResultadoRutaController {
     private RutaPosible rutaPosible;
@@ -43,16 +43,25 @@ public class ResultadoRutaController {
     private Button btnVerDetalles;
 
     public AnchorPane crearInterfaz() {
-        AnchorPane anchorPane = new AnchorPane();
-        anchorPane.setPrefHeight(267.0);
-        anchorPane.setPrefWidth(794.0);
-        anchorPane.setStyle("-fx-background-color: #1B4B6B; -fx-background-radius: 10px;");
+        AnchorPane mainAnchorPane = new AnchorPane();
+        mainAnchorPane.setStyle("-fx-background-color: transparent;");
+        mainAnchorPane.setPadding(new Insets(10.0));
+
+        AnchorPane innerAnchorPane = new AnchorPane();
+        innerAnchorPane.setPrefHeight(270.0);
+        innerAnchorPane.setPrefWidth(830.0);
+        innerAnchorPane.setStyle("-fx-background-color: " + Colores.DECORATIVOS.getColor() + "; -fx-background-radius: 10px;");
+
+        AnchorPane.setBottomAnchor(innerAnchorPane, 0.0);
+        AnchorPane.setLeftAnchor(innerAnchorPane, 0.0);
+        AnchorPane.setRightAnchor(innerAnchorPane, 0.0);
+        AnchorPane.setTopAnchor(innerAnchorPane, 0.0);
 
         Circle circle = new Circle();
         circle.setLayoutX(50.0);
         circle.setLayoutY(50.0);
         circle.setRadius(36.0);
-        circle.setFill(javafx.scene.paint.Color.valueOf("#19173c"));
+        circle.setFill(javafx.scene.paint.Color.valueOf(Colores.ENFASIS.getColor()));
         circle.setStroke(javafx.scene.paint.Color.WHITE);
         circle.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
         AnchorPane.setLeftAnchor(circle, 14.0);
@@ -89,8 +98,8 @@ public class ResultadoRutaController {
         Line line = new Line();
         line.setLayoutX(201.0);
         line.setLayoutY(67.0);
-        line.setEndX(286.20001220703125);
-        line.setEndY(-1.52587890625E-5);
+        line.setEndX(286.0);
+        line.setEndY(-1.0);
         line.setStartX(-100.0);
         line.setStroke(javafx.scene.paint.Color.WHITE);
         line.setStrokeLineCap(javafx.scene.shape.StrokeLineCap.BUTT);
@@ -99,7 +108,7 @@ public class ResultadoRutaController {
 
         Label lblCostoTitulo = crearLabelTitulo("Costo:", 24.0, 105.0);
         Label lblDistanciaTitulo = crearLabelTitulo("Distancia:", 25.0, 142.0);
-        Label lblTrasbordosTitulo = crearLabelTitulo("Cantidad de Trasbordos:", 24.0, 223.0);
+        Label lblTrasbordosTitulo = crearLabelTitulo("Cantidad de Trasbordos:", 24.0, 221.0);
         Label lblTiempoTitulo = crearLabelTitulo("Tiempo Estimado:", 24.0, 182.0);
 
         btnVerDetalles = new Button();
@@ -125,17 +134,20 @@ public class ResultadoRutaController {
         AnchorPane.setLeftAnchor(lblDistancia, 109.0);
 
         lblTiempoEstimado = crearLabelValor("1h 10m", 165.0, 182.0);
+        AnchorPane.setTopAnchor(lblTiempoEstimado, 182.0);
 
-        lblCantTrasbordos = crearLabelValor("5", 223.0, 223.0);
+        lblCantTrasbordos = crearLabelValor("5", 223.0, 221.0);
         AnchorPane.setLeftAnchor(lblCantTrasbordos, 223.0);
 
-        anchorPane.getChildren().addAll(
+        innerAnchorPane.getChildren().addAll(
                 circle, imgCondicion, lblIndicador, line,
                 lblCostoTitulo, lblDistanciaTitulo, lblTrasbordosTitulo, lblTiempoTitulo,
                 btnVerDetalles, lblCosto, lblDistancia, lblTiempoEstimado, lblCantTrasbordos
         );
 
-        return anchorPane;
+        mainAnchorPane.getChildren().add(innerAnchorPane);
+
+        return mainAnchorPane;
     }
 
     private Label crearLabelTitulo(String texto, double x, double y) {
