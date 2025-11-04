@@ -63,6 +63,9 @@ public class RegistroRutaController implements Registro {
     private Spinner<Double> spnCosto;
 
     @FXML
+    private Spinner<Integer> spnTrasbordos;
+
+    @FXML
     private ImageView imgRealizar;
 
     @Override
@@ -90,6 +93,8 @@ public class RegistroRutaController implements Registro {
         RecursosVisuales.configurarSpinnerNumerico(spnKM,0,100,0);
         RecursosVisuales.configurarSpinnerNumerico(spnMinutos,0,59,0);
         RecursosVisuales.configurarSpinnerFlotante(spnCosto,0,1000,10);
+        RecursosVisuales.configurarSpinnerNumerico(spnTrasbordos,1,100,1);
+
     }
 
     public void btnRealizarClick(ActionEvent e){
@@ -103,6 +108,7 @@ public class RegistroRutaController implements Registro {
                 rb.setCosto(Float.parseFloat(spnCosto.getValue().toString()));
                 rb.setTiempo(Ruta.calcularTiempo(spnHoras.getValue(), spnMinutos.getValue()));
                 rb.setDistancia(Ruta.calcularDistancia(spnKM.getValue(),spnM.getValue()));
+                rb.setTrasbordos(spnTrasbordos.getValue());
                 servicioRutas.insertar(rb.construir());
                 alerta.crearAlerta("Ruta Insertada Exitosamente.","Registro Insertado.").show();
                 limpiar();
@@ -114,6 +120,7 @@ public class RegistroRutaController implements Registro {
                 ruta.setCosto(Float.parseFloat(spnCosto.getValue().toString()));
                 ruta.setDistancia(Ruta.calcularDistancia(spnKM.getValue(), spnM.getValue()));
                 ruta.setTiempo(Ruta.calcularTiempo(spnHoras.getValue(), spnMinutos.getValue()));
+                ruta.setTrasbordos(spnTrasbordos.getValue());
                 servicioRutas.actualizar(ruta);
                 alerta.crearAlerta("Ruta Modificada Exitosamente.","Registro Modificado.").show();
             }

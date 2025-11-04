@@ -108,7 +108,7 @@ public class RutaPosible {
      */
     public void agregarAlCamino(Ruta ruta){
         camino.add(ruta);
-        cantTrasbordos++;
+        cantTrasbordos += ruta.getTrasbordos();
     }
 
     /*
@@ -120,7 +120,7 @@ public class RutaPosible {
      */
     public void agregarAlCaminoFirst(Ruta ruta){
         camino.addFirst(ruta);
-        cantTrasbordos++;
+        cantTrasbordos += ruta.getTrasbordos();
     }
 
     /*

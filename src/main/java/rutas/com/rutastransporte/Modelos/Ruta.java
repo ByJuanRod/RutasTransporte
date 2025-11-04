@@ -13,6 +13,7 @@ public class Ruta {
     private int distancia;
     private float costo;
     private int tiempo;
+    private int trasbordos;
 
     public Ruta(String codigo, String nombre, Parada origen, Parada destino, int distancia, float costo, int tiempo) {
         this.codigo = codigo;
@@ -22,6 +23,7 @@ public class Ruta {
         this.distancia = distancia;
         this.costo = costo;
         this.tiempo = tiempo;
+        this.trasbordos = 1;
     }
 
     public Ruta(){
@@ -114,4 +116,11 @@ public class Ruta {
         return kilometros * 1000 + metros;
     }
 
+    public void setTrasbordos(int trasbordos) {
+        this.trasbordos = trasbordos;
+    }
+
+    public int getTrasbordos(){
+        return trasbordos;
+    }
 }

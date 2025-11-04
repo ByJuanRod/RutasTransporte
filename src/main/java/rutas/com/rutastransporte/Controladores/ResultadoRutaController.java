@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
+import rutas.com.rutastransporte.Modelos.Criterio;
 import rutas.com.rutastransporte.Modelos.RutaPosible;
 import rutas.com.rutastransporte.Utilidades.Colores;
 
@@ -42,12 +43,16 @@ public class ResultadoRutaController {
     @FXML
     private Button btnVerDetalles;
 
-    public AnchorPane crearInterfaz() {
+    AnchorPane innerAnchorPane = new AnchorPane();
+
+    Circle circle = new Circle();
+
+    public AnchorPane crearInterfaz(RutaPosible ruta) {
         AnchorPane mainAnchorPane = new AnchorPane();
         mainAnchorPane.setStyle("-fx-background-color: transparent;");
         mainAnchorPane.setPadding(new Insets(10.0));
 
-        AnchorPane innerAnchorPane = new AnchorPane();
+
         innerAnchorPane.setPrefHeight(270.0);
         innerAnchorPane.setPrefWidth(830.0);
         innerAnchorPane.setStyle("-fx-background-color: " + Colores.DECORATIVOS.getColor() + "; -fx-background-radius: 10px;");
@@ -57,7 +62,6 @@ public class ResultadoRutaController {
         AnchorPane.setRightAnchor(innerAnchorPane, 0.0);
         AnchorPane.setTopAnchor(innerAnchorPane, 0.0);
 
-        Circle circle = new Circle();
         circle.setLayoutX(50.0);
         circle.setLayoutY(50.0);
         circle.setRadius(36.0);
@@ -146,6 +150,8 @@ public class ResultadoRutaController {
         );
 
         mainAnchorPane.getChildren().add(innerAnchorPane);
+        setRutaPosible(ruta);
+        cargarDatos();
 
         return mainAnchorPane;
     }
@@ -162,6 +168,7 @@ public class ResultadoRutaController {
         return label;
     }
 
+
     private Label crearLabelValor(String texto, double x, double y) {
         Label label = new Label();
         label.setLayoutX(x);
@@ -175,12 +182,12 @@ public class ResultadoRutaController {
         return label;
     }
 
-    @FXML
-    public void initialize(){
-        cargarDatos();
-    }
-
     private void cargarDatos(){
+        if(rutaPosible.getCriterio().equals(Criterio.MEJOR_RUTA)){
+            innerAnchorPane.setStyle("-fx-background-color: " + Colores.ENFASIS.getColor() + "; -fx-background-radius: 10px;");
+            circle.setFill(javafx.scene.paint.Color.valueOf(Colores.DECORATIVOS.getColor()));
+        }
+
         if (rutaPosible != null) {
             lblCantTrasbordos.setText(String.valueOf(rutaPosible.getCantTrasbordos()));
             lblCosto.setText("$" + rutaPosible.getCostoTotal());
