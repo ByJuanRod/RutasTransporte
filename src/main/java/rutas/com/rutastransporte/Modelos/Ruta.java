@@ -10,11 +10,11 @@ public class Ruta {
     private String nombre;
     private Parada origen;
     private Parada destino;
-    private float distancia;
+    private int distancia;
     private float costo;
-    private float tiempo;
+    private int tiempo;
 
-    public Ruta(String codigo, String nombre, Parada origen, Parada destino, float distancia, float costo, float tiempo) {
+    public Ruta(String codigo, String nombre, Parada origen, Parada destino, int distancia, float costo, int tiempo) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.origen = origen;
@@ -60,11 +60,11 @@ public class Ruta {
         this.destino = destino;
     }
 
-    public float getDistancia() {
+    public int getDistancia() {
         return distancia;
     }
 
-    public void setDistancia(float distancia) {
+    public void setDistancia(int distancia) {
         this.distancia = distancia;
     }
 
@@ -76,16 +76,42 @@ public class Ruta {
         this.costo = costo;
     }
 
-    public float getTiempo() {
+    public int getTiempo() {
         return tiempo;
     }
 
-    public void setTiempo(float tiempo) {
+    public void setTiempo(int tiempo) {
         this.tiempo = tiempo;
     }
+
+    public int getMinutos(){
+        return (tiempo % 60);
+    }
+
+    public int getHoras(){
+        return (tiempo / 60);
+    }
+
+    public int getKilometros(){
+        return (distancia / 1000);
+    }
+
+    public int getMetros(){
+        return (distancia % 1000);
+    }
+
 
     @Override
     public String toString() {
         return "Ruta [" + nombre + "]: " + origen.getNombreParada() + " -> " + destino.getNombreParada();
     }
+
+    public static int calcularTiempo(int horas, int minutos){
+        return horas * 60 + minutos;
+    }
+
+    public static int calcularDistancia(int kilometros, int metros){
+        return kilometros * 1000 + metros;
+    }
+
 }

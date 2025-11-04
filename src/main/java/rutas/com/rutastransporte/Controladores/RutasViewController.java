@@ -16,7 +16,7 @@ import rutas.com.rutastransporte.Modelos.Vista;
 import rutas.com.rutastransporte.StageBuilder;
 import rutas.com.rutastransporte.Utilidades.Modalidad;
 import rutas.com.rutastransporte.Servicios.RutasDAO;
-import rutas.com.rutastransporte.Excepciones.NotEliminableException;
+import rutas.com.rutastransporte.Excepciones.NotRemovableException;
 
 public class RutasViewController implements Vista<Ruta> {
 
@@ -73,7 +73,7 @@ public class RutasViewController implements Vista<Ruta> {
                     rutasDAO.eliminar(rutaSeleccionada);
                     cargarDatos();
                     mostrarAlerta("Éxito", "Ruta eliminada correctamente.");
-                } catch (NotEliminableException ex) {
+                } catch (NotRemovableException ex) {
                     mostrarAlerta("Error", ex.getMessage());
                 }
             }

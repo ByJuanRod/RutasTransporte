@@ -22,8 +22,8 @@ public class StageBuilder implements Builder<Stage> {
     public StageBuilder() {
         stage = new Stage();
         stage.setResizable(false);
-        stage.getIcons().add(Recursos.getIcono());
-        setSize(Recursos.getDimRegistro());
+        stage.getIcons().add(RecursosVisuales.getIcono());
+        setSize(RecursosVisuales.getDimRegistro());
     }
 
     /*

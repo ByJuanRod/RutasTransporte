@@ -28,7 +28,7 @@ public class RutaBuilder implements Builder<Ruta> {
         ruta.setDestino(destino);
     }
 
-    public void setDistancia(float distancia) {
+    public void setDistancia(int distancia) {
         ruta.setDistancia(distancia);
     }
 
@@ -36,7 +36,7 @@ public class RutaBuilder implements Builder<Ruta> {
         ruta.setCosto(costo);
     }
 
-    public void setTiempo(float tiempo) {
+    public void setTiempo(int tiempo) {
         ruta.setTiempo(tiempo);
     }
 

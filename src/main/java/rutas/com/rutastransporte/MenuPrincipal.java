@@ -20,7 +20,7 @@ public class MenuPrincipal extends Application {
         stage.setWidth(screenSize.getWidth() - 20);
         stage.setHeight(screenSize.getHeight() - 50);
 
-        stage.getIcons().add(Recursos.getIcono());
+        stage.getIcons().add(RecursosVisuales.getIcono());
         stage.show();
 
     }

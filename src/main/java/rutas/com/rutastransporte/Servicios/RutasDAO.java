@@ -2,7 +2,7 @@ package rutas.com.rutastransporte.Servicios;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import rutas.com.rutastransporte.Excepciones.NotEliminableException;
+import rutas.com.rutastransporte.Excepciones.NotRemovableException;
 import rutas.com.rutastransporte.Modelos.CRUD;
 import rutas.com.rutastransporte.Modelos.Ruta;
 import rutas.com.rutastransporte.Repositorio.SistemaTransporte;
@@ -14,6 +14,8 @@ public class RutasDAO implements CRUD<Ruta> {
     @Override
     public void insertar(Ruta ruta) {
         SistemaTransporte sistema = SistemaTransporte.getSistemaTransporte();
+
+        ruta.setCodigo("R0" + (sistema.getRutas().size() + 1));
         sistema.getRutas().add(ruta);
         sistema.getGrafo().agregarRuta(ruta);
     }
@@ -50,11 +52,11 @@ public class RutasDAO implements CRUD<Ruta> {
     }
 
     @Override
-    public void eliminar(Ruta ruta) throws NotEliminableException {
+    public void eliminar(Ruta ruta) throws NotRemovableException {
         SistemaTransporte sistema = SistemaTransporte.getSistemaTransporte();
 
         if (!sistema.getRutas().contains(ruta)) {
-            throw new NotEliminableException("La ruta no existe en el sistema.");
+            throw new NotRemovableException("La ruta no existe en el sistema.");
         }
 
         Iterator<Ruta> iterator = sistema.getRutas().iterator();
