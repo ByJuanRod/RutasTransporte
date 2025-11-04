@@ -2,7 +2,7 @@ package rutas.com.rutastransporte.Servicios;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import rutas.com.rutastransporte.Excepciones.NotEliminableException;
+import rutas.com.rutastransporte.Excepciones.NotRemovableException;
 import rutas.com.rutastransporte.Modelos.CRUD;
 import rutas.com.rutastransporte.Modelos.Parada;
 import rutas.com.rutastransporte.Modelos.Ruta;
@@ -14,6 +14,7 @@ public class ParadasDAO implements CRUD<Parada> {
 
     @Override
     public void insertar(Parada parada) {
+        parada.setCodigo("P0" + (SistemaTransporte.getSistemaTransporte().getParadas().size() + 1));
         SistemaTransporte.getSistemaTransporte().getParadas().add(parada);
         SistemaTransporte.getSistemaTransporte().getGrafo().agregarParada(parada);
     }
@@ -51,7 +52,7 @@ public class ParadasDAO implements CRUD<Parada> {
     }
 
     @Override
-    public void eliminar(Parada parada) throws NotEliminableException {
+    public void eliminar(Parada parada) throws NotRemovableException {
         boolean tieneRutasAsociadas = false;
 
         for (Ruta ruta : SistemaTransporte.getSistemaTransporte().getRutas()) {
@@ -62,7 +63,7 @@ public class ParadasDAO implements CRUD<Parada> {
         }
 
         if (tieneRutasAsociadas) {
-            throw new NotEliminableException("No se puede eliminar la parada porque está siendo utilizada en una o más rutas.");
+            throw new NotRemovableException("No se puede eliminar la parada porque está siendo utilizada en una o más rutas.");
         }
 
         Iterator<Parada> iterator = SistemaTransporte.getSistemaTransporte().getParadas().iterator();

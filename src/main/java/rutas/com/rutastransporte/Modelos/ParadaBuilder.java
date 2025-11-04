@@ -4,7 +4,7 @@ public class ParadaBuilder implements Builder<Parada> {
     private final Parada parada = new Parada();
 
     public void setNombreParada(String nombreParada) {
-        parada.setUbicacion(nombreParada);
+        parada.setNombreParada(nombreParada);
     }
 
     public void setTipo(TipoParada tipo) {

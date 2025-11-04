@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import rutas.com.rutastransporte.Excepciones.NotEliminableException;
+import rutas.com.rutastransporte.Excepciones.NotRemovableException;
 import rutas.com.rutastransporte.Modelos.Vista;
 import rutas.com.rutastransporte.Servicios.ParadasDAO;
 import rutas.com.rutastransporte.StageBuilder;
@@ -65,7 +65,7 @@ public class ParadasViewController implements Vista<Parada> {
                         paradasDAO.eliminar(paradaSeleccionada);
                         cargarDatos();
                         mostrarAlerta("Éxito", "Parada eliminada correctamente.");
-                    } catch (NotEliminableException ex) {
+                    } catch (NotRemovableException ex) {
                         mostrarAlerta("Error", ex.getMessage());
                     }
                 }

@@ -32,34 +32,34 @@ public class CargadorDatos {
         Ruta[] rutas = new Ruta[10];
 
         rutas[0] = new Ruta("R001", "Ruta Centro-Universidad",
-                paradas[0], paradas[2], 5.2f, 500f, 15.0f);
+                paradas[0], paradas[2], 500, 500f, 40);
 
         rutas[1] = new Ruta("R002", "Ruta Universidad-Hospital",
-                paradas[2], paradas[3], 3.8f, 500f, 10.0f);
+                paradas[2], paradas[3], 200, 500f, 10);
 
         rutas[2] = new Ruta("R003", "Ruta Hospital-Centro Comercial",
-                paradas[3], paradas[4], 4.5f, 900f, 12.0f);
+                paradas[3], paradas[4], 400, 900f, 185);
 
         rutas[3] = new Ruta("R004", "Ruta Centro Comercial-Aeropuerto",
-                paradas[4], paradas[5], 12.7f, 350f, 25.0f);
+                paradas[4], paradas[5], 1500, 350f, 555);
 
         rutas[4] = new Ruta("R005", "Ruta Aeropuerto-Terminal Norte",
-                paradas[5], paradas[6], 8.3f, 330f, 18.0f);
+                paradas[5], paradas[6], 500, 330f, 885);
 
         rutas[5] = new Ruta("R006", "Ruta Terminal Norte-Parque Industrial",
-                paradas[6], paradas[7], 6.1f, 350f, 14.0f);
+                paradas[6], paradas[7], 500, 350f, 211);
 
         rutas[6] = new Ruta("R007", "Ruta Parque Industrial-Playa",
-                paradas[7], paradas[8], 9.4f, 540f, 22.0f);
+                paradas[7], paradas[8], 800, 540f, 822);
 
         rutas[7] = new Ruta("R008", "Ruta Playa-Estadio",
-                paradas[8], paradas[9], 7.2f, 350f, 16.0f);
+                paradas[8], paradas[9], 780, 350f, 850);
 
         rutas[8] = new Ruta("R009", "Ruta Estadio-Plaza Mayor",
-                paradas[9], paradas[1], 4.8f, 580f, 11.0f);
+                paradas[9], paradas[1], 920, 580f, 800);
 
         rutas[9] = new Ruta("R010", "Ruta Plaza Mayor-Estación Central",
-                paradas[1], paradas[0], 2.5f, 950f, 8.0f);
+                paradas[1], paradas[0], 450, 950f, 400);
 
         for (Ruta ruta : rutas) {
             SistemaTransporte.getSistemaTransporte().getRutas().add(ruta);

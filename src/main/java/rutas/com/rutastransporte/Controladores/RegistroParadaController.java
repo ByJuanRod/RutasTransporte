@@ -35,9 +35,6 @@ public class RegistroParadaController implements Registro {
     private Button btnRealizar;
 
     @FXML
-    private TextField txtCodigo;
-
-    @FXML
     private TextField txtNombre;
 
     @FXML
@@ -128,7 +125,7 @@ public class RegistroParadaController implements Registro {
 
     @Override
     public boolean validar() {
-        Alerta alerta = alertFactory.obtenerAlerta(Alert.AlertType.CONFIRMATION);
+        Alerta alerta = alertFactory.obtenerAlerta(Alert.AlertType.WARNING);
 
         if(txtNombre.getText().trim().isEmpty()){
             alerta.crearAlerta("El campo de nombre es obligatorio.","Registro Obligatorio.").show();
