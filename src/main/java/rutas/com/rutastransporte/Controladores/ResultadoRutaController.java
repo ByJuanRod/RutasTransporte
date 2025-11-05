@@ -3,6 +3,7 @@ package rutas.com.rutastransporte.Controladores;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -11,8 +12,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import rutas.com.rutastransporte.Modelos.Criterio;
 import rutas.com.rutastransporte.Modelos.RutaPosible;
+import rutas.com.rutastransporte.StageBuilder;
 import rutas.com.rutastransporte.Utilidades.Colores;
 
 public class ResultadoRutaController {
@@ -124,6 +128,7 @@ public class ResultadoRutaController {
         btnVerDetalles.setText("Ver Detalles");
         btnVerDetalles.setTextFill(javafx.scene.paint.Color.WHITE);
         btnVerDetalles.setDefaultButton(true);
+        btnVerDetalles.setCursor(Cursor.HAND);
         AnchorPane.setBottomAnchor(btnVerDetalles, 20.0);
         AnchorPane.setRightAnchor(btnVerDetalles, 24.0);
         Font buttonFont = Font.font("Century Gothic Bold", 17.0);
@@ -204,6 +209,17 @@ public class ResultadoRutaController {
     }
 
     public void verDetallesClick(ActionEvent e){
-        // Implementar la lógica para ver detalles
+        StageBuilder sb = new StageBuilder();
+        sb.setModalidad(Modality.APPLICATION_MODAL);
+        sb.setTitulo("Camino Sugerido");
+
+        DetallesRutaController controlador = (DetallesRutaController) sb.setContenido("DetallesRuta");
+        controlador.setRuta(rutaPosible);
+        controlador.cargarDatos();
+        Stage st = sb.construir();
+        controlador.setStage(st);
+
+        st.show();
     }
+
 }

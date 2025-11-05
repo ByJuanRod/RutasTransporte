@@ -8,9 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import rutas.com.rutastransporte.Modelos.Criterio;
-import rutas.com.rutastransporte.Modelos.Parada;
-import rutas.com.rutastransporte.Modelos.RutaPosible;
+import rutas.com.rutastransporte.Modelos.*;
 import rutas.com.rutastransporte.Repositorio.SistemaTransporte;
 import rutas.com.rutastransporte.Servicios.Calculador;
 import rutas.com.rutastransporte.Servicios.GrafoTransporte;
@@ -18,6 +16,8 @@ import rutas.com.rutastransporte.Utilidades.Alertas.AlertFactory;
 import rutas.com.rutastransporte.Utilidades.Alertas.Alerta;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Stack;
 
 public class MapaViewController {
     private AlertFactory alertFactory = new AlertFactory();
@@ -44,29 +44,30 @@ public class MapaViewController {
             calc.setGrafo(SistemaTransporte.getSistemaTransporte().getGrafo());
 
             contenedorGeneral.getChildren().clear();
-            ArrayList<RutaPosible> posiblesRutas = new ArrayList<>();
+            Stack<RutaPosible> posiblesRutas = new Stack<>();
 
             Parada origen = buscarParada(cbxOrigen.getSelectionModel().getSelectedItem());
             Parada destino = buscarParada(cbxDestino.getSelectionModel().getSelectedItem());
 
             for(Criterio criterio : Criterio.values()){
                 if(!criterio.equals(Criterio.MEJOR_RUTA)){
-
-                    Thread hilito = new Thread(new Runnable(){
-                        @Override
-                        public void run(){
-                            posiblesRutas.add(calc.dijkstra(origen,destino,criterio));
-                        }
-                    });
-
-                    hilito.run();
+                    posiblesRutas.add(calc.dijkstra(origen,destino,criterio));
                 }
             }
 
-            posiblesRutas.get(0).setCriterio(Criterio.MEJOR_RUTA);
+            MejorRuta mejorRuta = ObtenerMejorRuta(posiblesRutas);
 
-            for(RutaPosible posible : posiblesRutas){
-                crearPanel(posible);
+            ArrayList<RutaPosible> rutasUnicas = obtenerRutasUnicasExcluyendoMejor(posiblesRutas, mejorRuta);
+
+            if (mejorRuta != null) {
+                mejorRuta.setCriterio(Criterio.MEJOR_RUTA);
+                crearPanel(mejorRuta);
+            }
+
+            for(RutaPosible rutaUnica : rutasUnicas){
+                if(rutaUnica != null){
+                    crearPanel(rutaUnica);
+                }
             }
         }
     }
@@ -86,6 +87,7 @@ public class MapaViewController {
 
     public void crearPanel(RutaPosible ruta){
         ResultadoRutaController controller = new ResultadoRutaController();
+        controller.setRutaPosible(ruta);
 
         AnchorPane contenido = controller.crearInterfaz(ruta);
         contenedorGeneral.getChildren().add(contenido);
@@ -99,5 +101,103 @@ public class MapaViewController {
         }
 
         return null;
+    }
+
+    public MejorRuta ObtenerMejorRuta(Stack<RutaPosible> posiblesRutas){
+        if (posiblesRutas == null || posiblesRutas.isEmpty()) {
+            return null;
+        }
+
+        ArrayList<RutaPosible> rutasUnicas = new ArrayList<>();
+
+        for (RutaPosible rutaActual : posiblesRutas) {
+            if (rutaActual == null) continue;
+
+            boolean esDuplicada = false;
+
+            for (RutaPosible rutaUnica : rutasUnicas) {
+                if (rutaActual.sonIguales(rutaUnica.getCamino())) {
+                    esDuplicada = true;
+                    break;
+                }
+            }
+
+            if (!esDuplicada) {
+                rutasUnicas.add(rutaActual);
+            }
+        }
+
+        if (rutasUnicas.size() == 1) {
+            MejorRuta mejorRuta = new MejorRuta(rutasUnicas.get(0));
+            mejorRuta.agregarCriterio(rutasUnicas.get(0).getCriterio());
+            return mejorRuta;
+        }
+
+        RutaPosible mejorRutaBase = null;
+        int maxCriteriosCoincidentes = 0;
+
+        for (RutaPosible rutaUnica : rutasUnicas) {
+            int criteriosCoincidentes = cantIguales(posiblesRutas, rutaUnica.getCamino());
+
+            if (criteriosCoincidentes > maxCriteriosCoincidentes) {
+                maxCriteriosCoincidentes = criteriosCoincidentes;
+                mejorRutaBase = rutaUnica;
+            }
+        }
+
+        if (mejorRutaBase != null) {
+            MejorRuta mejorRuta = new MejorRuta(mejorRutaBase);
+
+            for (RutaPosible posible : posiblesRutas) {
+                if (posible != null && posible.sonIguales(mejorRutaBase.getCamino())) {
+                    mejorRuta.agregarCriterio(posible.getCriterio());
+                }
+            }
+
+            return mejorRuta;
+        }
+
+        return null;
+    }
+
+    public int cantIguales(Stack<RutaPosible> posiblesRutas, LinkedList<Ruta> camino){
+        int cantidadCriterios = 0;
+        for(RutaPosible posible : posiblesRutas){
+            if(posible.sonIguales(camino)){
+                cantidadCriterios++;
+            }
+        }
+
+        return cantidadCriterios;
+    }
+
+    public ArrayList<RutaPosible> obtenerRutasUnicasExcluyendoMejor(Stack<RutaPosible> posiblesRutas, MejorRuta mejorRuta) {
+        ArrayList<RutaPosible> rutasUnicas = new ArrayList<>();
+
+        if (posiblesRutas == null || posiblesRutas.isEmpty()) {
+            return rutasUnicas;
+        }
+
+        for (RutaPosible rutaActual : posiblesRutas) {
+            if (rutaActual == null) continue;
+
+            if (mejorRuta != null && mejorRuta.sonIguales(rutaActual.getCamino())) {
+                continue;
+            }
+
+            boolean esDuplicada = false;
+            for (RutaPosible rutaUnica : rutasUnicas) {
+                if (rutaActual.sonIguales(rutaUnica.getCamino())) {
+                    esDuplicada = true;
+                    break;
+                }
+            }
+
+            if (!esDuplicada) {
+                rutasUnicas.add(rutaActual);
+            }
+        }
+
+        return rutasUnicas;
     }
 }

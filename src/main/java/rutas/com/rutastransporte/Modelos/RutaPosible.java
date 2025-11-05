@@ -8,7 +8,7 @@ import java.util.Queue;
     Tipo: Clase
     Objetivo: Representar una de las rutas posibles que el usuario puede utilizar para llegar de un punto A a un punto B en el grafo.
  */
-public class RutaPosible {
+public class RutaPosible implements Clonable<RutaPosible> {
     private LinkedList<Ruta> camino;
     private float costoTotal;
     private float distanciaTotal;
@@ -136,5 +136,39 @@ public class RutaPosible {
         sb.append(kilometros).append(" km ").append(metros).append(" m");
         return sb.toString();
     }
-    
+
+    @Override
+    public void clonar(RutaPosible rutaPosible){
+        this.camino = rutaPosible.camino;
+        this.costoTotal = rutaPosible.costoTotal;
+        this.distanciaTotal = rutaPosible.distanciaTotal;
+        this.tiempoTotal = rutaPosible.tiempoTotal;
+        this.cantTrasbordos = rutaPosible.cantTrasbordos;
+    }
+
+    public boolean sonIguales(LinkedList<Ruta> camino){
+        if(camino.size() == this.camino.size()){
+            for(int i = 0; i < camino.size(); i++){
+                if(!this.camino.get(i).getNombre().equals(camino.get(i).getNombre())){
+                    return false;
+                }
+            }
+        }
+        else{
+            return false;
+        }
+
+        return true;
+    }
+
+    public String getCaminoTexto(){
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < camino.size() - 1; i++){
+            sb.append(camino.get(i).getNombre() + " → ");
+        }
+        sb.append(camino.get(camino.size() - 1).getNombre());
+
+        return sb.toString();
+    }
+
 }
