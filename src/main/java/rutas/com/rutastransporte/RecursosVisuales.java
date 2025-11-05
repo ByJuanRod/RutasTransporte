@@ -9,6 +9,17 @@ import java.util.Objects;
 
 public class RecursosVisuales {
     private static final Image icono = new Image(Objects.requireNonNull(RecursosVisuales.class.getResourceAsStream("/rutas/com/rutastransporte/imagenes/mapa.png")));
+    private static final Image tieneCriterio = new Image(Objects.requireNonNull(RecursosVisuales.class.getResourceAsStream("/rutas/com/rutastransporte/imagenes/si.png")));
+    private static final Image noTieneCriterio = new Image(Objects.requireNonNull(RecursosVisuales.class.getResourceAsStream("/rutas/com/rutastransporte/imagenes/no.png")));
+
+    public static Image getTieneCriterio(){
+        return tieneCriterio;
+    }
+
+    public static  Image getNoTieneCriterio(){
+        return noTieneCriterio;
+    }
+
     private final static Dimension registroDim = new Dimension(840,570);
 
     public static Image getIcono(){

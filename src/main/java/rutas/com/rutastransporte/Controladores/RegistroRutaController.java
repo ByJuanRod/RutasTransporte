@@ -63,6 +63,9 @@ public class RegistroRutaController implements Registro {
     private Spinner<Double> spnCosto;
 
     @FXML
+    private Spinner<Integer> spnTrasbordos;
+
+    @FXML
     private ImageView imgRealizar;
 
     @Override
@@ -86,10 +89,24 @@ public class RegistroRutaController implements Registro {
     public void cargarDatos() {
         cargarParadas();
         RecursosVisuales.configurarSpinnerNumerico(spnHoras,0,24,0);
-        RecursosVisuales.configurarSpinnerNumerico(spnM,0,99,0);
+        RecursosVisuales.configurarSpinnerNumerico(spnM,0,999,0);
         RecursosVisuales.configurarSpinnerNumerico(spnKM,0,100,0);
         RecursosVisuales.configurarSpinnerNumerico(spnMinutos,0,59,0);
         RecursosVisuales.configurarSpinnerFlotante(spnCosto,0,1000,10);
+        RecursosVisuales.configurarSpinnerNumerico(spnTrasbordos,1,100,1);
+
+        if(modalidad == Modalidad.ACTUALIZAR){
+            txtNombre.setText(ruta.getNombre());
+            cbxDestino.getSelectionModel().select(ruta.getDestino().getNombreParada());
+            cbxOrigen.getSelectionModel().select(ruta.getOrigen().getNombreParada());
+            spnTrasbordos.getEditor().setText(String.valueOf(ruta.getTrasbordos()));
+            spnHoras.getEditor().setText(String.valueOf(ruta.getHoras()));
+            spnMinutos.getEditor().setText(String.valueOf(ruta.getMinutos()));
+            spnCosto.getEditor().setText(String.valueOf(ruta.getCosto()));
+            spnM.getEditor().setText(String.valueOf(ruta.getMetros()));
+            spnKM.getEditor().setText(String.valueOf(ruta.getKilometros()));
+        }
+
     }
 
     public void btnRealizarClick(ActionEvent e){
@@ -103,6 +120,7 @@ public class RegistroRutaController implements Registro {
                 rb.setCosto(Float.parseFloat(spnCosto.getValue().toString()));
                 rb.setTiempo(Ruta.calcularTiempo(spnHoras.getValue(), spnMinutos.getValue()));
                 rb.setDistancia(Ruta.calcularDistancia(spnKM.getValue(),spnM.getValue()));
+                rb.setTrasbordos(spnTrasbordos.getValue());
                 servicioRutas.insertar(rb.construir());
                 alerta.crearAlerta("Ruta Insertada Exitosamente.","Registro Insertado.").show();
                 limpiar();
@@ -114,6 +132,7 @@ public class RegistroRutaController implements Registro {
                 ruta.setCosto(Float.parseFloat(spnCosto.getValue().toString()));
                 ruta.setDistancia(Ruta.calcularDistancia(spnKM.getValue(), spnM.getValue()));
                 ruta.setTiempo(Ruta.calcularTiempo(spnHoras.getValue(), spnMinutos.getValue()));
+                ruta.setTrasbordos(spnTrasbordos.getValue());
                 servicioRutas.actualizar(ruta);
                 alerta.crearAlerta("Ruta Modificada Exitosamente.","Registro Modificado.").show();
             }

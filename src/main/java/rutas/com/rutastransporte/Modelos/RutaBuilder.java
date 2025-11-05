@@ -44,4 +44,8 @@ public class RutaBuilder implements Builder<Ruta> {
     public Ruta construir() {
         return ruta;
     }
+
+    public void setTrasbordos(int trasbordos) {
+        ruta.setTrasbordos(trasbordos);
+    }
 }

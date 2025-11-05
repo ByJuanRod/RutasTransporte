@@ -3,6 +3,7 @@ package rutas.com.rutastransporte.Controladores;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -11,7 +12,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import rutas.com.rutastransporte.Modelos.Criterio;
 import rutas.com.rutastransporte.Modelos.RutaPosible;
+import rutas.com.rutastransporte.StageBuilder;
 import rutas.com.rutastransporte.Utilidades.Colores;
 
 public class ResultadoRutaController {
@@ -42,12 +47,16 @@ public class ResultadoRutaController {
     @FXML
     private Button btnVerDetalles;
 
-    public AnchorPane crearInterfaz() {
+    AnchorPane innerAnchorPane = new AnchorPane();
+
+    Circle circle = new Circle();
+
+    public AnchorPane crearInterfaz(RutaPosible ruta) {
         AnchorPane mainAnchorPane = new AnchorPane();
         mainAnchorPane.setStyle("-fx-background-color: transparent;");
         mainAnchorPane.setPadding(new Insets(10.0));
 
-        AnchorPane innerAnchorPane = new AnchorPane();
+
         innerAnchorPane.setPrefHeight(270.0);
         innerAnchorPane.setPrefWidth(830.0);
         innerAnchorPane.setStyle("-fx-background-color: " + Colores.DECORATIVOS.getColor() + "; -fx-background-radius: 10px;");
@@ -57,7 +66,6 @@ public class ResultadoRutaController {
         AnchorPane.setRightAnchor(innerAnchorPane, 0.0);
         AnchorPane.setTopAnchor(innerAnchorPane, 0.0);
 
-        Circle circle = new Circle();
         circle.setLayoutX(50.0);
         circle.setLayoutY(50.0);
         circle.setRadius(36.0);
@@ -120,6 +128,7 @@ public class ResultadoRutaController {
         btnVerDetalles.setText("Ver Detalles");
         btnVerDetalles.setTextFill(javafx.scene.paint.Color.WHITE);
         btnVerDetalles.setDefaultButton(true);
+        btnVerDetalles.setCursor(Cursor.HAND);
         AnchorPane.setBottomAnchor(btnVerDetalles, 20.0);
         AnchorPane.setRightAnchor(btnVerDetalles, 24.0);
         Font buttonFont = Font.font("Century Gothic Bold", 17.0);
@@ -146,6 +155,8 @@ public class ResultadoRutaController {
         );
 
         mainAnchorPane.getChildren().add(innerAnchorPane);
+        setRutaPosible(ruta);
+        cargarDatos();
 
         return mainAnchorPane;
     }
@@ -162,6 +173,7 @@ public class ResultadoRutaController {
         return label;
     }
 
+
     private Label crearLabelValor(String texto, double x, double y) {
         Label label = new Label();
         label.setLayoutX(x);
@@ -175,12 +187,12 @@ public class ResultadoRutaController {
         return label;
     }
 
-    @FXML
-    public void initialize(){
-        cargarDatos();
-    }
-
     private void cargarDatos(){
+        if(rutaPosible.getCriterio().equals(Criterio.MEJOR_RUTA)){
+            innerAnchorPane.setStyle("-fx-background-color: " + Colores.ENFASIS.getColor() + "; -fx-background-radius: 10px;");
+            circle.setFill(javafx.scene.paint.Color.valueOf(Colores.DECORATIVOS.getColor()));
+        }
+
         if (rutaPosible != null) {
             lblCantTrasbordos.setText(String.valueOf(rutaPosible.getCantTrasbordos()));
             lblCosto.setText("$" + rutaPosible.getCostoTotal());
@@ -197,6 +209,17 @@ public class ResultadoRutaController {
     }
 
     public void verDetallesClick(ActionEvent e){
-        // Implementar la lógica para ver detalles
+        StageBuilder sb = new StageBuilder();
+        sb.setModalidad(Modality.APPLICATION_MODAL);
+        sb.setTitulo("Camino Sugerido");
+
+        DetallesRutaController controlador = (DetallesRutaController) sb.setContenido("DetallesRuta");
+        controlador.setRuta(rutaPosible);
+        controlador.cargarDatos();
+        Stage st = sb.construir();
+        controlador.setStage(st);
+
+        st.show();
     }
+
 }
