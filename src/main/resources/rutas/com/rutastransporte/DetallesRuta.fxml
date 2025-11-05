@@ -61,44 +61,44 @@
       </AnchorPane>
       <AnchorPane layoutX="412.79999999999995" layoutY="94.0" prefHeight="115.0" prefWidth="422.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 5px;" AnchorPane.rightAnchor="15.0">
          <children>
-            <ImageView fx:id="imgEconomico" disable="true" fitHeight="64.0" fitWidth="64.0" layoutX="7.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView disable="true" fitHeight="64.0" fitWidth="64.0" layoutX="7.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/ahorro.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="imgTrasbordos" fitHeight="64.0" fitWidth="64.0" layoutX="317.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="317.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/trasbordos.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="imgCorta" fitHeight="64.0" fitWidth="64.0" layoutX="101.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="101.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/distancia.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="imgRapida" fitHeight="64.0" fitWidth="64.0" layoutX="215.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="215.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/tiempo.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="57.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/si.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="165.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgEconomico" fitHeight="24.0" fitWidth="24.0" layoutX="57.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/no.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="279.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgCorta" fitHeight="24.0" fitWidth="24.0" layoutX="165.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/no.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="386.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgRapida" fitHeight="24.0" fitWidth="24.0" layoutX="279.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@imagenes/si.png" />
+                  <Image url="@imagenes/no.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="imgTrasbordos" fitHeight="24.0" fitWidth="24.0" layoutX="386.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagenes/no.png" />
                </image>
             </ImageView>
          </children>
@@ -155,45 +155,45 @@
       </AnchorPane>
       <AnchorPane layoutX="413.0" layoutY="227.0" prefHeight="115.0" prefWidth="422.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 5px;">
          <children>
-            <ImageView fx:id="imgDesvio" disable="true" fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView disable="true" fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/desvio.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="imgConcurrido" fitHeight="64.0" fitWidth="64.0" layoutX="326.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="326.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/concurrido.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="imgAccidente" fitHeight="64.0" fitWidth="64.0" layoutX="104.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="113.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/accidente.png" />
                </image>
             </ImageView>
             <Label layoutX="84.0" layoutY="77.0" />
-            <ImageView fx:id="imgLibre" fitHeight="64.0" fitWidth="64.0" layoutX="220.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="220.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/libre.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="60.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgDesvio" fitHeight="24.0" fitWidth="24.0" layoutX="60.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@imagenes/si.png" />
+                  <Image url="@imagenes/no.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="168.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgAccidente" fitHeight="24.0" fitWidth="24.0" layoutX="168.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@imagenes/si.png" />
+                  <Image url="@imagenes/no.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="284.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgLibre" fitHeight="24.0" fitWidth="24.0" layoutX="284.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@imagenes/si.png" />
+                  <Image url="@imagenes/no.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="378.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgConcurrido" fitHeight="24.0" fitWidth="24.0" layoutX="378.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@imagenes/si.png" />
+                  <Image url="@imagenes/no.png" />
                </image>
             </ImageView>
          </children>

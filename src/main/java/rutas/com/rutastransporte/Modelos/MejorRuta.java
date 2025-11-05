@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class MejorRuta extends RutaPosible{
-    Queue<Criterio> criteriosDestacados;
+    private Queue<Criterio> criteriosDestacados;
 
     public MejorRuta(RutaPosible rutaPosible){
         criteriosDestacados = new LinkedList<>();
@@ -13,5 +13,9 @@ public class MejorRuta extends RutaPosible{
 
     public void agregarCriterio(Criterio criterio){
         criteriosDestacados.add(criterio);
+    }
+
+    public Queue<Criterio> getCriteriosDestacados(){
+        return criteriosDestacados;
     }
 }

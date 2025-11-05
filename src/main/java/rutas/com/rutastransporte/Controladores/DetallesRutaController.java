@@ -6,8 +6,12 @@ import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import rutas.com.rutastransporte.Modelos.Criterio;
 import rutas.com.rutastransporte.Modelos.MejorRuta;
 import rutas.com.rutastransporte.Modelos.RutaPosible;
+import rutas.com.rutastransporte.RecursosVisuales;
+
+import java.util.Queue;
 
 public class DetallesRutaController {
     public Stage stage;
@@ -47,7 +51,7 @@ public class DetallesRutaController {
     private ImageView imgTrasbordos;
 
     @FXML
-    private ImageView imgTiempo;
+    private ImageView imgRapida;
 
     @FXML
     private ImageView imgCorta;
@@ -68,7 +72,6 @@ public class DetallesRutaController {
     private ImageView imgConcurrido;
 
     public void cargarDatos(){
-
         try{
             lblIndicador.setText(ruta.getCriterio().getNombre());
             if(ruta instanceof MejorRuta){
@@ -79,12 +82,39 @@ public class DetallesRutaController {
             lblDistancia.setText(ruta.getDistanciaFormatado());
             lblTrasbordos.setText(String.valueOf(ruta.getCantTrasbordos()));
             lblTiempo.setText(ruta.getTiempoFormatado());
+            aplicarEfectos();
         }
         catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
+    public void verificarCriterio(Criterio criterio, Queue<Criterio> criteriosDestacados, ImageView img){
+        if(criteriosDestacados.contains(criterio)){
+            img.setImage(RecursosVisuales.getTieneCriterio());
+        }
+    }
 
+    public void aplicarEfectos(){
+        if(ruta instanceof MejorRuta mejorRuta){
+            verificarCriterio(Criterio.MAS_RAPIDA, mejorRuta.getCriteriosDestacados(), imgRapida);
+            verificarCriterio(Criterio.MAS_CORTA, mejorRuta.getCriteriosDestacados(), imgCorta);
+            verificarCriterio(Criterio.MAS_ECONOMICO,mejorRuta.getCriteriosDestacados(), imgEconomico);
+            verificarCriterio(Criterio.MENOS_TRASBORDOS,mejorRuta.getCriteriosDestacados(), imgTrasbordos);
+        }
+        else{
+            if(ruta.getCriterio().equals(Criterio.MAS_RAPIDA)){
+                imgRapida.setImage(RecursosVisuales.getTieneCriterio());
+            }
+            else if(ruta.getCriterio().equals(Criterio.MAS_CORTA)){
+                imgCorta.setImage(RecursosVisuales.getTieneCriterio());
+            }
+            else if(ruta.getCriterio().equals(Criterio.MAS_ECONOMICO)){
+                imgEconomico.setImage(RecursosVisuales.getTieneCriterio());
+            }
+            else{
+                imgTrasbordos.setImage(RecursosVisuales.getTieneCriterio());
+            }
+        }
+    }
 }
