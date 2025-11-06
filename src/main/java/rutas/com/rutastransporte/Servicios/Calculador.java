@@ -13,6 +13,7 @@ public class Calculador {
             case MAS_ECONOMICO -> ruta.getCosto();
             case MAS_CORTA -> ruta.getDistancia();
             case MAS_RAPIDA -> ruta.getTiempo();
+            case MENOS_TRASBORDOS -> ruta.getTrasbordos();
             default -> 1.0f;
         };
     }
@@ -48,14 +49,12 @@ public class Calculador {
                 float newDist = distancias.get(actual) + peso;
                 float oldDist = distancias.getOrDefault(vecino, Float.POSITIVE_INFINITY);
 
-                if(newDist <  oldDist) {
+                if(newDist < oldDist) {
                     distancias.put(vecino, newDist);
                     anterior.put(vecino, ruta);
                     paradas.add(vecino);
                 }
-
             }
-
         }
 
         if(!distancias.containsKey(destino)) {
@@ -71,12 +70,33 @@ public class Calculador {
             rutaPosible.agregarCosto(ruta.getCosto());
             rutaPosible.agregarDistancia(ruta.getDistancia());
             rutaPosible.agregarTiempo(ruta.getTiempo());
-            rutaPosible.setCriterio(criterio);
+            rutaPosible.agregarCriterioDestacado(criterio);
 
             pasoActual = ruta.getOrigen();
         }
 
+        calcularTrasbordosTotales(rutaPosible);
+
         return rutaPosible;
+    }
+
+    private void calcularTrasbordosTotales(RutaPosible rutaPosible) {
+        if (rutaPosible.getCamino().isEmpty()) {
+            rutaPosible.setCantTrasbordos(0);
+            return;
+        }
+
+        int trasbordosTotales = 0;
+        LinkedList<Ruta> camino = rutaPosible.getCamino();
+
+        for (Ruta ruta : camino) {
+            trasbordosTotales += ruta.getTrasbordos();
+        }
+
+        int trasbordosEntreRutas = Math.max(0, camino.size() - 1);
+        trasbordosTotales += trasbordosEntreRutas;
+
+        rutaPosible.setCantTrasbordos(trasbordosTotales);
     }
 
     public void setGrafo(GrafoTransporte grafo) {

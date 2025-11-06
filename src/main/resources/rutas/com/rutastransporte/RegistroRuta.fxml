@@ -122,7 +122,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
          <graphic>
-            <ImageView fx:id="imgRealizar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" translateX="-30.0">
+            <ImageView fx:id="imgRealizar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
                <image>
                   <Image url="@imagenes/agregar.png" />
                </image>

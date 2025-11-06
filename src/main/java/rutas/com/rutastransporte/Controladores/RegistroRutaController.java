@@ -4,8 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.Modelos.Parada;
@@ -37,6 +39,9 @@ public class RegistroRutaController implements Registro {
     public void setStage(Stage st){
         this.stage = st;
     }
+
+    @FXML
+    private Button btnRealizar;
 
     @FXML
     private TextField txtNombre;
@@ -99,12 +104,14 @@ public class RegistroRutaController implements Registro {
             txtNombre.setText(ruta.getNombre());
             cbxDestino.getSelectionModel().select(ruta.getDestino().getNombreParada());
             cbxOrigen.getSelectionModel().select(ruta.getOrigen().getNombreParada());
-            spnTrasbordos.getEditor().setText(String.valueOf(ruta.getTrasbordos()));
-            spnHoras.getEditor().setText(String.valueOf(ruta.getHoras()));
-            spnMinutos.getEditor().setText(String.valueOf(ruta.getMinutos()));
-            spnCosto.getEditor().setText(String.valueOf(ruta.getCosto()));
-            spnM.getEditor().setText(String.valueOf(ruta.getMetros()));
-            spnKM.getEditor().setText(String.valueOf(ruta.getKilometros()));
+            spnTrasbordos.getValueFactory().setValue(ruta.getTrasbordos());
+            spnHoras.getValueFactory().setValue(ruta.getHoras());
+            spnMinutos.getValueFactory().setValue(ruta.getMinutos());
+            spnCosto.getValueFactory().setValue((double)ruta.getCosto());
+            spnM.getValueFactory().setValue(ruta.getMetros());
+            spnKM.getValueFactory().setValue(ruta.getKilometros());
+            btnRealizar.setText("Actualizar");
+            imgRealizar.setImage(new Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/editar.png")));
         }
 
     }
@@ -180,6 +187,12 @@ public class RegistroRutaController implements Registro {
     @Override
     public void limpiar() {
         txtNombre.setText("");
+        spnM.getValueFactory().setValue(0);
+        spnHoras.getValueFactory().setValue(0);
+        spnMinutos.getValueFactory().setValue(0);
+        spnKM.getValueFactory().setValue(0);
+        spnCosto.getValueFactory().setValue((double)10);
+        spnTrasbordos.getValueFactory().setValue(1);
     }
 
     public Parada buscarParadaByNombre(String nombre){

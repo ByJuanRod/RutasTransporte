@@ -14,7 +14,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import rutas.com.rutastransporte.Modelos.Criterio;
 import rutas.com.rutastransporte.Modelos.RutaPosible;
 import rutas.com.rutastransporte.StageBuilder;
 import rutas.com.rutastransporte.Utilidades.Colores;
@@ -188,7 +187,7 @@ public class ResultadoRutaController {
     }
 
     private void cargarDatos(){
-        if(rutaPosible.getCriterio().equals(Criterio.MEJOR_RUTA)){
+        if(rutaPosible.isEsMejorRuta()){
             innerAnchorPane.setStyle("-fx-background-color: " + Colores.ENFASIS.getColor() + "; -fx-background-radius: 10px;");
             circle.setFill(javafx.scene.paint.Color.valueOf(Colores.DECORATIVOS.getColor()));
         }
@@ -198,9 +197,9 @@ public class ResultadoRutaController {
             lblCosto.setText("$" + rutaPosible.getCostoTotal());
             lblTiempoEstimado.setText(rutaPosible.getTiempoFormatado());
             lblDistancia.setText(rutaPosible.getDistanciaFormatado());
-            lblIndicador.setText(rutaPosible.getCriterio().getNombre());
+            lblIndicador.setText(rutaPosible.getCriteriosDestacados().getFirst().getNombre());
             try {
-                Image img = new Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + rutaPosible.getCriterio().getImagen()));
+                Image img = new Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + rutaPosible.getCriteriosDestacados().getFirst().getImagen()));
                 imgCondicion.setImage(img);
             } catch (Exception e) {
                 System.err.println("Error al cargar la imagen del criterio: " + e.getMessage());

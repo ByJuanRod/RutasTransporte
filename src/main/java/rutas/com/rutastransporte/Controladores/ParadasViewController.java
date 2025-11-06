@@ -11,6 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.Excepciones.NotRemovableException;
 import rutas.com.rutastransporte.Modelos.Vista;
+import rutas.com.rutastransporte.RecursosVisuales;
 import rutas.com.rutastransporte.Servicios.ParadasDAO;
 import rutas.com.rutastransporte.StageBuilder;
 import rutas.com.rutastransporte.Utilidades.Modalidad;
@@ -44,6 +45,11 @@ public class ParadasViewController implements Vista<Parada> {
     public void initialize(){
         configurarColumnas();
         cargarDatos();
+
+        tblParadas.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+            RecursosVisuales.ajustarAnchoColumnas(tblParadas);
+        });
+
     }
 
     public void btnEliminarClick(ActionEvent e){
