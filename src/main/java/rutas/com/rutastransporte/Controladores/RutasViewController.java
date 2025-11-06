@@ -13,6 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.Modelos.Ruta;
 import rutas.com.rutastransporte.Modelos.Vista;
+import rutas.com.rutastransporte.RecursosVisuales;
 import rutas.com.rutastransporte.StageBuilder;
 import rutas.com.rutastransporte.Utilidades.Modalidad;
 import rutas.com.rutastransporte.Servicios.RutasDAO;
@@ -53,6 +54,10 @@ public class RutasViewController implements Vista<Ruta> {
     public void initialize() {
         configurarColumnas();
         cargarDatos();
+
+        tblRutas.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+            RecursosVisuales.ajustarAnchoColumnas(tblRutas);
+        });
     }
 
     public void btnEliminarClick(ActionEvent e){

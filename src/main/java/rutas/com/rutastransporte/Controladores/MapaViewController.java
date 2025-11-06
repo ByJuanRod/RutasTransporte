@@ -1,8 +1,6 @@
 package rutas.com.rutastransporte.Controladores;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
@@ -11,7 +9,6 @@ import javafx.scene.layout.VBox;
 import rutas.com.rutastransporte.Modelos.*;
 import rutas.com.rutastransporte.Repositorio.SistemaTransporte;
 import rutas.com.rutastransporte.Servicios.Calculador;
-import rutas.com.rutastransporte.Servicios.GrafoTransporte;
 import rutas.com.rutastransporte.Utilidades.Alertas.AlertFactory;
 import rutas.com.rutastransporte.Utilidades.Alertas.Alerta;
 
@@ -20,7 +17,7 @@ import java.util.LinkedList;
 import java.util.Stack;
 
 public class MapaViewController {
-    private AlertFactory alertFactory = new AlertFactory();
+    private final AlertFactory alertFactory = new AlertFactory();
 
     @FXML
     private VBox contenedorGeneral;
@@ -34,7 +31,7 @@ public class MapaViewController {
     @FXML
     private ComboBox<String> cbxDestino;
 
-    public void buscarClick(ActionEvent e) {
+    public void buscarClick() {
         if(cbxDestino.getSelectionModel().getSelectedItem().equals(cbxOrigen.getSelectionModel().getSelectedItem())){
             Alerta alert = alertFactory.obtenerAlerta(Alert.AlertType.WARNING);
             alert.crearAlerta("El origen y el destino no pueden ser el mismo seleccione un punto diferente.","Advertencia.").show();
@@ -55,12 +52,13 @@ public class MapaViewController {
                 }
             }
 
-            MejorRuta mejorRuta = ObtenerMejorRuta(posiblesRutas);
+            RutaPosible mejorRuta = obtenerMejorRuta(posiblesRutas);
 
             ArrayList<RutaPosible> rutasUnicas = obtenerRutasUnicasExcluyendoMejor(posiblesRutas, mejorRuta);
 
             if (mejorRuta != null) {
-                mejorRuta.setCriterio(Criterio.MEJOR_RUTA);
+                mejorRuta.agregarFirst(Criterio.MEJOR_RUTA);
+                mejorRuta.setEsMejorRuta(true);
                 crearPanel(mejorRuta);
             }
 
@@ -103,7 +101,7 @@ public class MapaViewController {
         return null;
     }
 
-    public MejorRuta ObtenerMejorRuta(Stack<RutaPosible> posiblesRutas){
+    public RutaPosible obtenerMejorRuta(Stack<RutaPosible> posiblesRutas) {
         if (posiblesRutas == null || posiblesRutas.isEmpty()) {
             return null;
         }
@@ -114,7 +112,6 @@ public class MapaViewController {
             if (rutaActual == null) continue;
 
             boolean esDuplicada = false;
-
             for (RutaPosible rutaUnica : rutasUnicas) {
                 if (rutaActual.sonIguales(rutaUnica.getCamino())) {
                     esDuplicada = true;
@@ -128,16 +125,25 @@ public class MapaViewController {
         }
 
         if (rutasUnicas.size() == 1) {
-            MejorRuta mejorRuta = new MejorRuta(rutasUnicas.get(0));
-            mejorRuta.agregarCriterio(rutasUnicas.get(0).getCriterio());
+            RutaPosible mejorRuta = new RutaPosible();
+            mejorRuta.clonar(rutasUnicas.getFirst());
+
+            for (RutaPosible posible : posiblesRutas) {
+                if (posible != null && posible.sonIguales(rutasUnicas.getFirst().getCamino())) {
+                    if (!posible.getCriteriosDestacados().isEmpty()) {
+                        mejorRuta.agregarCriterioDestacado(posible.getCriteriosDestacados().getFirst());
+                    }
+                }
+            }
             return mejorRuta;
         }
 
+        // 3. Para múltiples rutas, encontrar la que aparece en más criterios
         RutaPosible mejorRutaBase = null;
         int maxCriteriosCoincidentes = 0;
 
         for (RutaPosible rutaUnica : rutasUnicas) {
-            int criteriosCoincidentes = cantIguales(posiblesRutas, rutaUnica.getCamino());
+            int criteriosCoincidentes = cantCriteriosParaMismoCamino(posiblesRutas, rutaUnica.getCamino());
 
             if (criteriosCoincidentes > maxCriteriosCoincidentes) {
                 maxCriteriosCoincidentes = criteriosCoincidentes;
@@ -146,11 +152,13 @@ public class MapaViewController {
         }
 
         if (mejorRutaBase != null) {
-            MejorRuta mejorRuta = new MejorRuta(mejorRutaBase);
-
+            RutaPosible mejorRuta = new RutaPosible();
+            mejorRuta.clonar(mejorRutaBase);
             for (RutaPosible posible : posiblesRutas) {
                 if (posible != null && posible.sonIguales(mejorRutaBase.getCamino())) {
-                    mejorRuta.agregarCriterio(posible.getCriterio());
+                    if (!posible.getCriteriosDestacados().isEmpty()) {
+                        mejorRuta.agregarCriterioDestacado(posible.getCriteriosDestacados().getFirst());
+                    }
                 }
             }
 
@@ -160,18 +168,17 @@ public class MapaViewController {
         return null;
     }
 
-    public int cantIguales(Stack<RutaPosible> posiblesRutas, LinkedList<Ruta> camino){
+    public int cantCriteriosParaMismoCamino(Stack<RutaPosible> posiblesRutas, LinkedList<Ruta> camino) {
         int cantidadCriterios = 0;
-        for(RutaPosible posible : posiblesRutas){
-            if(posible.sonIguales(camino)){
+        for (RutaPosible posible : posiblesRutas) {
+            if (posible != null && posible.sonIguales(camino)) {
                 cantidadCriterios++;
             }
         }
-
         return cantidadCriterios;
     }
 
-    public ArrayList<RutaPosible> obtenerRutasUnicasExcluyendoMejor(Stack<RutaPosible> posiblesRutas, MejorRuta mejorRuta) {
+    public ArrayList<RutaPosible> obtenerRutasUnicasExcluyendoMejor(Stack<RutaPosible> posiblesRutas, RutaPosible mejorRuta) {
         ArrayList<RutaPosible> rutasUnicas = new ArrayList<>();
 
         if (posiblesRutas == null || posiblesRutas.isEmpty()) {

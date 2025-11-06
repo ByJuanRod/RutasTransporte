@@ -1,7 +1,6 @@
 package rutas.com.rutastransporte.Modelos;
 
 import java.util.LinkedList;
-import java.util.Queue;
 
 /*
     Nombre: RutaPosible
@@ -14,14 +13,17 @@ public class RutaPosible implements Clonable<RutaPosible> {
     private float distanciaTotal;
     private float tiempoTotal;
     private int cantTrasbordos;
-    private Criterio criterio;
+    private LinkedList<Criterio> criteriosDestacados;
+    private boolean esMejorRuta;
 
     public RutaPosible() {
         camino = new LinkedList<>();
+        criteriosDestacados = new LinkedList<>();
         costoTotal = 0;
         distanciaTotal = 0;
         tiempoTotal = 0;
         cantTrasbordos = 0;
+        esMejorRuta = false;
     }
 
     public LinkedList<Ruta> getCamino() {
@@ -76,14 +78,25 @@ public class RutaPosible implements Clonable<RutaPosible> {
         distanciaTotal += distancia;
     }
 
-    public void setCriterio(Criterio criterio) {
-        this.criterio = criterio;
+    public boolean isEsMejorRuta() {
+        return esMejorRuta;
     }
 
-    public Criterio getCriterio() {
-        return criterio;
+    public void agregarCriterioDestacado(Criterio criterio) {
+        criteriosDestacados.add(criterio);
     }
 
+    public LinkedList<Criterio> getCriteriosDestacados() {
+        return criteriosDestacados;
+    }
+
+    public void setEsMejorRuta(boolean esMejorRuta) {
+        this.esMejorRuta = esMejorRuta;
+    }
+
+    public void agregarFirst(Criterio criterio){
+        criteriosDestacados.addFirst(criterio);
+    }
     /*
         Nombre: getTiempoFormatado
         Argumentos: -
@@ -131,19 +144,10 @@ public class RutaPosible implements Clonable<RutaPosible> {
      */
     public String getDistanciaFormatado(){
         StringBuilder sb = new StringBuilder();
-        int kilometros = (int) (distanciaTotal / 100);
-        int metros =  (int) (distanciaTotal % 100);
+        int kilometros = (int) (distanciaTotal / 1000);
+        int metros =  (int) (distanciaTotal % 1000);
         sb.append(kilometros).append(" km ").append(metros).append(" m");
         return sb.toString();
-    }
-
-    @Override
-    public void clonar(RutaPosible rutaPosible){
-        this.camino = rutaPosible.camino;
-        this.costoTotal = rutaPosible.costoTotal;
-        this.distanciaTotal = rutaPosible.distanciaTotal;
-        this.tiempoTotal = rutaPosible.tiempoTotal;
-        this.cantTrasbordos = rutaPosible.cantTrasbordos;
     }
 
     public boolean sonIguales(LinkedList<Ruta> camino){
@@ -169,6 +173,17 @@ public class RutaPosible implements Clonable<RutaPosible> {
         sb.append(camino.get(camino.size() - 1).getNombre());
 
         return sb.toString();
+    }
+
+    @Override
+    public void clonar(RutaPosible rutaPosible){
+        this.camino = rutaPosible.camino;
+        this.costoTotal = rutaPosible.costoTotal;
+        this.distanciaTotal = rutaPosible.distanciaTotal;
+        this.tiempoTotal = rutaPosible.tiempoTotal;
+        this.cantTrasbordos = rutaPosible.cantTrasbordos;
+        this.esMejorRuta = rutaPosible.esMejorRuta;
+        this.criteriosDestacados = new LinkedList<>(rutaPosible.criteriosDestacados);
     }
 
 }

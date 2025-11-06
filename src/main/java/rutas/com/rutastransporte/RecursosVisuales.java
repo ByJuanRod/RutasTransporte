@@ -2,6 +2,8 @@ package rutas.com.rutastransporte;
 
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 
 import java.awt.*;
@@ -40,5 +42,17 @@ public class RecursosVisuales {
         spinner.setEditable(true);
         SpinnerValueFactory.DoubleSpinnerValueFactory factory =  new SpinnerValueFactory.DoubleSpinnerValueFactory(minimo,maximo ,inicial);
         spinner.setValueFactory(factory);
+    }
+
+    public static void ajustarAnchoColumnas(TableView<?> tabla) {
+        double anchoTabla = tabla.getWidth();
+        if (anchoTabla > 0) {
+            int numColumnas = tabla.getColumns().size();
+            double anchoPorColumna = (anchoTabla / numColumnas) - 4;
+
+            for (TableColumn<?, ?> columna : tabla.getColumns()) {
+                columna.setPrefWidth(anchoPorColumna);
+            }
+        }
     }
 }

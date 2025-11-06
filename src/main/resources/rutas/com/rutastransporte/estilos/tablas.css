@@ -14,16 +14,24 @@
     -fx-font-size: 16px;
 }
 
+.table-cell{
+    -fx-text-fill: white;
+}
+
+.table-view .table-row-cell{
+    -fx-font-family: "Century Gothic";
+    -fx-font-size: 16px;
+}
+
 .table-view .table-row-cell:even {
-    -fx-background-color: #f9f9f9;
+    -fx-background-color: #19173C;
 }
 
 .table-view .table-row-cell:odd {
-    -fx-background-color: white;
+    -fx-background-color: #0e0e23;
 }
 
 .table-view .table-row-cell:selected {
     -fx-background-color: #2196F3;
-    -fx-text-fill: white;
 }
 

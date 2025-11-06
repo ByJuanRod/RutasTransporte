@@ -2,16 +2,14 @@ package rutas.com.rutastransporte.Controladores;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.Modelos.Criterio;
-import rutas.com.rutastransporte.Modelos.MejorRuta;
 import rutas.com.rutastransporte.Modelos.RutaPosible;
 import rutas.com.rutastransporte.RecursosVisuales;
 
-import java.util.Queue;
+import java.util.LinkedList;
 
 public class DetallesRutaController {
     public Stage stage;
@@ -73,9 +71,9 @@ public class DetallesRutaController {
 
     public void cargarDatos(){
         try{
-            lblIndicador.setText(ruta.getCriterio().getNombre());
-            if(ruta instanceof MejorRuta){
-                imgIndicador.setImage(new Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + ruta.getCriterio().getImagen())));
+            lblIndicador.setText(ruta.getCriteriosDestacados().getFirst().getNombre());
+            if(ruta.isEsMejorRuta()){
+                imgIndicador.setImage(new Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + ruta.getCriteriosDestacados().getFirst().getImagen())));
             }
             lblCamino.setText(ruta.getCaminoTexto());
             lblCosto.setText(ruta.getCostoTotal() + " (DOP)");
@@ -89,32 +87,19 @@ public class DetallesRutaController {
         }
     }
 
-    public void verificarCriterio(Criterio criterio, Queue<Criterio> criteriosDestacados, ImageView img){
+    public void verificarCriterio(Criterio criterio, LinkedList<Criterio> criteriosDestacados, ImageView img){
         if(criteriosDestacados.contains(criterio)){
             img.setImage(RecursosVisuales.getTieneCriterio());
         }
     }
 
     public void aplicarEfectos(){
-        if(ruta instanceof MejorRuta mejorRuta){
-            verificarCriterio(Criterio.MAS_RAPIDA, mejorRuta.getCriteriosDestacados(), imgRapida);
-            verificarCriterio(Criterio.MAS_CORTA, mejorRuta.getCriteriosDestacados(), imgCorta);
-            verificarCriterio(Criterio.MAS_ECONOMICO,mejorRuta.getCriteriosDestacados(), imgEconomico);
-            verificarCriterio(Criterio.MENOS_TRASBORDOS,mejorRuta.getCriteriosDestacados(), imgTrasbordos);
+        for(Criterio cr: ruta.getCriteriosDestacados()){
+            System.out.println(cr.getNombre());
         }
-        else{
-            if(ruta.getCriterio().equals(Criterio.MAS_RAPIDA)){
-                imgRapida.setImage(RecursosVisuales.getTieneCriterio());
-            }
-            else if(ruta.getCriterio().equals(Criterio.MAS_CORTA)){
-                imgCorta.setImage(RecursosVisuales.getTieneCriterio());
-            }
-            else if(ruta.getCriterio().equals(Criterio.MAS_ECONOMICO)){
-                imgEconomico.setImage(RecursosVisuales.getTieneCriterio());
-            }
-            else{
-                imgTrasbordos.setImage(RecursosVisuales.getTieneCriterio());
-            }
-        }
+        verificarCriterio(Criterio.MAS_RAPIDA, ruta.getCriteriosDestacados(), imgRapida);
+        verificarCriterio(Criterio.MAS_CORTA, ruta.getCriteriosDestacados(), imgCorta);
+        verificarCriterio(Criterio.MAS_ECONOMICO, ruta.getCriteriosDestacados(), imgEconomico);
+        verificarCriterio(Criterio.MENOS_TRASBORDOS, ruta.getCriteriosDestacados(), imgTrasbordos);
     }
 }
