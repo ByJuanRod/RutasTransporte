@@ -6,16 +6,16 @@ module rutas.com.rutastransporte {
 
     opens rutas.com.rutastransporte to javafx.fxml;
     exports rutas.com.rutastransporte;
-    exports rutas.com.rutastransporte.Modelos;
-    opens rutas.com.rutastransporte.Modelos to javafx.fxml;
-    exports rutas.com.rutastransporte.Servicios;
-    opens rutas.com.rutastransporte.Servicios to javafx.fxml;
-    exports rutas.com.rutastransporte.Utilidades;
-    opens rutas.com.rutastransporte.Utilidades to javafx.fxml;
-    exports rutas.com.rutastransporte.Controladores;
-    opens rutas.com.rutastransporte.Controladores to javafx.fxml;
-    exports rutas.com.rutastransporte.Utilidades.Alertas;
-    opens rutas.com.rutastransporte.Utilidades.Alertas to javafx.fxml;
-    exports rutas.com.rutastransporte.Repositorio;
-    opens rutas.com.rutastransporte.Repositorio to javafx.fxml;
+    exports rutas.com.rutastransporte.modelos;
+    opens rutas.com.rutastransporte.modelos to javafx.fxml;
+    exports rutas.com.rutastransporte.servicios;
+    opens rutas.com.rutastransporte.servicios to javafx.fxml;
+    exports rutas.com.rutastransporte.utilidades;
+    opens rutas.com.rutastransporte.utilidades to javafx.fxml;
+    exports rutas.com.rutastransporte.controladores;
+    opens rutas.com.rutastransporte.controladores to javafx.fxml;
+    exports rutas.com.rutastransporte.utilidades.alertas;
+    opens rutas.com.rutastransporte.utilidades.alertas to javafx.fxml;
+    exports rutas.com.rutastransporte.repositorio;
+    opens rutas.com.rutastransporte.repositorio to javafx.fxml;
 }

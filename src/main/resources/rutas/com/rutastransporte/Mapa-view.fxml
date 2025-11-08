@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="593.0" prefWidth="878.0" style="-fx-background-color: #19173C; -fx-border-radius: 10px; -fx-background-radius: 10px;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.Controladores.MapaViewController">
+<AnchorPane prefHeight="593.0" prefWidth="878.0" style="-fx-background-color: #19173C; -fx-border-radius: 10px; -fx-background-radius: 10px;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.controladores.MapaViewController">
    <children>
       <BorderPane layoutX="145.0" layoutY="33.0" prefHeight="604.0" prefWidth="878.0" AnchorPane.bottomAnchor="-11.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
