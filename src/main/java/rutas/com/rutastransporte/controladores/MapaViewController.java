@@ -118,6 +118,7 @@ public class MapaViewController {
         rellenarGrafo(g);
 
         SmartPlacementStrategy strategy = new SmartCircularSortedPlacementStrategy();
+
         graphView = new SmartGraphPanel<>(g, strategy);
         graphView.setAutomaticLayout(true);
         aplicarEstilos(graphView);
@@ -152,7 +153,7 @@ public class MapaViewController {
         try {
             graphView.init();
 
-            PauseTransition pause = new PauseTransition(Duration.millis(50));
+            PauseTransition pause = new PauseTransition(Duration.millis(100));
             pause.setOnFinished(e -> {
                 graphView.update();
             });
@@ -160,16 +161,6 @@ public class MapaViewController {
 
         } catch (Exception e) {
             System.err.println("Error al inicializar el grafo: " + e.getMessage());
-            PauseTransition retryPause = new PauseTransition(Duration.millis(200));
-            retryPause.setOnFinished(ev -> {
-                try {
-                    graphView.init();
-                    graphView.update();
-                } catch (Exception ex) {
-                    System.err.println("Error en reintento: " + ex.getMessage());
-                }
-            });
-            retryPause.play();
         }
     }
 

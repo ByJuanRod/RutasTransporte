@@ -1,5 +1,6 @@
 .graph {
     -fx-background-color: #FAFAFA;
+    -fx-padding: 5px;
 }
 
 .vertex {
@@ -8,10 +9,9 @@
     -fx-stroke: #61B5F1;
     -fx-stroke-type: inside;
     -fx-fill: #638691;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0.2, 0, 4);
 }
 
-.vertex:hover { /* pseudo-classes also work */
+.vertex:hover {
     -fx-stroke-width: 8;
 }
 
@@ -20,6 +20,8 @@
     -fx-padding: 10px;
     -fx-fill: #FAFAFA;
     -fx-background-color: #19173C;
+    -fx-start-margin: 10px;
+    -fx-end-margin: 10px;
 }
 
 .edge {
