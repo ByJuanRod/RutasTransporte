@@ -12,8 +12,7 @@
 }
 
 .vertex:hover { /* pseudo-classes also work */
-    /*-fx-cursor: default; */ /* You can use this style to override the hand/move cursors while hovering. */
-    -fx-stroke-width: 4;
+    -fx-stroke-width: 8;
 }
 
 .vertex-label {
@@ -27,17 +26,16 @@
     -fx-stroke-width: 3;
     -fx-stroke: #1B4B6B;
     -fx-stroke-line-cap: round;
-    -fx-opacity: 0.8;
 }
 
 .bus{
-    -fx-stroke: #658C58;
-    -fx-fill: #31694E;
+    -fx-fill: #658C58;
+    -fx-stroke: #31694E;
 }
 
 .taxi{
-    -fx-stroke: #456882;
-    -fx-fill: #1B3C53;
+    -fx-fill: #456882;
+    -fx-stroke: #1B3C53;
 }
 
 .tren{
@@ -52,4 +50,9 @@
 .seleccionado{
     -fx-stroke: #DD0303;
     -fx-fill:#BF092F ;
+}
+
+.camino{
+    -fx-stroke: #F25912;
+    -fx-stroke-width: 5;
 }

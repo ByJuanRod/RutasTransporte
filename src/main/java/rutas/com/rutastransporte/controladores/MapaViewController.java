@@ -1,8 +1,6 @@
 package rutas.com.rutastransporte.controladores;
 
-import com.brunomnsilva.smartgraph.graph.Graph;
-import com.brunomnsilva.smartgraph.graph.GraphEdgeList;
-import com.brunomnsilva.smartgraph.graph.Vertex;
+import com.brunomnsilva.smartgraph.graph.*;
 import com.brunomnsilva.smartgraph.graphview.*;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
@@ -27,6 +25,12 @@ public class MapaViewController {
     private final AlertFactory alertFactory = new AlertFactory();
     private SmartGraphPanel<Parada,Ruta> graphView;
 
+    private RutaPosible estilizada = null;
+
+    private Parada origen = null;
+
+    private Parada destino = null;
+
     @FXML
     private VBox contenedorGeneral;
 
@@ -43,6 +47,10 @@ public class MapaViewController {
     private ComboBox<Parada> cbxDestino;
 
     public void buscarClick() {
+        if(estilizada != null) {
+            aplicarPorDefecto();
+        }
+
         if(cbxDestino.getSelectionModel().getSelectedItem().equals(cbxOrigen.getSelectionModel().getSelectedItem())){
             Alerta alert = alertFactory.obtenerAlerta(Alert.AlertType.WARNING);
             alert.crearAlerta("El origen y el destino no pueden ser el mismo seleccione un punto diferente.","Advertencia.").show();
@@ -78,6 +86,19 @@ public class MapaViewController {
                     crearPanel(rutaUnica);
                 }
             }
+
+            if(mejorRuta != null){
+                estilizarRuta(mejorRuta);
+                estilizada = mejorRuta;
+            }
+            else{
+                estilizarRuta(rutasUnicas.getFirst());
+                estilizada = rutasUnicas.getFirst();
+            }
+
+            this.origen =  cbxOrigen.getSelectionModel().getSelectedItem();
+            this.destino = cbxDestino.getSelectionModel().getSelectedItem();
+
         }
     }
 
@@ -93,7 +114,7 @@ public class MapaViewController {
             cbxOrigen.getItems().add(p);
         }
 
-        Graph<Parada, Ruta> g = new GraphEdgeList<>();
+        Digraph<Parada, Ruta> g = new DigraphEdgeList<>();
         rellenarGrafo(g);
 
         SmartPlacementStrategy strategy = new SmartCircularSortedPlacementStrategy();
@@ -158,16 +179,6 @@ public class MapaViewController {
 
         AnchorPane contenido = controller.crearInterfaz(ruta);
         contenedorGeneral.getChildren().add(contenido);
-    }
-
-    public Parada buscarParada(String nombre){
-        for(Parada p : SistemaTransporte.getSistemaTransporte().getParadas()){
-            if(p.getNombreParada().equals(nombre)){
-                return p;
-            }
-        }
-
-        return null;
     }
 
     public RutaPosible obtenerMejorRuta(Stack<RutaPosible> posiblesRutas) {
@@ -276,7 +287,7 @@ public class MapaViewController {
         return rutasUnicas;
     }
 
-    public void rellenarGrafo(Graph<Parada,Ruta> grafo){
+    public void rellenarGrafo(Digraph<Parada, Ruta> grafo){
         for(Parada parada : SistemaTransporte.getSistemaTransporte().getParadas()){
             grafo.insertVertex(parada);
         }
@@ -288,21 +299,69 @@ public class MapaViewController {
 
     public void aplicarEstilos(SmartGraphPanel<Parada,Ruta> panel){
         for(Vertex<Parada> vertice : panel.getModel().vertices()){
-            panel.setVertexDoubleClickAction(graphVertex -> {
-                panel.getStylableVertex(graphVertex.getUnderlyingVertex().element()).addStyleClass("seleccionado");
-                if(cbxOrigen.getSelectionModel().getSelectedIndex() == -1){
-                    cbxOrigen.getSelectionModel().select(graphVertex.getUnderlyingVertex().element());
-                }
-                else{
-                    cbxDestino.getSelectionModel().select(graphVertex.getUnderlyingVertex().element());
-                }
-            });
-
             panel.getStylableVertex(vertice).addStyleClass(vertice.element().getTipo().getClase());
+        }
+
+        configurarEventosGrafo(panel);
+    }
+
+    private void configurarEventosGrafo(SmartGraphPanel<Parada,Ruta> panel) {
+        panel.setVertexDoubleClickAction(graphVertex -> {
+            evaluarEventos(panel, graphVertex.getUnderlyingVertex().element());
+        });
+    }
+
+    private void evaluarEventos(SmartGraphPanel<Parada,Ruta> panel, Parada elemento){
+        if (origen != null && destino != null) {
+            aplicarPorDefecto();
+        }
+
+        if (origen == null) {
+            panel.getStylableVertex(elemento).addStyleClass("seleccionado");
+            cbxOrigen.getSelectionModel().select(elemento);
+            origen = elemento;
+        }
+        else if (destino == null && !origen.equals(elemento)) {
+            panel.getStylableVertex(elemento).addStyleClass("seleccionado");
+            cbxDestino.getSelectionModel().select(elemento);
+            destino = elemento;
+        }
+        else if (origen.equals(elemento)) {
+            panel.getStylableVertex(elemento).removeStyleClass("seleccionado");
+            cbxOrigen.getSelectionModel().clearSelection();
+            origen = null;
+        }
+        else if (destino != null && destino.equals(elemento)) {
+            panel.getStylableVertex(elemento).removeStyleClass("seleccionado");
+            cbxDestino.getSelectionModel().clearSelection();
+            destino = null;
         }
     }
 
-    public void estilizarRuta(){
+    public void estilizarRuta(RutaPosible ruta){
+        for(Ruta rt : ruta.getCamino()){
+            graphView.getStylableEdge(rt).addStyleClass("camino");
+        }
+    }
 
+    public void aplicarPorDefecto(){
+        if (estilizada != null) {
+            for (Ruta rt : estilizada.getCamino()) {
+                graphView.getStylableEdge(rt).removeStyleClass("camino");
+            }
+            estilizada = null;
+        }
+
+        if (origen != null) {
+            graphView.getStylableVertex(origen).removeStyleClass("seleccionado");
+            cbxOrigen.getSelectionModel().clearSelection();
+            origen = null;
+        }
+
+        if (destino != null) {
+            graphView.getStylableVertex(destino).removeStyleClass("seleccionado");
+            cbxDestino.getSelectionModel().clearSelection();
+            destino = null;
+        }
     }
 }
