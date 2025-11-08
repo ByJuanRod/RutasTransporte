@@ -1,11 +1,18 @@
 package rutas.com.rutastransporte.controladores;
 
+import com.brunomnsilva.smartgraph.graph.Graph;
+import com.brunomnsilva.smartgraph.graph.GraphEdgeList;
+import com.brunomnsilva.smartgraph.graph.Vertex;
+import com.brunomnsilva.smartgraph.graphview.*;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import rutas.com.rutastransporte.modelos.*;
 import rutas.com.rutastransporte.repositorio.SistemaTransporte;
 import rutas.com.rutastransporte.servicios.Calculador;
@@ -18,18 +25,22 @@ import java.util.Stack;
 
 public class MapaViewController {
     private final AlertFactory alertFactory = new AlertFactory();
+    private SmartGraphPanel<Parada,Ruta> graphView;
 
     @FXML
     private VBox contenedorGeneral;
 
     @FXML
+    private AnchorPane contenedorGrafo;
+
+    @FXML
     private ScrollPane scrollpane;
 
     @FXML
-    private ComboBox<String> cbxOrigen;
+    private ComboBox<Parada> cbxOrigen;
 
     @FXML
-    private ComboBox<String> cbxDestino;
+    private ComboBox<Parada> cbxDestino;
 
     public void buscarClick() {
         if(cbxDestino.getSelectionModel().getSelectedItem().equals(cbxOrigen.getSelectionModel().getSelectedItem())){
@@ -43,8 +54,8 @@ public class MapaViewController {
             contenedorGeneral.getChildren().clear();
             Stack<RutaPosible> posiblesRutas = new Stack<>();
 
-            Parada origen = buscarParada(cbxOrigen.getSelectionModel().getSelectedItem());
-            Parada destino = buscarParada(cbxDestino.getSelectionModel().getSelectedItem());
+            Parada origen = cbxOrigen.getSelectionModel().getSelectedItem();
+            Parada destino = cbxDestino.getSelectionModel().getSelectedItem();
 
             for(Criterio criterio : Criterio.values()){
                 if(!criterio.equals(Criterio.MEJOR_RUTA)){
@@ -71,15 +82,73 @@ public class MapaViewController {
     }
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         scrollpane.fitToWidthProperty().set(true);
         cargarDatos();
     }
 
     public void cargarDatos(){
         for(Parada p : SistemaTransporte.getSistemaTransporte().getParadas()){
-            cbxDestino.getItems().add(p.getNombreParada());
-            cbxOrigen.getItems().add(p.getNombreParada());
+            cbxDestino.getItems().add(p);
+            cbxOrigen.getItems().add(p);
+        }
+
+        Graph<Parada, Ruta> g = new GraphEdgeList<>();
+        rellenarGrafo(g);
+
+        SmartPlacementStrategy strategy = new SmartCircularSortedPlacementStrategy();
+        graphView = new SmartGraphPanel<>(g, strategy);
+        graphView.setAutomaticLayout(true);
+        aplicarEstilos(graphView);
+
+        AnchorPane.setLeftAnchor(graphView, 0.0);
+        AnchorPane.setTopAnchor(graphView, 0.0);
+        AnchorPane.setRightAnchor(graphView, 0.0);
+        AnchorPane.setBottomAnchor(graphView, 0.0);
+
+        contenedorGrafo.getChildren().add(graphView);
+
+        Platform.runLater(() -> {
+            if (graphView.getScene() != null) {
+                inicializarGrafo();
+            } else {
+                PauseTransition initialPause = new PauseTransition(Duration.millis(100));
+                initialPause.setOnFinished(e -> {
+                    if (graphView.getScene() != null) {
+                        inicializarGrafo();
+                    } else {
+                        PauseTransition finalPause = new PauseTransition(Duration.millis(300));
+                        finalPause.setOnFinished(e2 -> inicializarGrafo());
+                        finalPause.play();
+                    }
+                });
+                initialPause.play();
+            }
+        });
+    }
+
+    private void inicializarGrafo() {
+        try {
+            graphView.init();
+
+            PauseTransition pause = new PauseTransition(Duration.millis(50));
+            pause.setOnFinished(e -> {
+                graphView.update();
+            });
+            pause.play();
+
+        } catch (Exception e) {
+            System.err.println("Error al inicializar el grafo: " + e.getMessage());
+            PauseTransition retryPause = new PauseTransition(Duration.millis(200));
+            retryPause.setOnFinished(ev -> {
+                try {
+                    graphView.init();
+                    graphView.update();
+                } catch (Exception ex) {
+                    System.err.println("Error en reintento: " + ex.getMessage());
+                }
+            });
+            retryPause.play();
         }
     }
 
@@ -138,7 +207,6 @@ public class MapaViewController {
             return mejorRuta;
         }
 
-        // 3. Para múltiples rutas, encontrar la que aparece en más criterios
         RutaPosible mejorRutaBase = null;
         int maxCriteriosCoincidentes = 0;
 
@@ -206,5 +274,35 @@ public class MapaViewController {
         }
 
         return rutasUnicas;
+    }
+
+    public void rellenarGrafo(Graph<Parada,Ruta> grafo){
+        for(Parada parada : SistemaTransporte.getSistemaTransporte().getParadas()){
+            grafo.insertVertex(parada);
+        }
+
+        for(Ruta ruta : SistemaTransporte.getSistemaTransporte().getRutas()){
+            grafo.insertEdge(ruta.getOrigen(),ruta.getDestino(),ruta);
+        }
+    }
+
+    public void aplicarEstilos(SmartGraphPanel<Parada,Ruta> panel){
+        for(Vertex<Parada> vertice : panel.getModel().vertices()){
+            panel.setVertexDoubleClickAction(graphVertex -> {
+                panel.getStylableVertex(graphVertex.getUnderlyingVertex().element()).addStyleClass("seleccionado");
+                if(cbxOrigen.getSelectionModel().getSelectedIndex() == -1){
+                    cbxOrigen.getSelectionModel().select(graphVertex.getUnderlyingVertex().element());
+                }
+                else{
+                    cbxDestino.getSelectionModel().select(graphVertex.getUnderlyingVertex().element());
+                }
+            });
+
+            panel.getStylableVertex(vertice).addStyleClass(vertice.element().getTipo().getClase());
+        }
+    }
+
+    public void estilizarRuta(){
+
     }
 }

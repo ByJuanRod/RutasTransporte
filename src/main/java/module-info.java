@@ -3,6 +3,7 @@ module rutas.com.rutastransporte {
     requires javafx.fxml;
     requires java.desktop;
     requires javafx.graphics;
+    requires com.brunomnsilva.smartgraph;
 
     opens rutas.com.rutastransporte to javafx.fxml;
     exports rutas.com.rutastransporte;

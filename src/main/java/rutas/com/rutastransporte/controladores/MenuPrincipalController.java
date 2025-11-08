@@ -81,6 +81,7 @@ public class MenuPrincipalController {
             pnlContenedor.setCenter(contenido);
         }
         catch (Exception e){
+            e.printStackTrace();
             Alerta alt = alert.obtenerAlerta(Alert.AlertType.ERROR);
             alt.crearAlerta("Error al cargar el apartado seleccionado.","Error").show();
         }

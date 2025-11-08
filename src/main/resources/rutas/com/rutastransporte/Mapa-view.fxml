@@ -145,11 +145,7 @@
             </BorderPane>
          </bottom>
          <center>
-            <ImageView fitHeight="201.0" fitWidth="226.0" pickOnBounds="true" BorderPane.alignment="CENTER">
-               <image>
-                  <Image url="@imagenes/logo.png" />
-               </image>
-            </ImageView>
+            <AnchorPane fx:id="contenedorGrafo" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>

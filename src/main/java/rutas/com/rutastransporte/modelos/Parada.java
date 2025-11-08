@@ -69,4 +69,9 @@ public class Parada {
         return Objects.hash(codigo);
     }
 
+    @Override
+    public String toString() {
+        return nombreParada;
+    }
+
 }

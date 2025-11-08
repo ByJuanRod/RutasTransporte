@@ -1,0 +1,55 @@
+.graph {
+    -fx-background-color: #FAFAFA;
+}
+
+.vertex {
+    -fx-cursor: HAND;
+    -fx-stroke-width: 3;
+    -fx-stroke: #61B5F1;
+    -fx-stroke-type: inside;
+    -fx-fill: #638691;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0.2, 0, 4);
+}
+
+.vertex:hover { /* pseudo-classes also work */
+    /*-fx-cursor: default; */ /* You can use this style to override the hand/move cursors while hovering. */
+    -fx-stroke-width: 4;
+}
+
+.vertex-label {
+    -fx-font: bold 12px "Century Gothic";
+    -fx-padding: 10px;
+    -fx-fill: #FAFAFA;
+    -fx-background-color: #19173C;
+}
+
+.edge {
+    -fx-stroke-width: 3;
+    -fx-stroke: #1B4B6B;
+    -fx-stroke-line-cap: round;
+    -fx-opacity: 0.8;
+}
+
+.bus{
+    -fx-stroke: #658C58;
+    -fx-fill: #31694E;
+}
+
+.taxi{
+    -fx-stroke: #456882;
+    -fx-fill: #1B3C53;
+}
+
+.tren{
+    -fx-stroke: #540863;
+    -fx-fill: #92487A;
+}
+
+.arrow {
+    -fx-stroke-dash-array: none;
+}
+
+.seleccionado{
+    -fx-stroke: #DD0303;
+    -fx-fill:#BF092F ;
+}

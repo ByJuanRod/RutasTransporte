@@ -105,7 +105,7 @@ public class Ruta {
 
     @Override
     public String toString() {
-        return "Ruta [" + nombre + "]: " + origen.getNombreParada() + " -> " + destino.getNombreParada();
+        return nombre;
     }
 
     public static int calcularTiempo(int horas, int minutos){
@@ -123,4 +123,5 @@ public class Ruta {
     public int getTrasbordos(){
         return trasbordos;
     }
+
 }

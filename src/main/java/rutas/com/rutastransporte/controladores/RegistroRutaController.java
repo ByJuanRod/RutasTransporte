@@ -47,10 +47,10 @@ public class RegistroRutaController implements Registro {
     private TextField txtNombre;
 
     @FXML
-    private ComboBox<String> cbxOrigen;
+    private ComboBox<Parada> cbxOrigen;
 
     @FXML
-    private ComboBox<String> cbxDestino;
+    private ComboBox<Parada> cbxDestino;
 
     @FXML
     private Spinner<Integer> spnKM;
@@ -80,8 +80,8 @@ public class RegistroRutaController implements Registro {
 
     private void cargarParadas(){
         for(Parada parada : SistemaTransporte.getSistemaTransporte().getParadas()){
-            cbxOrigen.getItems().add(parada.getNombreParada());
-            cbxDestino.getItems().add(parada.getNombreParada());
+            cbxOrigen.getItems().add(parada);
+            cbxDestino.getItems().add(parada);
         }
     }
 
@@ -102,8 +102,8 @@ public class RegistroRutaController implements Registro {
 
         if(modalidad == Modalidad.ACTUALIZAR){
             txtNombre.setText(ruta.getNombre());
-            cbxDestino.getSelectionModel().select(ruta.getDestino().getNombreParada());
-            cbxOrigen.getSelectionModel().select(ruta.getOrigen().getNombreParada());
+            cbxDestino.getSelectionModel().select(ruta.getDestino());
+            cbxOrigen.getSelectionModel().select(ruta.getOrigen());
             spnTrasbordos.getValueFactory().setValue(ruta.getTrasbordos());
             spnHoras.getValueFactory().setValue(ruta.getHoras());
             spnMinutos.getValueFactory().setValue(ruta.getMinutos());
@@ -122,8 +122,8 @@ public class RegistroRutaController implements Registro {
             if(modalidad == Modalidad.INSERTAR){
                 RutaBuilder rb = new RutaBuilder();
                 rb.setNombre(txtNombre.getText());
-                rb.setOrigen(buscarParadaByNombre(cbxOrigen.getSelectionModel().getSelectedItem()));
-                rb.setDestino(buscarParadaByNombre(cbxDestino.getSelectionModel().getSelectedItem()));
+                rb.setOrigen(cbxOrigen.getSelectionModel().getSelectedItem());
+                rb.setDestino(cbxDestino.getSelectionModel().getSelectedItem());
                 rb.setCosto(Float.parseFloat(spnCosto.getValue().toString()));
                 rb.setTiempo(Ruta.calcularTiempo(spnHoras.getValue(), spnMinutos.getValue()));
                 rb.setDistancia(Ruta.calcularDistancia(spnKM.getValue(),spnM.getValue()));
@@ -134,8 +134,8 @@ public class RegistroRutaController implements Registro {
             }
             else{
                 ruta.setNombre(txtNombre.getText());
-                ruta.setDestino(buscarParadaByNombre(cbxDestino.getSelectionModel().getSelectedItem()));
-                ruta.setOrigen(buscarParadaByNombre(cbxOrigen.getValue()));
+                ruta.setDestino(cbxDestino.getSelectionModel().getSelectedItem());
+                ruta.setOrigen(cbxOrigen.getValue());
                 ruta.setCosto(Float.parseFloat(spnCosto.getValue().toString()));
                 ruta.setDistancia(Ruta.calcularDistancia(spnKM.getValue(), spnM.getValue()));
                 ruta.setTiempo(Ruta.calcularTiempo(spnHoras.getValue(), spnMinutos.getValue()));
@@ -195,13 +195,4 @@ public class RegistroRutaController implements Registro {
         spnTrasbordos.getValueFactory().setValue(1);
     }
 
-    public Parada buscarParadaByNombre(String nombre){
-        for(Parada parada : SistemaTransporte.getSistemaTransporte().getParadas()){
-            if(parada.getNombreParada().equals(nombre)){
-                return parada;
-            }
-        }
-
-        return null;
-    }
 }
