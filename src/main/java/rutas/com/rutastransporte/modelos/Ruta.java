@@ -14,6 +14,8 @@ public class Ruta {
     private float costo;
     private int tiempo;
     private int trasbordos;
+    private TipoEvento eventoActual;
+    private boolean tieneEvento;
 
     public Ruta(String codigo, String nombre, Parada origen, Parada destino, int distancia, float costo, int tiempo) {
         this.codigo = codigo;
@@ -24,6 +26,8 @@ public class Ruta {
         this.costo = costo;
         this.tiempo = tiempo;
         this.trasbordos = 1;
+        this.eventoActual = TipoEvento.NORMAL;
+        this.tieneEvento = false;
     }
 
     public Ruta(){
@@ -124,4 +128,37 @@ public class Ruta {
         return trasbordos;
     }
 
+    public void aplicarEvento(TipoEvento evento) {
+        this.eventoActual = evento;
+        this.tieneEvento = true;
+    }
+
+    public void removerEvento() {
+        this.eventoActual = TipoEvento.NORMAL;
+        this.tieneEvento = false;
+    }
+
+    public boolean getTieneEvento(){
+        return tieneEvento;
+    }
+
+    public TipoEvento getTipoEvento(){
+        return eventoActual;
+    }
+
+    public float getCostoConEvento() {
+        float costoBase = getCosto();
+        return tieneEvento ? costoBase * eventoActual.getFactorCosto() : costoBase;
+    }
+
+    public int getTiempoConEvento() {
+        int tiempoBase = getTiempo();
+        return tieneEvento ? (int)(tiempoBase * eventoActual.getFactorTiempo()) : tiempoBase;
+    }
+
+    public int getDistanciaConEvento() {
+        int distanciaBase = getDistancia();
+        return tieneEvento ? (int)(distanciaBase * eventoActual.getFactorDistancia()) : distanciaBase;
+    }
 }
+

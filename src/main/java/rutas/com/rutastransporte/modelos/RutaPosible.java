@@ -1,6 +1,9 @@
 package rutas.com.rutastransporte.modelos;
 
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
 
 /*
     Nombre: RutaPosible
@@ -15,6 +18,7 @@ public class RutaPosible implements Clonable<RutaPosible> {
     private int cantTrasbordos;
     private LinkedList<Criterio> criteriosDestacados;
     private boolean esMejorRuta;
+    private Set<TipoEvento> registroEventos;
 
     public RutaPosible() {
         camino = new LinkedList<>();
@@ -24,6 +28,7 @@ public class RutaPosible implements Clonable<RutaPosible> {
         tiempoTotal = 0;
         cantTrasbordos = 0;
         esMejorRuta = false;
+        registroEventos = new HashSet<>();
     }
 
     public LinkedList<Ruta> getCamino() {
@@ -78,6 +83,10 @@ public class RutaPosible implements Clonable<RutaPosible> {
         distanciaTotal += distancia;
     }
 
+    public void agregarTrasbordos(int trasbordos){
+        cantTrasbordos+=trasbordos;
+    }
+
     public boolean isEsMejorRuta() {
         return esMejorRuta;
     }
@@ -97,6 +106,11 @@ public class RutaPosible implements Clonable<RutaPosible> {
     public void agregarFirst(Criterio criterio){
         criteriosDestacados.addFirst(criterio);
     }
+
+    public Set<TipoEvento> getRegistroEventos(){
+        return registroEventos;
+    }
+
     /*
         Nombre: getTiempoFormatado
         Argumentos: -
@@ -122,6 +136,9 @@ public class RutaPosible implements Clonable<RutaPosible> {
     public void agregarAlCamino(Ruta ruta){
         camino.add(ruta);
         cantTrasbordos += ruta.getTrasbordos();
+        tiempoTotal += ruta.getTiempoConEvento();
+        costoTotal += ruta.getCostoConEvento();
+        distanciaTotal += ruta.getDistanciaConEvento();
     }
 
     /*
@@ -133,7 +150,9 @@ public class RutaPosible implements Clonable<RutaPosible> {
      */
     public void agregarAlCaminoFirst(Ruta ruta){
         camino.addFirst(ruta);
-        cantTrasbordos += ruta.getTrasbordos();
+        if(!ruta.getTipoEvento().equals(TipoEvento.NORMAL)){
+            registroEventos.add(ruta.getTipoEvento());
+        }
     }
 
     /*

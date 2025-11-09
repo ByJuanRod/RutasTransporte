@@ -12,7 +12,7 @@ public class AlertaInformacion implements Alerta {
     @Override
     public Alert crearAlerta(String mensaje, String cabecera) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("Informacion");
+        alerta.setTitle("Información");
         alerta.setResizable(false);
         alerta.setContentText(mensaje);
         alerta.setHeaderText(cabecera);

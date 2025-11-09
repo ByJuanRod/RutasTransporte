@@ -10,15 +10,17 @@ public class Calculador {
 
     private float getPeso(Ruta ruta, Criterio criterio){
         return switch (criterio) {
-            case MAS_ECONOMICO -> ruta.getCosto();
-            case MAS_CORTA -> ruta.getDistancia();
-            case MAS_RAPIDA -> ruta.getTiempo();
+            case MAS_ECONOMICO -> ruta.getCostoConEvento();
+            case MAS_CORTA -> ruta.getDistanciaConEvento();
+            case MAS_RAPIDA -> ruta.getTiempoConEvento();
             case MENOS_TRASBORDOS -> ruta.getTrasbordos();
             default -> 1.0f;
         };
     }
 
     public RutaPosible dijkstra(Parada origen, Parada destino, Criterio criterio) {
+        ServicioEventos.getInstancia().limpiarEventosExpirados();
+
         RutaPosible rutaPosible = new RutaPosible();
         Map<Parada, Float> distancias = new HashMap<>();
         Map<Parada, Ruta> anterior = new HashMap<>();
@@ -67,37 +69,18 @@ public class Calculador {
             Ruta ruta = anterior.get(pasoActual);
 
             rutaPosible.agregarAlCaminoFirst(ruta);
-            rutaPosible.agregarCosto(ruta.getCosto());
-            rutaPosible.agregarDistancia(ruta.getDistancia());
-            rutaPosible.agregarTiempo(ruta.getTiempo());
+            rutaPosible.agregarCosto(ruta.getCostoConEvento());
+            rutaPosible.agregarTrasbordos(ruta.getTrasbordos());
+            rutaPosible.agregarDistancia(ruta.getDistanciaConEvento());
+            rutaPosible.agregarTiempo(ruta.getTiempoConEvento());
             rutaPosible.agregarCriterioDestacado(criterio);
 
             pasoActual = ruta.getOrigen();
         }
 
-        calcularTrasbordosTotales(rutaPosible);
-
         return rutaPosible;
     }
 
-    private void calcularTrasbordosTotales(RutaPosible rutaPosible) {
-        if (rutaPosible.getCamino().isEmpty()) {
-            rutaPosible.setCantTrasbordos(0);
-            return;
-        }
-
-        int trasbordosTotales = 0;
-        LinkedList<Ruta> camino = rutaPosible.getCamino();
-
-        for (Ruta ruta : camino) {
-            trasbordosTotales += ruta.getTrasbordos();
-        }
-
-        int trasbordosEntreRutas = Math.max(0, camino.size() - 1);
-        trasbordosTotales += trasbordosEntreRutas;
-
-        rutaPosible.setCantTrasbordos(trasbordosTotales);
-    }
 
     public void setGrafo(GrafoTransporte grafo) {
         this.grafo = grafo;
