@@ -1,0 +1,60 @@
+.graph {
+    -fx-background-color: #FAFAFA;
+    -fx-padding: 5px;
+}
+
+.vertex {
+    -fx-cursor: HAND;
+    -fx-stroke-width: 3;
+    -fx-stroke: #61B5F1;
+    -fx-stroke-type: inside;
+    -fx-fill: #638691;
+}
+
+.vertex:hover {
+    -fx-stroke-width: 8;
+}
+
+.vertex-label {
+    -fx-font: bold 12px "Century Gothic";
+    -fx-padding: 10px;
+    -fx-fill: #FAFAFA;
+    -fx-background-color: #19173C;
+    -fx-start-margin: 10px;
+    -fx-end-margin: 10px;
+}
+
+.edge {
+    -fx-stroke-width: 3;
+    -fx-stroke: #1B4B6B;
+    -fx-stroke-line-cap: round;
+}
+
+.bus{
+    -fx-fill: #658C58;
+    -fx-stroke: #31694E;
+}
+
+.taxi{
+    -fx-fill: #456882;
+    -fx-stroke: #1B3C53;
+}
+
+.tren{
+    -fx-stroke: #540863;
+    -fx-fill: #92487A;
+}
+
+.arrow {
+    -fx-stroke-dash-array: none;
+}
+
+.seleccionado{
+    -fx-stroke: #DD0303;
+    -fx-fill:#BF092F ;
+}
+
+.camino{
+    -fx-stroke: #F25912;
+    -fx-stroke-width: 5;
+}

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -11,7 +12,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="570.0" prefWidth="851.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.Controladores.DetallesRutaController">
+<AnchorPane prefHeight="570.0" prefWidth="851.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.controladores.DetallesRutaController">
    <children>
       <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="66.0" prefWidth="754.0" style="-fx-background-color: #19173C; -fx-border-radius: 5px; -fx-background-radius: 5px;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
          <children>
@@ -61,25 +62,29 @@
       </AnchorPane>
       <AnchorPane layoutX="412.79999999999995" layoutY="94.0" prefHeight="115.0" prefWidth="422.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 5px;" AnchorPane.rightAnchor="15.0">
          <children>
-            <ImageView disable="true" fitHeight="64.0" fitWidth="64.0" layoutX="7.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/ahorro.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="317.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="317.0" layoutY="14.0" onMouseClicked="#imgTrasbordosClick" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/trasbordos.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
-            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="101.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="101.0" layoutY="14.0" onMouseClicked="#imgCortaClick" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/distancia.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
-            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="215.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="215.0" layoutY="14.0" onMouseClicked="#imgRapidaClick" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/tiempo.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView fx:id="imgEconomico" fitHeight="24.0" fitWidth="24.0" layoutX="57.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -100,6 +105,14 @@
                <image>
                   <Image url="@imagenes/no.png" />
                </image>
+            </ImageView>
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#imgEconomicoClick" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagenes/ahorro.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
          </children>
       </AnchorPane>
@@ -155,26 +168,30 @@
       </AnchorPane>
       <AnchorPane layoutX="413.0" layoutY="227.0" prefHeight="115.0" prefWidth="422.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 5px;">
          <children>
-            <ImageView disable="true" fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/desvio.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="326.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="326.0" layoutY="16.0" onMouseClicked="#imgConcurridoClick" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/concurrido.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
-            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="113.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="113.0" layoutY="16.0" onMouseClicked="#imgAccidenteClick" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/accidente.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <Label layoutX="84.0" layoutY="77.0" />
-            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="220.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="220.0" layoutY="16.0" onMouseClicked="#imgLibreClick" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@imagenes/libre.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView fx:id="imgDesvio" fitHeight="24.0" fitWidth="24.0" layoutX="60.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -195,6 +212,14 @@
                <image>
                   <Image url="@imagenes/no.png" />
                </image>
+            </ImageView>
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="16.0" onMouseClicked="#imgDesvioClick" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagenes/desvio.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
          </children>
       </AnchorPane>

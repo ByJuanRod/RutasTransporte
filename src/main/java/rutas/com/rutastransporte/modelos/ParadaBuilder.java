@@ -1,0 +1,22 @@
+package rutas.com.rutastransporte.modelos;
+
+public class ParadaBuilder implements Builder<Parada> {
+    private final Parada parada = new Parada();
+
+    public void setNombreParada(String nombreParada) {
+        parada.setNombreParada(nombreParada);
+    }
+
+    public void setTipo(TipoParada tipo) {
+        parada.setTipo(tipo);
+    }
+
+    public void setUbicacion(String ubicacion) {
+        parada.setUbicacion(ubicacion);
+    }
+
+    @Override
+    public Parada construir() {
+        return parada;
+    }
+}

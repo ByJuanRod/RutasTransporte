@@ -4,9 +4,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import rutas.com.rutastransporte.Modelos.Builder;
-import rutas.com.rutastransporte.Utilidades.Alertas.AlertFactory;
-import rutas.com.rutastransporte.Utilidades.Alertas.Alerta;
+import rutas.com.rutastransporte.modelos.Builder;
+import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
+import rutas.com.rutastransporte.utilidades.alertas.Alerta;
 
 import java.awt.*;
 
