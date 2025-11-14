@@ -118,7 +118,7 @@ public class DetallesRutaController {
     }
 
     public void evaluarEventosCriterios(String mensajeSi, String mensajeNo, Criterio criterio){
-        if(ruta.getCriteriosDestacados().contains(Criterio.MAS_ECONOMICO)){
+        if(ruta.getCriteriosDestacados().contains(criterio)){
             alertFactory.obtenerAlerta(Alert.AlertType.INFORMATION).crearAlerta(mensajeSi,"Indicador.").show();
         }
         else{

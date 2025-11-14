@@ -1,0 +1,12 @@
+.button:hover{
+    -fx-background-color: #821131 !important;
+}
+
+.seleccionado{
+    -fx-background-color: #E9A319 !important;
+}
+
+.seleccionado:hover{
+    -fx-background-color: #E9A319 !important;
+}
+

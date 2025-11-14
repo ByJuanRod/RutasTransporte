@@ -59,7 +59,6 @@ public class MapaViewController {
             Calculador calc = new Calculador();
             calc.setGrafo(SistemaTransporte.getSistemaTransporte().getGrafo());
 
-            contenedorGeneral.getChildren().clear();
             Stack<RutaPosible> posiblesRutas = new Stack<>();
 
             Parada origen = cbxOrigen.getSelectionModel().getSelectedItem();
@@ -67,9 +66,19 @@ public class MapaViewController {
 
             for(Criterio criterio : Criterio.values()){
                 if(!criterio.equals(Criterio.MEJOR_RUTA)){
-                    posiblesRutas.add(calc.dijkstra(origen,destino,criterio));
+                    RutaPosible rt = calc.dijkstra(origen,destino,criterio);
+
+                    if(rt != null){
+                        contenedorGeneral.getChildren().clear();
+                        posiblesRutas.add(rt);
+                    }
+                    else{
+                        alertFactory.obtenerAlerta(Alert.AlertType.WARNING).crearAlerta("Todavía no existe un camino para llegar desde " + origen.getNombreParada() + " a " + destino.getNombreParada() + ".","Advertencia de calculo.").show();
+                        return;
+                    }
                 }
             }
+
 
             RutaPosible mejorRuta = obtenerMejorRuta(posiblesRutas);
 
@@ -139,7 +148,7 @@ public class MapaViewController {
                     if (graphView.getScene() != null) {
                         inicializarGrafo();
                     } else {
-                        PauseTransition finalPause = new PauseTransition(Duration.millis(300));
+                        PauseTransition finalPause = new PauseTransition(Duration.millis(100));
                         finalPause.setOnFinished(e2 -> inicializarGrafo());
                         finalPause.play();
                     }

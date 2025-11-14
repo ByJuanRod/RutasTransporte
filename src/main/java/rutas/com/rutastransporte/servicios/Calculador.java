@@ -81,8 +81,109 @@ public class Calculador {
         return rutaPosible;
     }
 
-
     public void setGrafo(GrafoTransporte grafo) {
         this.grafo = grafo;
+    }
+
+    public RutaPosible floidWarshall(Criterio criterio) {
+        ServicioEventos.getInstancia().limpiarEventosExpirados();
+
+        Map<Parada, Map<Parada, Float>> distancias = new HashMap<>();
+        Map<Parada, Map<Parada, Ruta>> rutasIntermedias = new HashMap<>();
+
+        for (Parada origen : grafo.getParadas()) {
+            distancias.put(origen, new HashMap<>());
+            rutasIntermedias.put(origen, new HashMap<>());
+
+            for (Parada destino : grafo.getParadas()) {
+                if (origen.equals(destino)) {
+                    distancias.get(origen).put(destino, 0.0f);
+                } else {
+                    Ruta rutaDirecta = encontrarRutaDirecta(origen, destino);
+                    if (rutaDirecta != null) {
+                        float peso = getPeso(rutaDirecta, criterio);
+                        distancias.get(origen).put(destino, peso);
+                        rutasIntermedias.get(origen).put(destino, rutaDirecta);
+                    } else {
+                        distancias.get(origen).put(destino, Float.POSITIVE_INFINITY);
+                    }
+                }
+            }
+        }
+
+        for (Parada k : grafo.getParadas()) {
+            for (Parada i : grafo.getParadas()) {
+                for (Parada j : grafo.getParadas()) {
+                    float distanciaIK = distancias.get(i).get(k);
+                    float distanciaKJ = distancias.get(k).get(j);
+                    float distanciaIJ = distancias.get(i).get(j);
+
+                    if (distanciaIK != Float.POSITIVE_INFINITY &&
+                            distanciaKJ != Float.POSITIVE_INFINITY &&
+                            distanciaIK + distanciaKJ < distanciaIJ) {
+
+                        distancias.get(i).put(j, distanciaIK + distanciaKJ);
+                        rutasIntermedias.get(i).put(j, rutasIntermedias.get(i).get(k));
+                    }
+                }
+            }
+        }
+
+        Parada mejorOrigen = null;
+        Parada mejorDestino = null;
+        float mejorDistancia = Float.POSITIVE_INFINITY;
+
+        for (Parada origen : grafo.getParadas()) {
+            for (Parada destino : grafo.getParadas()) {
+                if (!origen.equals(destino)) {
+                    float distancia = distancias.get(origen).get(destino);
+                    if (distancia < mejorDistancia && distancia != Float.POSITIVE_INFINITY) {
+                        mejorDistancia = distancia;
+                        mejorOrigen = origen;
+                        mejorDestino = destino;
+                    }
+                }
+            }
+        }
+
+        if (mejorOrigen == null || mejorDestino == null) {
+            return null;
+        }
+
+        return reconstruirRutaFloydWarshall(mejorOrigen, mejorDestino, rutasIntermedias, criterio);
+    }
+
+    private Ruta encontrarRutaDirecta(Parada origen, Parada destino) {
+        for (Ruta ruta : grafo.getRutas(origen)) {
+            if (ruta.getDestino().equals(destino)) {
+                return ruta;
+            }
+        }
+        return null;
+    }
+
+    private RutaPosible reconstruirRutaFloydWarshall(Parada origen, Parada destino,
+                                                     Map<Parada, Map<Parada, Ruta>> rutasIntermedias,
+                                                     Criterio criterio) {
+        RutaPosible rutaPosible = new RutaPosible();
+
+        Parada actual = origen;
+        while (!actual.equals(destino)) {
+            Ruta ruta = rutasIntermedias.get(actual).get(destino);
+            if (ruta == null) {
+                return null;
+            }
+
+            rutaPosible.agregarAlCamino(ruta);
+            rutaPosible.agregarCosto(ruta.getCostoConEvento());
+            rutaPosible.agregarTrasbordos(ruta.getTrasbordos());
+            rutaPosible.agregarDistancia(ruta.getDistanciaConEvento());
+            rutaPosible.agregarTiempo(ruta.getTiempoConEvento());
+            rutaPosible.agregarCriterioDestacado(criterio);
+
+            actual = ruta.getDestino();
+        }
+
+        return rutaPosible;
     }
 }
