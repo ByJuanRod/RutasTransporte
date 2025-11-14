@@ -116,9 +116,11 @@ public class RutasViewController implements Vista<Ruta> {
         Stage st = sb.construir();
         controlador.setStage(st);
 
-        st.setOnHidden(event -> cargarDatos());
+        if(modalidad.equals(Modalidad.ACTUALIZAR) || modalidad.equals(Modalidad.INSERTAR)){
+            st.setOnHidden(event -> cargarDatos());
 
-        st.show();
+            st.show();
+        }
     }
 
     @Override
@@ -162,7 +164,14 @@ public class RutasViewController implements Vista<Ruta> {
         alerta.showAndWait();
     }
 
-    public void refrescarDatos() {
-        cargarDatos();
+    public void btnDestacadasClick(){
+        StageBuilder sb = new StageBuilder();
+        sb.setModalidad(Modality.APPLICATION_MODAL);
+        sb.setTitulo("Rutas Destacadas");
+
+        RutasDestacadasController controlador = (RutasDestacadasController) sb.setContenido("RutasDestacadas");
+        Stage st = sb.construir();
+        controlador.setStage(st);
+        st.show();
     }
 }

@@ -31,7 +31,8 @@ public class Ruta {
     }
 
     public Ruta(){
-
+        this.eventoActual = TipoEvento.NORMAL;
+        this.tieneEvento = false;
     }
 
     public String getCodigo() {

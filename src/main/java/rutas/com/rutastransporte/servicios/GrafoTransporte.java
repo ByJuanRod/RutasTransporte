@@ -3,13 +3,14 @@ package rutas.com.rutastransporte.servicios;
 import rutas.com.rutastransporte.modelos.Parada;
 import rutas.com.rutastransporte.modelos.Ruta;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GrafoTransporte {
     private Map<Parada, List<Ruta>> listaAdyacencia;
+
+    public Set<Parada> getParadas(){
+        return listaAdyacencia.keySet();
+    }
 
     public GrafoTransporte() {
         listaAdyacencia = new HashMap<>();

@@ -1,6 +1,4 @@
 <h1>🚎 Programa de Gestión de Rutas de Transporte Público</h1>
-<hr>
-
 <h2>✅ Objetivos</h2>
 <p>El programa tiene como objetivo simular un sistema de transporte público,
 utilizando un grafo para la representación de paradas (equivalente a un vertice) y rutas (equivalente a una arista).
@@ -34,4 +32,29 @@ los criterios con los que el camino logro ser una opción destacada, los detalle
 Además, este resumen muestra si dentro del camino suceden, desvios, accidentes, zonas concurridas o calles libres que reduzcan el tiempo el de la ruta.
 </p>
 
+<h2>🚦 Simulaciones y Criterios</h2>
+
+<h3>🚧 Simulaciones</h3>
+<p>
+Las simulaciones son eventos que suceden en la vida real. En el programa se maneja de forma aleatoria la simulación de como estos
+acontecen y pueden suceder 4 escenarios que pueden afectar el tiempo, costo y distancia que toma un camino.<br>
+<br>
+<b>⚠️ Accidentes: </b> Los accidentes afectan a las rutas agregandole un 50% más de tiempo y un 100% a la distancia forzando a utilizar una ruta alternativa en el peor de los casos.<br>
+<b>↪️ Desvios: </b> Los desvios incrementan un 30% el tiempo que toma completar una ruta y un 50% la distancia de la ruta.<br>
+<b>🏁 Camino Libre: </b> Los caminos libres reducen el tiempo en un 30% y la distancia en un 10%.<br>
+<b>🚘 Zonas concurridas: </b> Las zonas concurridas incrementan un 40% el tiempo que toma completar una ruta y aumenta la tarifa de costo en un 20%.<br>
+
+</p>
+
+<h3>📍 Criterios</h3>
+<p>
+Los criterios son los métodos que utiliza el programa para determinar bajo que contexto se produce la mejor ruta o las posibles rutas alternativas que cumplen
+con algun criterio en especifico. Los criterios disponibles dentro del programa son:
+</p>
+<ul>
+    <li>Ruta Más Corta</li>
+    <li>Ruta Más Rápida</li>
+    <li>Ruta Más Económica</li>
+    <li>Ruta Con Menos Trasbordos</li>
+</ul>
 

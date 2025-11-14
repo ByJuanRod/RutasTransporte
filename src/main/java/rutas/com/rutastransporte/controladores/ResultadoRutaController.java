@@ -55,10 +55,9 @@ public class ResultadoRutaController {
         mainAnchorPane.setStyle("-fx-background-color: transparent;");
         mainAnchorPane.setPadding(new Insets(10.0));
 
-
         innerAnchorPane.setPrefHeight(270.0);
         innerAnchorPane.setPrefWidth(830.0);
-        innerAnchorPane.setStyle("-fx-background-color: " + Colores.DECORATIVOS.getColor() + "; -fx-background-radius: 10px;");
+        innerAnchorPane.setStyle("-fx-background-color: " + Colores.DECORATIVOS.getColor() + "; -fx-background-radius: 10px; -fx-border-color: white; -fx-border-radius: 5px");
 
         AnchorPane.setBottomAnchor(innerAnchorPane, 0.0);
         AnchorPane.setLeftAnchor(innerAnchorPane, 0.0);
