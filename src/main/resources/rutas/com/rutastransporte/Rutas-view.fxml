@@ -70,7 +70,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <TextField fx:id="txtBuscar" layoutX="383.0" layoutY="45.0" onKeyPressed="#txtBuscarKeyPressed" prefHeight="31.0" prefWidth="389.0" promptText="Buscar..." AnchorPane.leftAnchor="383.0">
+      <TextField fx:id="txtBuscar" layoutX="383.0" layoutY="45.0" onKeyReleased="#txtBuscarKeyPressed" prefHeight="31.0" prefWidth="389.0" promptText="Buscar..." AnchorPane.leftAnchor="383.0">
          <font>
             <Font name="Century Gothic" size="16.0" />
          </font>

@@ -1,5 +1,7 @@
 package rutas.com.rutastransporte.controladores;
 
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
@@ -30,6 +32,8 @@ public class RutasViewController implements Vista<Ruta> {
     private TableColumn<Ruta, String> colCodigo, colNombre, colOrigen,colDestino;
 
     private final RutasDAO rutasDAO = new RutasDAO();
+
+    private FilteredList<Ruta> filteredData;
 
     @FXML
     public void initialize() {
@@ -97,26 +101,42 @@ public class RutasViewController implements Vista<Ruta> {
 
         if(modalidad.equals(Modalidad.ACTUALIZAR) || modalidad.equals(Modalidad.INSERTAR)){
             st.setOnHidden(event -> cargarDatos());
-
             st.show();
         }
     }
 
     @Override
     public void cargarDatos() {
-        tblRutas.getItems().clear();
-        tblRutas.setItems(rutasDAO.getRutas());
+        ObservableList<Ruta> datosOriginales = rutasDAO.getRutas();
+        filteredData = new FilteredList<>(datosOriginales, p -> true);
+        tblRutas.setItems(filteredData);
+        filtrar();
     }
 
     @Override
     public void filtrar() {
-        String textoBusqueda = txtBuscar.getText().trim();
+        String textoBusqueda = txtBuscar.getText().trim().toLowerCase();
+        filteredData.setPredicate(ruta -> {
+            if (textoBusqueda.isEmpty()) {
+                return true;
+            }
 
-        if (textoBusqueda.isEmpty()) {
-            cargarDatos();
-        } else {
-            tblRutas.setItems(rutasDAO.buscarPorNombre(textoBusqueda));
-        }
+            boolean coincideCodigo = ruta.getCodigo() != null &&
+                    ruta.getCodigo().toLowerCase().contains(textoBusqueda);
+
+            boolean coincideNombre = ruta.getNombre() != null &&
+                    ruta.getNombre().toLowerCase().contains(textoBusqueda);
+
+            boolean coincideOrigen = ruta.getOrigen() != null &&
+                    ruta.getOrigen().getNombreParada() != null &&
+                    ruta.getOrigen().getNombreParada().toLowerCase().contains(textoBusqueda);
+
+            boolean coincideDestino = ruta.getDestino() != null &&
+                    ruta.getDestino().getNombreParada() != null &&
+                    ruta.getDestino().getNombreParada().toLowerCase().contains(textoBusqueda);
+
+            return coincideCodigo || coincideNombre || coincideOrigen || coincideDestino;
+        });
     }
 
     @Override

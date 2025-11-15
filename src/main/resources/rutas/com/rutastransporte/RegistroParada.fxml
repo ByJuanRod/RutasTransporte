@@ -16,116 +16,115 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="540.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.controladores.RegistroParadaController">
-   <children>
-      <Circle fill="#1b4b6b" layoutX="243.0" layoutY="44.0" radius="30.0" stroke="BLACK" strokeType="INSIDE" />
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="223.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@imagenes/parada.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="288.0" layoutY="21.0" text="Registro de Parada">
-         <font>
-            <Font name="Century Gothic Bold" size="36.0" />
-         </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
+<AnchorPane prefHeight="540.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="rutas.com.rutastransporte.controladores.RegistroParadaController">
+    <Circle fill="#1b4b6b" layoutX="243.0" layoutY="44.0" radius="30.0" stroke="BLACK" strokeType="INSIDE"/>
+    <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="223.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@imagenes/parada.png"/>
+    </ImageView>
+    <Label layoutX="288.0" layoutY="21.0" text="Registro de Parada">
+        <font>
+          <Font name="Century Gothic Bold" size="36.0"/>
+        </font>
+        <textFill>
+          <LinearGradient>
+              <stops>
                   <Stop>
-                     <color>
-                        <Color red="0.2862745225429535" green="0.501960813999176" blue="0.5568627715110779" />
-                     </color>
+                      <color>
+                          <Color red="0.2862745225429535" green="0.501960813999176" blue="0.5568627715110779"/>
+                      </color>
                   </Stop>
                   <Stop offset="1.0">
-                     <color>
-                        <Color red="0.09803921729326248" green="0.09019608050584793" blue="0.23529411852359772" />
-                     </color>
+                      <color>
+                          <Color red="0.09803921729326248" green="0.09019608050584793" blue="0.23529411852359772"/>
+                      </color>
                   </Stop>
-               </stops>
-            </LinearGradient>
-         </textFill>
-      </Label>
-      <Label layoutX="288.0" layoutY="110.0" text="Nombre:">
-         <font>
-            <Font name="Century Gothic Bold" size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtNombre" layoutX="395.0" layoutY="108.0" prefHeight="26.0" prefWidth="300.0" promptText="Nombre....">
-         <font>
-            <Font name="Century Gothic" size="14.0" />
-         </font>
-      </TextField>
-      <Label layoutX="288.0" layoutY="168.0" text="Tipo:">
-         <font>
-            <Font name="Century Gothic Bold" size="18.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="imgTransporte" fitHeight="30.0" fitWidth="30.0" layoutX="705.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@imagenes/insertar-ruta.png" />
-         </image>
-      </ImageView>
-      <Line endX="345.39996337890625" endY="-7.62939453125E-6" layoutX="389.0" layoutY="74.0" startX="-100.0" />
-      <Label layoutX="288.0" layoutY="229.0" text="Dirección:">
-         <font>
-            <Font name="Century Gothic Bold" size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtDireccion" layoutX="395.0" layoutY="226.0" prefHeight="123.0" prefWidth="300.0" promptText="Dirección...">
-         <font>
-            <Font name="Century Gothic" size="14.0" />
-         </font>
-      </TextField>
-      <Button fx:id="btnRealizar" layoutX="350.0" layoutY="369.0" mnemonicParsing="false" onAction="#btnRealizarClick" prefHeight="40.0" prefWidth="162.0" style="-fx-background-color: #1B4B6B; -fx-text-fill: white;" text="Insertar">
-         <font>
-            <Font name="Century Gothic Bold" size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <graphic>
-            <ImageView fx:id="imgRealizar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" translateX="-30.0">
-               <image>
-                  <Image url="@imagenes/agregar.png" />
-               </image>
+              </stops>
+          </LinearGradient>
+        </textFill>
+    </Label>
+    <Label layoutX="288.0" layoutY="110.0" text="Nombre:">
+        <font>
+          <Font name="Century Gothic Bold" size="18.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="txtNombre" layoutX="395.0" layoutY="108.0" prefHeight="26.0" prefWidth="300.0"
+               promptText="Nombre....">
+        <font>
+          <Font name="Century Gothic" size="14.0"/>
+        </font>
+    </TextField>
+    <Label layoutX="288.0" layoutY="168.0" text="Tipo:">
+        <font>
+          <Font name="Century Gothic Bold" size="18.0"/>
+        </font>
+    </Label>
+    <ImageView fx:id="imgTransporte" fitHeight="30.0" fitWidth="30.0" layoutX="705.0" layoutY="165.0"
+               pickOnBounds="true" preserveRatio="true">
+        <Image url="@imagenes/insertar-ruta.png"/>
+    </ImageView>
+    <Line endX="345.39996337890625" endY="-7.62939453125E-6" layoutX="389.0" layoutY="74.0" startX="-100.0"/>
+    <Label layoutX="288.0" layoutY="229.0" text="Dirección:">
+        <font>
+          <Font name="Century Gothic Bold" size="18.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="txtDireccion" layoutX="395.0" layoutY="226.0" prefHeight="123.0" prefWidth="300.0"
+               promptText="Dirección...">
+        <font>
+          <Font name="Century Gothic" size="14.0"/>
+        </font>
+    </TextField>
+    <Button fx:id="btnRealizar" layoutX="350.0" layoutY="369.0" mnemonicParsing="false" onAction="#btnRealizarClick"
+            prefHeight="40.0" prefWidth="162.0" style="-fx-background-color: #1B4B6B; -fx-text-fill: white;"
+            text="Insertar">
+        <font>
+          <Font name="Century Gothic Bold" size="14.0"/>
+        </font>
+        <cursor>
+          <Cursor fx:constant="HAND"/>
+        </cursor>
+        <graphic>
+            <ImageView fx:id="imgRealizar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true"
+                       translateX="-30.0">
+                <Image url="@imagenes/agregar.png"/>
             </ImageView>
-         </graphic></Button>
-      <Button fx:id="btnLimpiar" layoutX="531.0" layoutY="369.0" mnemonicParsing="false" onAction="#btnLimpiarClick" prefHeight="40.0" prefWidth="162.0" style="-fx-background-color: #1B4B6B; -fx-text-fill: white;" text="Limpiar">
-         <font>
-            <Font name="Century Gothic Bold" size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <graphic>
+        </graphic>
+    </Button>
+    <Button layoutX="531.0" layoutY="369.0" mnemonicParsing="false" onAction="#btnLimpiarClick" prefHeight="40.0"
+            prefWidth="162.0" style="-fx-background-color: #1B4B6B; -fx-text-fill: white;" text="Limpiar">
+        <font>
+          <Font name="Century Gothic Bold" size="14.0"/>
+        </font>
+        <cursor>
+          <Cursor fx:constant="HAND"/>
+        </cursor>
+        <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
-               <image>
-                  <Image url="@imagenes/limpiar.png" />
-               </image>
+                <Image url="@imagenes/limpiar.png"/>
             </ImageView>
-         </graphic>
-      </Button>
-      <Pane layoutY="8.0" prefHeight="524.0" prefWidth="200.0" style="-fx-background-color: #1B4B6B;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Circle fill="#49808e" layoutX="41.0" layoutY="493.0" radius="106.0" stroke="WHITE" strokeType="INSIDE" />
-            <Circle fill="#19173c" layoutX="35.0" layoutY="498.0" radius="59.0" stroke="WHITE" strokeType="INSIDE" />
-         </children>
-      </Pane>
-      <Button fx:id="btnCerrar" layoutX="651.0" layoutY="482.0" mnemonicParsing="false" onAction="#btnCerrarClick" prefHeight="40.0" prefWidth="162.0" style="-fx-background-color: #201E43; -fx-text-fill: white;" text="Cerrar">
-         <font>
-            <Font name="Century Gothic Bold" size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <graphic>
+        </graphic>
+    </Button>
+    <Pane layoutY="8.0" prefHeight="524.0" prefWidth="200.0" style="-fx-background-color: #1B4B6B;"
+          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Circle fill="#49808e" layoutX="41.0" layoutY="493.0" radius="106.0" stroke="WHITE" strokeType="INSIDE"/>
+        <Circle fill="#19173c" layoutX="35.0" layoutY="498.0" radius="59.0" stroke="WHITE" strokeType="INSIDE"/>
+    </Pane>
+    <Button layoutX="651.0" layoutY="482.0" mnemonicParsing="false" onAction="#btnCerrarClick"
+            prefHeight="40.0" prefWidth="162.0" style="-fx-background-color: #201E43; -fx-text-fill: white;"
+            text="Cerrar">
+        <font>
+          <Font name="Century Gothic Bold" size="14.0"/>
+        </font>
+        <cursor>
+          <Cursor fx:constant="HAND"/>
+        </cursor>
+        <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" translateX="-30.0">
-               <image>
-                  <Image url="@imagenes/cerrar.png" />
-               </image>
+                <Image url="@imagenes/cerrar.png"/>
             </ImageView>
-         </graphic>
-      </Button>
-      <ComboBox fx:id="cbxTipoParada" layoutX="395.0" layoutY="168.0" onAction="#cbxTipoParadaSeleccionado" prefHeight="26.0" prefWidth="300.0" />
-   </children>
+        </graphic>
+    </Button>
+    <ComboBox fx:id="cbxTipoParada" layoutX="395.0" layoutY="168.0" onAction="#cbxTipoParadaSeleccionado"
+              prefHeight="26.0" prefWidth="300.0"/>
 </AnchorPane>

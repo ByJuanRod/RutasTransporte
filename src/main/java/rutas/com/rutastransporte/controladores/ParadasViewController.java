@@ -15,6 +15,9 @@ import rutas.com.rutastransporte.StageBuilder;
 import rutas.com.rutastransporte.utilidades.Modalidad;
 import rutas.com.rutastransporte.modelos.Parada;
 
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.ObservableList;
+
 import java.util.Objects;
 
 public class ParadasViewController implements Vista<Parada> {
@@ -32,13 +35,16 @@ public class ParadasViewController implements Vista<Parada> {
     @FXML
     private TableColumn<Parada, ImageView> colImg;
 
+    private FilteredList<Parada> filteredData;
+
     @FXML
     public void initialize(){
         configurarColumnas();
         cargarDatos();
 
-        tblParadas.widthProperty().addListener((obs, oldWidth, newWidth) -> RecursosVisuales.ajustarAnchoColumnas(tblParadas));
+        txtBuscar.textProperty().addListener((observable, oldValue, newValue) -> filtrar());
 
+        tblParadas.widthProperty().addListener((obs, oldWidth, newWidth) -> RecursosVisuales.ajustarAnchoColumnas(tblParadas));
     }
 
     public void btnEliminarClick(){
@@ -84,7 +90,7 @@ public class ParadasViewController implements Vista<Parada> {
         crearPantalla("Insertar Parada", Modalidad.INSERTAR, null);
     }
 
-    public void txtBuscarKeyPressed(){
+    public void txtBuscarKeyReleased(){
         filtrar();
     }
 
@@ -109,17 +115,37 @@ public class ParadasViewController implements Vista<Parada> {
 
     @Override
     public void cargarDatos() {
-        tblParadas.getItems().clear();
-        tblParadas.setItems(paradasDAO.getParadas());
+        ObservableList<Parada> datosOriginales = paradasDAO.getParadas();
+        filteredData = new FilteredList<>(datosOriginales, p -> true);
+
+        tblParadas.setItems(filteredData);
+        filtrar();
     }
 
     @Override
     public void filtrar() {
-        String textoBusqueda = txtBuscar.getText().trim();
+        String textoBusqueda = txtBuscar.getText().trim().toLowerCase();
 
-        if (textoBusqueda.isEmpty()) {
-            cargarDatos();
-        }
+        filteredData.setPredicate(parada -> {
+            if (textoBusqueda.isEmpty()) {
+                return true;
+            }
+
+            boolean coincideCodigo = parada.getCodigo() != null &&
+                    parada.getCodigo().toLowerCase().contains(textoBusqueda);
+
+            boolean coincideNombre = parada.getNombreParada() != null &&
+                    parada.getNombreParada().toLowerCase().contains(textoBusqueda);
+
+            boolean coincideDireccion = parada.getUbicacion() != null &&
+                    parada.getUbicacion().toLowerCase().contains(textoBusqueda);
+
+            boolean coincideTipo = parada.getTipo() != null &&
+                    parada.getTipo().getTipo() != null &&
+                    parada.getTipo().getTipo().toLowerCase().contains(textoBusqueda);
+
+            return coincideCodigo || coincideNombre || coincideDireccion || coincideTipo;
+        });
     }
 
     @Override
@@ -144,7 +170,7 @@ public class ParadasViewController implements Vista<Parada> {
                 imageView.setFitWidth(24);
                 imageView.setFitHeight(24);
             } catch (Exception e) {
-                e.printStackTrace();
+
             }
 
             return new javafx.beans.property.SimpleObjectProperty<>(imageView);
