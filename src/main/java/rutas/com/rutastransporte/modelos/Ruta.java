@@ -161,5 +161,31 @@ public class Ruta {
         int distanciaBase = getDistancia();
         return tieneEvento ? (int)(distanciaBase * eventoActual.getFactorDistancia()) : distanciaBase;
     }
+
+    public int getTiempoDiff(){
+        return getTiempoConEvento() - getTiempo();
+    }
+
+    public float getCostoDiff(){
+        return getCostoConEvento() - getCosto();
+    }
+
+    public int getDistanciaDiff(){
+        return getDistanciaConEvento() - getDistancia();
+    }
+
+    public static String getTiempoFormatado(float tiempoTotal){
+        int horas = (int) (tiempoTotal / 60);
+        int minutos = (int) (tiempoTotal % 60);
+
+        return horas + "h " + minutos + "m";
+    }
+
+    public static String getDistanciaFormatado(float distanciaTotal){
+        int kilometros = (int) (distanciaTotal / 1000);
+        int metros =  (int) (distanciaTotal % 1000);
+        return kilometros + " km " + metros + " m";
+    }
+
 }
 

@@ -1,11 +1,11 @@
 package rutas.com.rutastransporte.modelos;
 
 public enum TipoEvento {
-    ACCIDENTE("Accidente", 1.5f, 2.0f, 1.0f),    // +50% tiempo, +100% distancia
-    DESVIO("Desvío", 1.3f, 1.5f, 1.0f),         // +30% tiempo, +50% distancia
-    CAMINO_LIBRE("Camino Libre", 0.7f, 0.9f, 1.0f), // -30% tiempo, -10% distancia
-    ZONA_CONCURRIDA("Zona Concurrida", 1.4f, 1.1f, 1.2f), // +40% tiempo, +20% costo
-    NORMAL("Normal", 1.0f, 1.0f, 1.0f);         // Sin cambios
+    ACCIDENTE("Accidente", 1.5f, 2.0f, 1.0f),
+    DESVIO("Desvío", 1.3f, 1.5f, 1.1f),
+    CAMINO_LIBRE("Camino Libre", 0.7f, 0.9f, 1.0f),
+    ZONA_CONCURRIDA("Zona Concurrida", 1.4f, 1.1f, 1.2f),
+    NORMAL("Normal", 1.0f, 1.0f, 1.0f);
 
     private final String nombre;
     private final float factorTiempo;

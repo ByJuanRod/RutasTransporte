@@ -161,13 +161,23 @@ public class EventosViewController {
     }
 
     public void btnInformeClick(){
-        StageBuilder sb = new StageBuilder();
-        sb.setModalidad(Modality.APPLICATION_MODAL);
-        sb.setTitulo("Informe de Evento");
+        EventoRuta eventoSeleccionado = tblEventos.getSelectionModel().getSelectedItem();
+        if(eventoSeleccionado != null){
+            StageBuilder sb = new StageBuilder();
+            sb.setModalidad(Modality.APPLICATION_MODAL);
+            sb.setTitulo("Informe de Evento");
 
-        RutasDestacadasController controlador = (RutasDestacadasController) sb.setContenido("RutasDestacadas");
-        Stage st = sb.construir();
-        controlador.setStage(st);
-        st.show();
+            InformeEventoController controlador = (InformeEventoController) sb.setContenido("InformeEvento");
+            controlador.setEventoSeleccionado(eventoSeleccionado);
+            controlador.cargarDatos();
+
+            Stage st = sb.construir();
+            controlador.setStage(st);
+            st.show();
+        }
+        else{
+            alert.obtenerAlerta(Alert.AlertType.WARNING).crearAlerta("Para crear un informe debe tene run evento seleccionado.","Advertencia.").show();
+        }
+
     }
 }

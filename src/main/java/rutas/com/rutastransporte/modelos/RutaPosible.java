@@ -89,10 +89,7 @@ public class RutaPosible implements Clonable<RutaPosible> {
         Retorno: (String) Retorna la cadena que contiene los datos con el formato correcto.
      */
     public String getTiempoFormatado(){
-        int horas = (int) (tiempoTotal / 60);
-        int minutos = (int) (tiempoTotal % 60);
-
-        return horas + "h " + minutos + "m";
+        return Ruta.getTiempoFormatado(tiempoTotal);
     }
 
     /*
@@ -131,9 +128,7 @@ public class RutaPosible implements Clonable<RutaPosible> {
         Retorno: (String) Retorna una cadena con la cantidad metros y kilometros que toma el camino.
      */
     public String getDistanciaFormatado(){
-        int kilometros = (int) (distanciaTotal / 1000);
-        int metros =  (int) (distanciaTotal % 1000);
-        return kilometros + " km " + metros + " m";
+        return Ruta.getDistanciaFormatado(distanciaTotal);
     }
 
     public boolean sonIguales(LinkedList<Ruta> camino){

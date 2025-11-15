@@ -76,6 +76,7 @@ public class StageBuilder implements Builder<Stage> {
         catch(Exception e){
             Alerta alt = alertFactory.obtenerAlerta(Alert.AlertType.ERROR);
             alt.crearAlerta("El contenido de este apartado no esta disponible en este momento.","Error.").show();
+            e.printStackTrace();
         }
         return fxmlLoader.getController();
 
