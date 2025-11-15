@@ -137,7 +137,7 @@ public class Calculador {
             for (Parada destino : grafo.getParadas()) {
                 if (!origen.equals(destino)) {
                     float distancia = distancias.get(origen).get(destino);
-                    if (distancia < mejorDistancia && distancia != Float.POSITIVE_INFINITY) {
+                    if (distancia < mejorDistancia) {
                         mejorDistancia = distancia;
                         mejorOrigen = origen;
                         mejorDestino = destino;

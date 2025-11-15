@@ -12,216 +12,211 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="570.0" prefWidth="851.0" style="-fx-background-color: #FAFAFA;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.controladores.DetallesRutaController">
-   <children>
-      <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="66.0" prefWidth="754.0" style="-fx-background-color: #19173C; -fx-border-radius: 5px; -fx-background-radius: 5px;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
-         <children>
-            <Label fx:id="lblIndicador" layoutX="88.0" layoutY="11.0" prefHeight="18.0" prefWidth="629.0" text="Ruta Más Económica">
-               <font>
-                  <Font name="Century Gothic Bold" size="34.0" />
-               </font>
-               <textFill>
-                  <LinearGradient endX="0.587121226570823" endY="0.6780302894837928" startX="0.1401514898646962" startY="0.31439394661874487">
-                     <stops>
+<AnchorPane prefHeight="570.0" prefWidth="851.0" style="-fx-background-color: #FAFAFA;"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="rutas.com.rutastransporte.controladores.DetallesRutaController">
+    <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="66.0" prefWidth="754.0"
+                style="-fx-background-color: #19173C; -fx-border-radius: 5px; -fx-background-radius: 5px;"
+                AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+        <Label fx:id="lblIndicador" layoutX="88.0" layoutY="11.0" prefHeight="18.0" prefWidth="629.0"
+               text="Ruta Más Económica">
+            <font>
+                <Font name="Century Gothic Bold" size="34.0"/>
+            </font>
+            <textFill>
+                <LinearGradient endX="0.587121226570823" endY="0.6780302894837928" startX="0.1401514898646962"
+                                startY="0.31439394661874487">
+                    <stops>
                         <Stop>
-                           <color>
-                              <Color red="0.9803921580314636" green="0.9803921580314636" blue="0.9803921580314636" />
-                           </color>
+                            <color>
+                                <Color red="0.9803921580314636" green="0.9803921580314636"
+                                       blue="0.9803921580314636"/>
+                            </color>
                         </Stop>
                         <Stop offset="1.0">
-                           <color>
-                              <Color red="0.2862745225429535" green="0.501960813999176" blue="0.5568627715110779" />
-                           </color>
+                            <color>
+                                <Color red="0.2862745225429535" green="0.501960813999176"
+                                       blue="0.5568627715110779"/>
+                            </color>
                         </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
-            </Label>
-            <Circle fill="#1b4b6b" layoutX="47.0" layoutY="33.0" radius="21.0" stroke="WHITE" strokeType="INSIDE" />
-            <ImageView fx:id="imgIndicador" fitHeight="30.0" fitWidth="30.0" layoutX="32.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/destacada.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="15.0" layoutY="356.0" prefHeight="200.0" prefWidth="754.0" style="-fx-background-color: #19173C; -fx-background-radius: 5px;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.400000000000091" AnchorPane.topAnchor="356.0">
-         <children>
-            <Label fx:id="lblCamino" alignment="TOP_CENTER" graphicTextGap="5.0" layoutX="12.0" layoutY="59.0" lineSpacing="2.0" prefHeight="134.0" prefWidth="786.0" text="Label" textFill="WHITE" wrapText="true" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
-               <font>
-                  <Font name="Century Gothic" size="16.0" />
-               </font>
-            </Label>
-            <Label layoutX="12.0" layoutY="14.0" prefHeight="30.0" prefWidth="351.0" style="-fx-alignment: center;" text="Camino Recomendado" textFill="WHITE" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
-               <font>
-                  <Font name="Century Gothic Bold" size="23.0" />
-               </font>
-            </Label>
-            <Line endX="136.5999755859375" endY="0.4000244140625" layoutX="437.0" layoutY="46.0" startX="-188.99998474121094" startY="0.4000244140625" stroke="WHITE" strokeWidth="2.0" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="412.79999999999995" layoutY="94.0" prefHeight="115.0" prefWidth="422.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 5px;" AnchorPane.rightAnchor="15.0">
-         <children>
-            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="317.0" layoutY="14.0" onMouseClicked="#imgTrasbordosClick" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/trasbordos.png" />
-               </image>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ImageView>
-            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="101.0" layoutY="14.0" onMouseClicked="#imgCortaClick" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/distancia.png" />
-               </image>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ImageView>
-            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="215.0" layoutY="14.0" onMouseClicked="#imgRapidaClick" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/tiempo.png" />
-               </image>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ImageView>
-            <ImageView fx:id="imgEconomico" fitHeight="24.0" fitWidth="24.0" layoutX="57.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/no.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="imgCorta" fitHeight="24.0" fitWidth="24.0" layoutX="165.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/no.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="imgRapida" fitHeight="24.0" fitWidth="24.0" layoutX="279.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/no.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="imgTrasbordos" fitHeight="24.0" fitWidth="24.0" layoutX="386.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/no.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#imgEconomicoClick" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/ahorro.png" />
-               </image>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="15.0" layoutY="93.0" prefHeight="250.0" prefWidth="386.0" style="-fx-background-color: #19173C; -fx-background-radius: 5px;" AnchorPane.leftAnchor="15.0">
-         <children>
-            <Label layoutX="17.0" layoutY="14.0" prefHeight="30.0" prefWidth="351.0" style="-fx-alignment: center;" text="Resumen" textFill="WHITE">
-               <font>
-                  <Font name="Century Gothic Bold" size="23.0" />
-               </font>
-            </Label>
-            <Label layoutX="17.0" layoutY="59.0" text="Costo:" textFill="WHITE">
-               <font>
-                  <Font name="Century Gothic" size="20.0" />
-               </font>
-            </Label>
-            <Label layoutX="17.0" layoutY="105.0" text="Distancia:" textFill="WHITE">
-               <font>
-                  <Font name="Century Gothic" size="20.0" />
-               </font>
-            </Label>
-            <Label layoutX="17.0" layoutY="205.0" text="Tiempo Estimado:" textFill="WHITE">
-               <font>
-                  <Font name="Century Gothic" size="20.0" />
-               </font>
-            </Label>
-            <Label layoutX="17.0" layoutY="156.0" text="Trasbordos:" textFill="WHITE">
-               <font>
-                  <Font name="Century Gothic" size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblCosto" layoutX="87.0" layoutY="59.0" prefHeight="26.0" prefWidth="286.0" text="100 DOP" textFill="WHITE">
-               <font>
-                  <Font name="Century Gothic Bold" size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblDistancia" layoutX="119.0" layoutY="106.0" prefHeight="26.0" prefWidth="254.0" text="10km " textFill="WHITE">
-               <font>
-                  <Font name="Century Gothic Bold" size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblTrasbordos" layoutX="133.0" layoutY="155.0" prefHeight="26.0" prefWidth="242.0" text="1" textFill="WHITE">
-               <font>
-                  <Font name="Century Gothic Bold" size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblTiempo" layoutX="195.0" layoutY="206.0" prefHeight="26.0" prefWidth="171.0" text="1h 10m" textFill="WHITE">
-               <font>
-                  <Font name="Century Gothic Bold" size="20.0" />
-               </font>
-            </Label>
-            <Line endX="87.5999755859375" endY="0.399993896484375" layoutX="221.0" layoutY="44.0" startX="-139.1999969482422" stroke="WHITE" strokeWidth="2.0" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="413.0" layoutY="227.0" prefHeight="115.0" prefWidth="422.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 5px;">
-         <children>
-            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="326.0" layoutY="16.0" onMouseClicked="#imgConcurridoClick" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/concurrido.png" />
-               </image>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ImageView>
-            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="113.0" layoutY="16.0" onMouseClicked="#imgAccidenteClick" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/accidente.png" />
-               </image>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ImageView>
-            <Label layoutX="84.0" layoutY="77.0" />
-            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="220.0" layoutY="16.0" onMouseClicked="#imgLibreClick" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/libre.png" />
-               </image>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ImageView>
-            <ImageView fx:id="imgDesvio" fitHeight="24.0" fitWidth="24.0" layoutX="60.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/no.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="imgAccidente" fitHeight="24.0" fitWidth="24.0" layoutX="168.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/no.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="imgLibre" fitHeight="24.0" fitWidth="24.0" layoutX="284.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/no.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="imgConcurrido" fitHeight="24.0" fitWidth="24.0" layoutX="378.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/no.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="16.0" onMouseClicked="#imgDesvioClick" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@imagenes/desvio.png" />
-               </image>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ImageView>
-         </children>
-      </AnchorPane>
-   </children>
+                    </stops>
+                </LinearGradient>
+            </textFill>
+        </Label>
+        <Circle fill="#1b4b6b" layoutX="47.0" layoutY="33.0" radius="21.0" stroke="WHITE" strokeType="INSIDE"/>
+        <ImageView fx:id="imgIndicador" fitHeight="30.0" fitWidth="30.0" layoutX="32.0" layoutY="18.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <Image url="@imagenes/destacada.png"/>
+        </ImageView>
+    </AnchorPane>
+    <AnchorPane layoutX="15.0" layoutY="356.0" prefHeight="200.0" prefWidth="754.0"
+                style="-fx-background-color: #19173C; -fx-background-radius: 5px;" AnchorPane.leftAnchor="15.0"
+                AnchorPane.rightAnchor="15.400000000000091" AnchorPane.topAnchor="356.0">
+        <Label fx:id="lblCamino" alignment="TOP_CENTER" graphicTextGap="5.0" layoutX="12.0" layoutY="59.0"
+               lineSpacing="2.0" prefHeight="134.0" prefWidth="786.0" text="Label" textFill="WHITE" wrapText="true"
+               AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
+            <font>
+                <Font name="Century Gothic" size="16.0"/>
+            </font>
+        </Label>
+        <Label layoutX="12.0" layoutY="14.0" prefHeight="30.0" prefWidth="351.0" style="-fx-alignment: center;"
+               text="Camino Recomendado" textFill="WHITE" AnchorPane.leftAnchor="12.0"
+               AnchorPane.rightAnchor="12.0">
+            <font>
+                <Font name="Century Gothic Bold" size="23.0"/>
+            </font>
+        </Label>
+        <Line endX="136.5999755859375" endY="0.4000244140625" layoutX="437.0" layoutY="46.0"
+              startX="-188.99998474121094" startY="0.4000244140625" stroke="WHITE" strokeWidth="2.0"/>
+    </AnchorPane>
+    <AnchorPane layoutX="412.79999999999995" layoutY="94.0" prefHeight="115.0" prefWidth="422.0"
+                style="-fx-background-color: #1B4B6B; -fx-background-radius: 5px;" AnchorPane.rightAnchor="15.0">
+        <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="317.0" layoutY="14.0"
+                   onMouseClicked="#imgTrasbordosClick" pickOnBounds="true" preserveRatio="true">
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <Image url="@imagenes/trasbordos.png"/>
+        </ImageView>
+        <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="101.0" layoutY="14.0" onMouseClicked="#imgCortaClick"
+                   pickOnBounds="true" preserveRatio="true">
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <Image url="@imagenes/distancia.png"/>
+        </ImageView>
+        <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="215.0" layoutY="14.0" onMouseClicked="#imgRapidaClick"
+                   pickOnBounds="true" preserveRatio="true">
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <Image url="@imagenes/tiempo.png"/>
+        </ImageView>
+        <ImageView fx:id="imgEconomico" fitHeight="24.0" fitWidth="24.0" layoutX="57.0" layoutY="78.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <Image url="@imagenes/no.png"/>
+        </ImageView>
+        <ImageView fx:id="imgCorta" fitHeight="24.0" fitWidth="24.0" layoutX="165.0" layoutY="78.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <Image url="@imagenes/no.png"/>
+        </ImageView>
+        <ImageView fx:id="imgRapida" fitHeight="24.0" fitWidth="24.0" layoutX="279.0" layoutY="78.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <Image url="@imagenes/no.png"/>
+        </ImageView>
+        <ImageView fx:id="imgTrasbordos" fitHeight="24.0" fitWidth="24.0" layoutX="386.0" layoutY="78.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <Image url="@imagenes/no.png"/>
+        </ImageView>
+        <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="14.0" layoutY="14.0"
+                   onMouseClicked="#imgEconomicoClick" pickOnBounds="true" preserveRatio="true">
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <Image url="@imagenes/ahorro.png"/>
+        </ImageView>
+    </AnchorPane>
+    <AnchorPane layoutX="15.0" layoutY="93.0" prefHeight="250.0" prefWidth="386.0"
+                style="-fx-background-color: #19173C; -fx-background-radius: 5px;" AnchorPane.leftAnchor="15.0">
+        <Label layoutX="17.0" layoutY="14.0" prefHeight="30.0" prefWidth="351.0" style="-fx-alignment: center;"
+               text="Resumen" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic Bold" size="23.0"/>
+            </font>
+        </Label>
+        <Label layoutX="17.0" layoutY="59.0" text="Costo:" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="20.0"/>
+            </font>
+        </Label>
+        <Label layoutX="17.0" layoutY="105.0" text="Distancia:" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="20.0"/>
+            </font>
+        </Label>
+        <Label layoutX="17.0" layoutY="205.0" text="Tiempo Estimado:" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="20.0"/>
+            </font>
+        </Label>
+        <Label layoutX="17.0" layoutY="156.0" text="Trasbordos:" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="20.0"/>
+            </font>
+        </Label>
+        <Label fx:id="lblCosto" layoutX="87.0" layoutY="59.0" prefHeight="26.0" prefWidth="286.0" text="100 DOP"
+               textFill="WHITE">
+            <font>
+                <Font name="Century Gothic Bold" size="20.0"/>
+            </font>
+        </Label>
+        <Label fx:id="lblDistancia" layoutX="119.0" layoutY="106.0" prefHeight="26.0" prefWidth="254.0" text="10km "
+               textFill="WHITE">
+            <font>
+                <Font name="Century Gothic Bold" size="20.0"/>
+            </font>
+        </Label>
+        <Label fx:id="lblTrasbordos" layoutX="133.0" layoutY="155.0" prefHeight="26.0" prefWidth="242.0" text="1"
+               textFill="WHITE">
+            <font>
+                <Font name="Century Gothic Bold" size="20.0"/>
+            </font>
+        </Label>
+        <Label fx:id="lblTiempo" layoutX="195.0" layoutY="206.0" prefHeight="26.0" prefWidth="171.0" text="1h 10m"
+               textFill="WHITE">
+            <font>
+                <Font name="Century Gothic Bold" size="20.0"/>
+            </font>
+        </Label>
+        <Line endX="87.5999755859375" endY="0.399993896484375" layoutX="221.0" layoutY="44.0"
+              startX="-139.1999969482422" stroke="WHITE" strokeWidth="2.0"/>
+    </AnchorPane>
+    <AnchorPane layoutX="413.0" layoutY="227.0" prefHeight="115.0" prefWidth="422.0"
+                style="-fx-background-color: #1B4B6B; -fx-background-radius: 5px;">
+        <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="326.0" layoutY="16.0"
+                   onMouseClicked="#imgConcurridoClick" pickOnBounds="true" preserveRatio="true">
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <Image url="@imagenes/concurrido.png"/>
+        </ImageView>
+        <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="113.0" layoutY="16.0"
+                   onMouseClicked="#imgAccidenteClick" pickOnBounds="true" preserveRatio="true">
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <Image url="@imagenes/accidente.png"/>
+        </ImageView>
+        <Label layoutX="84.0" layoutY="77.0"/>
+        <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="220.0" layoutY="16.0" onMouseClicked="#imgLibreClick"
+                   pickOnBounds="true" preserveRatio="true">
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <Image url="@imagenes/libre.png"/>
+        </ImageView>
+        <ImageView fx:id="imgDesvio" fitHeight="24.0" fitWidth="24.0" layoutX="60.0" layoutY="74.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <Image url="@imagenes/no.png"/>
+        </ImageView>
+        <ImageView fx:id="imgAccidente" fitHeight="24.0" fitWidth="24.0" layoutX="168.0" layoutY="74.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <Image url="@imagenes/no.png"/>
+        </ImageView>
+        <ImageView fx:id="imgLibre" fitHeight="24.0" fitWidth="24.0" layoutX="284.0" layoutY="74.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <Image url="@imagenes/no.png"/>
+        </ImageView>
+        <ImageView fx:id="imgConcurrido" fitHeight="24.0" fitWidth="24.0" layoutX="378.0" layoutY="74.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <Image url="@imagenes/no.png"/>
+        </ImageView>
+        <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="20.0" layoutY="16.0" onMouseClicked="#imgDesvioClick"
+                   pickOnBounds="true" preserveRatio="true">
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <Image url="@imagenes/desvio.png"/>
+        </ImageView>
+    </AnchorPane>
 </AnchorPane>

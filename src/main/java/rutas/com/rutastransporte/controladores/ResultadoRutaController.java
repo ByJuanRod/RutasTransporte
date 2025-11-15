@@ -18,6 +18,8 @@ import rutas.com.rutastransporte.modelos.RutaPosible;
 import rutas.com.rutastransporte.StageBuilder;
 import rutas.com.rutastransporte.utilidades.Colores;
 
+import java.util.Objects;
+
 public class ResultadoRutaController {
     private RutaPosible rutaPosible;
 
@@ -44,7 +46,7 @@ public class ResultadoRutaController {
     private Label lblCantTrasbordos;
 
     @FXML
-    private Button btnVerDetalles;
+    public Button btnVerDetalles;
 
     AnchorPane innerAnchorPane = new AnchorPane();
 
@@ -84,7 +86,7 @@ public class ResultadoRutaController {
         AnchorPane.setTopAnchor(imgCondicion, 24.0);
 
         try {
-            Image image = new Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/ahorro.png"));
+            Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/ahorro.png")));
             imgCondicion.setImage(image);
         } catch (Exception e) {
             System.err.println("Error al cargar la imagen: " + e.getMessage());
@@ -198,7 +200,7 @@ public class ResultadoRutaController {
             lblDistancia.setText(rutaPosible.getDistanciaFormatado());
             lblIndicador.setText(rutaPosible.getCriteriosDestacados().getFirst().getNombre());
             try {
-                Image img = new Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + rutaPosible.getCriteriosDestacados().getFirst().getImagen()));
+                Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + rutaPosible.getCriteriosDestacados().getFirst().getImagen())));
                 imgCondicion.setImage(img);
             } catch (Exception e) {
                 System.err.println("Error al cargar la imagen del criterio: " + e.getMessage());

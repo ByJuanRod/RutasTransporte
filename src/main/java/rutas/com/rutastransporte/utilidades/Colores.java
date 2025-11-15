@@ -4,6 +4,8 @@ package rutas.com.rutastransporte.utilidades;
     Nombre: Colores
     Tipo: (Enum)
     Valores: FONDO, ENFASIS, DETALLES, DECORATIVOS
+    Estructura:
+        (String) color: Representa el codigo del color.
     Objetivo: Obtener facilmente los colores que se utilizan frecuentemente en la aplicación.
  */
 public enum Colores {

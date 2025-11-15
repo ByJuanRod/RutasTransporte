@@ -1,6 +1,5 @@
 package rutas.com.rutastransporte.controladores;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
@@ -14,8 +13,10 @@ import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
 import rutas.com.rutastransporte.utilidades.alertas.Alerta;
 import rutas.com.rutastransporte.utilidades.Colores;
 
+import java.util.Objects;
+
 public class MenuPrincipalController {
-    private AlertFactory alert = new AlertFactory();
+    private final AlertFactory alert = new AlertFactory();
 
     @FXML
     private BorderPane pnlContenedor;
@@ -49,22 +50,22 @@ public class MenuPrincipalController {
 
     }
 
-    public void btnParadasClick(ActionEvent e){
+    public void btnParadasClick(){
         cambiarSeleccion(btnParadas);
         cambiarPanel("Paradas");
     }
 
-    public void btnRutasClick(ActionEvent e){
+    public void btnRutasClick(){
         cambiarSeleccion(btnRutas);
         cambiarPanel("Rutas");
     }
 
-    public void btnMapaClick(ActionEvent e){
+    public void btnMapaClick(){
         cambiarSeleccion(btnMapa);
         cambiarPanel("Mapa");
     }
 
-    public void btnPrincipalClick(ActionEvent e){
+    public void btnPrincipalClick(){
         cambiarSeleccion(btnPrincipal);
         cambiarPanel("Principal");
     }
@@ -77,11 +78,10 @@ public class MenuPrincipalController {
     public void cambiarPanel(String nombreSeccion){
         try{
             pnlContenedor.getChildren().clear();
-            AnchorPane contenido = FXMLLoader.load(getClass().getResource("/rutas/com/rutastransporte/" + nombreSeccion + "-view.fxml"));
+            AnchorPane contenido = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/rutas/com/rutastransporte/" + nombreSeccion + "-view.fxml")));
             pnlContenedor.setCenter(contenido);
         }
         catch (Exception e){
-            e.printStackTrace();
             Alerta alt = alert.obtenerAlerta(Alert.AlertType.ERROR);
             alt.crearAlerta("Error al cargar el apartado seleccionado.","Error").show();
         }
