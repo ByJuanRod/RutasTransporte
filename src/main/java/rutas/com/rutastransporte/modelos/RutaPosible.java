@@ -17,7 +17,7 @@ public class RutaPosible implements Clonable<RutaPosible> {
     private int cantTrasbordos;
     private LinkedList<Criterio> criteriosDestacados;
     private boolean esMejorRuta;
-    private final Set<TipoEvento> registroEventos;
+    private Set<TipoEvento> registroEventos;
 
     public RutaPosible() {
         camino = new LinkedList<>();
@@ -170,6 +170,7 @@ public class RutaPosible implements Clonable<RutaPosible> {
         this.cantTrasbordos = rutaPosible.cantTrasbordos;
         this.esMejorRuta = rutaPosible.esMejorRuta;
         this.criteriosDestacados = new LinkedList<>(rutaPosible.criteriosDestacados);
+        this.registroEventos = new HashSet<>(rutaPosible.registroEventos);
     }
 
 }

@@ -50,6 +50,7 @@ public class DetallesRutaController {
             lblTiempo.setText(ruta.getTiempoFormatado());
             aplicarCriterios();
             aplicarSimulaciones();
+            System.out.println(ruta.getRegistroEventos().size());
         }
         catch (Exception e){
             alertFactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Ha ocurrido un error.","Error.");

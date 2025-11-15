@@ -25,6 +25,81 @@ public class ServicioEventos {
         return instancia;
     }
 
+    public void insertar(EventoRuta nuevoEvento) {
+        if (nuevoEvento == null || nuevoEvento.getRuta() == null) {
+            System.out.println("Error: El evento o la ruta no pueden ser nulos");
+            return;
+        }
+
+        Ruta ruta = nuevoEvento.getRuta();
+        int codigoRuta = ruta.getCodigo();
+
+        if (tieneEventoActivo(ruta)) {
+            System.out.println("La ruta " + ruta.getNombre() + " ya tiene un evento activo. Removiendo evento anterior.");
+            eliminarEventoDeBD(codigoRuta);
+        }
+
+        eventosActivos.put(codigoRuta, nuevoEvento);
+        ruta.aplicarEvento(nuevoEvento.getTipoEvento());
+
+        guardarEventoEnBD(nuevoEvento);
+
+        System.out.println("Evento insertado para ruta: " + ruta.getNombre() +
+                " - " + nuevoEvento.getTipoEvento().getNombre());
+    }
+
+    public void eliminar(EventoRuta evento) {
+        if (evento == null || evento.getRuta() == null) {
+            System.out.println("Error: El evento a eliminar no puede ser nulo");
+            return;
+        }
+
+        Ruta ruta = evento.getRuta();
+        int codigoRuta = ruta.getCodigo();
+
+        if (eventosActivos.containsKey(codigoRuta)) {
+            eventosActivos.remove(codigoRuta);
+            ruta.removerEvento();
+            System.out.println("Evento removido de la memoria para ruta: " + ruta.getNombre());
+        }
+
+        eliminarEventoDeBD(codigoRuta);
+
+        System.out.println("Evento eliminado completamente para ruta: " + ruta.getNombre());
+    }
+
+    private void eliminarEventoDeBD(int codigoRuta) {
+        String sql = "DELETE FROM Eventos WHERE ruta = ?";
+
+        try (Connection con = ConexionDB.getConexion();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+
+            pst.setInt(1, codigoRuta);
+            int filasEliminadas = pst.executeUpdate();
+
+            if (filasEliminadas > 0) {
+                System.out.println("Evento eliminado de la BD para ruta código: " + codigoRuta);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar evento de la BD para ruta " + codigoRuta + ": " + e.getMessage());
+        }
+    }
+
+    public void eliminar(Ruta ruta) {
+        if (ruta == null) {
+            System.out.println("Error: La ruta no puede ser nula");
+            return;
+        }
+
+        EventoRuta evento = eventosActivos.get(ruta.getCodigo());
+        if (evento != null) {
+            eliminar(evento);
+        } else {
+            System.out.println("No se encontró evento activo para la ruta: " + ruta.getNombre());
+        }
+    }
+
     public void crearSimulacionEventos() {
         System.out.println("Iniciando simulación de eventos aleatorios...");
         limpiarEventosExpirados();
@@ -76,6 +151,7 @@ public class ServicioEventos {
     }
 
     public void generarEventoAleatorio(Ruta ruta) {
+        cargarEventosActivosDesdeBD();
         if (tieneEventoActivo(ruta)) {
             System.out.println("La ruta " + ruta.getNombre() + " ya tiene un evento activo");
             return;
@@ -127,9 +203,6 @@ public class ServicioEventos {
         ruta.aplicarEvento(evento);
     }
 
-    public boolean rutaTieneEvento(Ruta ruta) {
-        return tieneEventoActivo(ruta);
-    }
 
     public void limpiarEventosExpiradosBD() {
         String sql = "DELETE FROM Eventos WHERE fecha_fin < NOW()";
@@ -218,14 +291,5 @@ public class ServicioEventos {
             }
         }
         return rutasConEventos;
-    }
-
-    public void removerEventoDeRuta(Ruta ruta) {
-        if (eventosActivos.containsKey(ruta.getCodigo())) {
-            eventosActivos.get(ruta.getCodigo()).setActivo(false);
-            ruta.removerEvento();
-            eventosActivos.remove(ruta.getCodigo());
-            System.out.println("Evento removido de la ruta: " + ruta.getNombre());
-        }
     }
 }

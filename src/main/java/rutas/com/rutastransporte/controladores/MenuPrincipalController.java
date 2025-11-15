@@ -22,16 +22,7 @@ public class MenuPrincipalController {
     private BorderPane pnlContenedor;
 
     @FXML
-    private Button btnPrincipal;
-
-    @FXML
-    private Button btnRutas;
-
-    @FXML
-    private Button btnMapa;
-
-    @FXML
-    private Button btnParadas;
+    private Button btnPrincipal, btnRutas, btnMapa, btnParadas, btnEventos;
 
     @FXML
     private VBox pnlMenu;
@@ -70,6 +61,11 @@ public class MenuPrincipalController {
         cambiarPanel("Principal");
     }
 
+    public void btnEventosClick(){
+        cambiarSeleccion(btnEventos);
+        cambiarPanel("Eventos");
+    }
+
     @FXML
     public void initialize(){
         cambiarPanel("Principal");
@@ -84,6 +80,7 @@ public class MenuPrincipalController {
         catch (Exception e){
             Alerta alt = alert.obtenerAlerta(Alert.AlertType.ERROR);
             alt.crearAlerta("Error al cargar el apartado seleccionado.","Error").show();
+            e.printStackTrace();
         }
     }
 
