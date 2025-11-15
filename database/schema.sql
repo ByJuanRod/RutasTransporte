@@ -1,12 +1,12 @@
-CREATE DATABASE rutas_transporte_db
-USE rutas_transporte_db
+CREATE DATABASE rutas_transporte_db;
+USE rutas_transporte_db;
 
 CREATE TABLE Paradas(
                         codigo INT AUTO_INCREMENT PRIMARY KEY,
                         nombre_parada VARCHAR(40) NOT NULL,
                         tipo_parada VARCHAR(30) NOT NULL,
                         ubicacion VARCHAR(60) NOT NULL
-)
+);
 
 CREATE TABLE Rutas(
                       codigo INT AUTO_INCREMENT PRIMARY KEY,
