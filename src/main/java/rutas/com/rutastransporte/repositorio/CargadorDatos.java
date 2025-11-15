@@ -5,65 +5,84 @@ import rutas.com.rutastransporte.modelos.Parada;
 import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.modelos.TipoParada;
 import rutas.com.rutastransporte.servicios.GrafoTransporte;
+import rutas.com.rutastransporte.utilidades.ConexionDB;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CargadorDatos {
 
-    public static void cargarDatosEjemplo() {
+    public static void cargarDatos() {
+
         GrafoTransporte grafo = SistemaTransporte.getSistemaTransporte().getGrafo();
 
-        Parada[] paradas = new Parada[10];
+        Map<String, Parada> paradasPorCodigo = new HashMap<>();
 
-        paradas[0] = new Parada("P001", "Estación Central", TipoParada.TREN, "Centro Ciudad");
-        paradas[1] = new Parada("P002", "Plaza Mayor", TipoParada.BUS, "Zona Centro");
-        paradas[2] = new Parada("P003", "Universidad", TipoParada.BUS, "Campus Norte");
-        paradas[3] = new Parada("P004", "Hospital General", TipoParada.BUS, "Zona Médica");
-        paradas[4] = new Parada("P005", "Centro Comercial", TipoParada.TREN, "Area Comercial");
-        paradas[5] = new Parada("P006", "Aeropuerto", TipoParada.BUS, "Terminal Aérea");
-        paradas[6] = new Parada("P007", "Terminal Norte", TipoParada.TREN, "Zona Norte");
-        paradas[7] = new Parada("P008", "Parque Industrial", TipoParada.BUS, "Zona Industrial");
-        paradas[8] = new Parada("P009", "Playa", TipoParada.TAXI, "Costa Este");
-        paradas[9] = new Parada("P010", "Estadio", TipoParada.BUS, "Complejo Deportivo");
+        String sqlParadas = "SELECT * FROM Paradas";
+        String sqlRutas = "SELECT * FROM Rutas";
 
-        for (Parada parada : paradas) {
-            SistemaTransporte.getSistemaTransporte().getParadas().add(parada);
-            grafo.agregarParada(parada);
-        }
+        System.out.println("Iniciando carga de datos desde MySQL...");
 
-        Ruta[] rutas = new Ruta[10];
+        try (Connection con = ConexionDB.getConexion();
+             Statement stParadas = con.createStatement();
+             ResultSet rsParadas = stParadas.executeQuery(sqlParadas)) {
 
-        rutas[0] = new Ruta("R001", "Ruta Centro-Universidad",
-                paradas[0], paradas[2], 500, 500f, 40);
+            while (rsParadas.next()) {
+                String codigo = rsParadas.getString("codigo");
+                String nombre = rsParadas.getString("nombreParada");
+                String ubicacion = rsParadas.getString("ubicacion");
+                TipoParada tipo = TipoParada.valueOf(rsParadas.getString("tipo"));
 
-        rutas[1] = new Ruta("R002", "Ruta Universidad-Hospital",
-                paradas[2], paradas[3], 200, 500f, 10);
+                Parada parada = new Parada(codigo, nombre, tipo, ubicacion);
 
-        rutas[2] = new Ruta("R003", "Ruta Hospital-Centro Comercial",
-                paradas[3], paradas[4], 400, 900f, 185);
+                grafo.agregarParada(parada);
+                SistemaTransporte.getSistemaTransporte().getParadas().add(parada);
+                paradasPorCodigo.put(codigo, parada);
+            }
+            System.out.println("Cargadas " + paradasPorCodigo.size() + " paradas desde la BBDD.");
 
-        rutas[3] = new Ruta("R004", "Ruta Centro Comercial-Aeropuerto",
-                paradas[4], paradas[5], 1500, 350f, 555);
+            try (Statement stRutas = con.createStatement();
+                 ResultSet rsRutas = stRutas.executeQuery(sqlRutas)) {
 
-        rutas[4] = new Ruta("R005", "Ruta Aeropuerto-Terminal Norte",
-                paradas[5], paradas[6], 500, 330f, 885);
+                int rutasCargadas = 0;
+                while (rsRutas.next()) {
+                    String codigo = rsRutas.getString("codigo");
+                    String nombre = rsRutas.getString("nombre");
 
-        rutas[5] = new Ruta("R006", "Ruta Terminal Norte-Parque Industrial",
-                paradas[6], paradas[7], 500, 350f, 211);
+                    String origenCodigo = rsRutas.getString("origen_codigo");
+                    String destinoCodigo = rsRutas.getString("destino_codigo");
 
-        rutas[6] = new Ruta("R007", "Ruta Parque Industrial-Playa",
-                paradas[7], paradas[8], 800, 540f, 822);
+                    Parada origen = paradasPorCodigo.get(origenCodigo);
+                    Parada destino = paradasPorCodigo.get(destinoCodigo);
 
-        rutas[7] = new Ruta("R008", "Ruta Playa-Estadio",
-                paradas[8], paradas[9], 780, 350f, 850);
+                    if (origen != null && destino != null) {
+                        Ruta ruta = new Ruta(
+                                codigo,
+                                nombre,
+                                origen,
+                                destino,
+                                rsRutas.getInt("distancia"),
+                                rsRutas.getFloat("costo"),
+                                rsRutas.getInt("tiempo")
+                        );
 
-        rutas[8] = new Ruta("R009", "Ruta Estadio-Plaza Mayor",
-                paradas[9], paradas[1], 920, 580f, 800);
+                        SistemaTransporte.getSistemaTransporte().getRutas().add(ruta);
+                        grafo.agregarRuta(ruta);
+                        rutasCargadas++;
+                    } else {
+                        System.out.println("ADVERTENCIA: No se pudo cargar ruta " + codigo +
+                                " (origen o destino no encontrado).");
+                    }
+                }
+                System.out.println("Cargadas " + rutasCargadas + " rutas desde la BBDD.");
+            }
 
-        rutas[9] = new Ruta("R010", "Ruta Plaza Mayor-Estación Central",
-                paradas[1], paradas[0], 450, 950f, 400);
-
-        for (Ruta ruta : rutas) {
-            SistemaTransporte.getSistemaTransporte().getRutas().add(ruta);
-            grafo.agregarRuta(ruta);
+        } catch (Exception e) {
+            System.out.println("ERROR FATAL AL CARGAR DATOS DE LA BBDD:");
+            e.printStackTrace();
         }
     }
 }
