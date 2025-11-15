@@ -151,7 +151,7 @@ public class ServicioEventos {
     }
 
     public void generarEventoAleatorio(Ruta ruta) {
-        cargarEventosActivosDesdeBD();
+        //cargarEventosActivosDesdeBD();
         if (tieneEventoActivo(ruta)) {
             System.out.println("La ruta " + ruta.getNombre() + " ya tiene un evento activo");
             return;
@@ -221,7 +221,12 @@ public class ServicioEventos {
     }
 
     public void guardarEventoEnBD(EventoRuta evento) {
-        String sql = "INSERT INTO Eventos (ruta, tipo_evento, fecha_inicio, fecha_fin) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Eventos (ruta, tipo_evento, fecha_inicio, fecha_fin) " +
+                "VALUES (?, ?, ?, ?) " +
+                "ON DUPLICATE KEY UPDATE " +
+                "tipo_evento = VALUES(tipo_evento), " +
+                "fecha_inicio = VALUES(fecha_inicio), " +
+                "fecha_fin = VALUES(fecha_fin)";
 
         try (Connection con = ConexionDB.getConexion();
              PreparedStatement pst = con.prepareStatement(sql)) {
@@ -231,14 +236,11 @@ public class ServicioEventos {
             pst.setTimestamp(3, new Timestamp(evento.getFechaInicio().getTime()));
             pst.setTimestamp(4, new Timestamp(evento.getFechaFin().getTime()));
 
-            int filasAfectadas = pst.executeUpdate();
-
-            if (filasAfectadas > 0) {
-                System.out.println("Evento guardado en BD para ruta: " + evento.getRuta().getNombre());
-            }
+            pst.executeUpdate();
+            System.out.println("Evento guardado/actualizado en BD para ruta: " + evento.getRuta().getNombre());
 
         } catch (SQLException e) {
-            System.out.println("Error al guardar evento en BD: " + e.getMessage());
+            System.out.println("Error al guardar/actualizar evento en BD: " + e.getMessage());
         }
     }
 

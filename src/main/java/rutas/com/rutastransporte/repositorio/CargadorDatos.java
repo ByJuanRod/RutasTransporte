@@ -82,7 +82,9 @@ public class CargadorDatos {
 
         } catch (Exception e) {
             System.out.println("ERROR FATAL AL CARGAR DATOS DE LA BBDD:");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
+        System.out.println("Cargando eventos activos desde la BBDD...");
+        rutas.com.rutastransporte.servicios.ServicioEventos.getInstancia().cargarEventosActivosDesdeBD();
     }
 }
