@@ -2,7 +2,6 @@ package rutas.com.rutastransporte.modelos;
 
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Set;
 
 /*
@@ -18,7 +17,7 @@ public class RutaPosible implements Clonable<RutaPosible> {
     private int cantTrasbordos;
     private LinkedList<Criterio> criteriosDestacados;
     private boolean esMejorRuta;
-    private Set<TipoEvento> registroEventos;
+    private final Set<TipoEvento> registroEventos;
 
     public RutaPosible() {
         camino = new LinkedList<>();
@@ -35,40 +34,12 @@ public class RutaPosible implements Clonable<RutaPosible> {
         return camino;
     }
 
-    public  void setCamino(LinkedList<Ruta> camino) {
-        this.camino = camino;
-    }
-
     public  float getCostoTotal() {
         return costoTotal;
     }
 
-    public void setCostoTotal(float costoTotal) {
-        this.costoTotal = costoTotal;
-    }
-
-    public  float getDistanciaTotal() {
-        return distanciaTotal;
-    }
-
-    public void setDistanciaTotal(float distanciaTotal) {
-        this.distanciaTotal = distanciaTotal;
-    }
-
-    public  float getTiempoTotal() {
-        return tiempoTotal;
-    }
-
-    public void setTiempoTotal(float tiempoTotal) {
-        this.tiempoTotal = tiempoTotal;
-    }
-
     public int getCantTrasbordos() {
         return cantTrasbordos;
-    }
-
-    public void setCantTrasbordos(int cantTrasbordos) {
-        this.cantTrasbordos = cantTrasbordos;
     }
 
     public void agregarTiempo(float tiempo){
@@ -118,12 +89,10 @@ public class RutaPosible implements Clonable<RutaPosible> {
         Retorno: (String) Retorna la cadena que contiene los datos con el formato correcto.
      */
     public String getTiempoFormatado(){
-        StringBuilder sb = new StringBuilder();
         int horas = (int) (tiempoTotal / 60);
         int minutos = (int) (tiempoTotal % 60);
 
-        sb.append(horas).append("h ").append(minutos).append("m");
-        return sb.toString();
+        return horas + "h " + minutos + "m";
     }
 
     /*
@@ -162,11 +131,9 @@ public class RutaPosible implements Clonable<RutaPosible> {
         Retorno: (String) Retorna una cadena con la cantidad metros y kilometros que toma el camino.
      */
     public String getDistanciaFormatado(){
-        StringBuilder sb = new StringBuilder();
         int kilometros = (int) (distanciaTotal / 1000);
         int metros =  (int) (distanciaTotal % 1000);
-        sb.append(kilometros).append(" km ").append(metros).append(" m");
-        return sb.toString();
+        return kilometros + " km " + metros + " m";
     }
 
     public boolean sonIguales(LinkedList<Ruta> camino){
@@ -187,9 +154,9 @@ public class RutaPosible implements Clonable<RutaPosible> {
     public String getCaminoTexto(){
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < camino.size() - 1; i++){
-            sb.append(camino.get(i).getNombre() + " → ");
+            sb.append(camino.get(i).getNombre()).append(" → ");
         }
-        sb.append(camino.get(camino.size() - 1).getNombre());
+        sb.append(camino.getLast().getNombre());
 
         return sb.toString();
     }

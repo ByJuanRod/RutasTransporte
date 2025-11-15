@@ -86,24 +86,4 @@ public class RutasDAO implements CRUD<Ruta> {
         }
         return resultado;
     }
-
-    public ObservableList<Ruta> buscarPorOrigen(String origen) {
-        ObservableList<Ruta> resultado = FXCollections.observableArrayList();
-        for (Ruta ruta : SistemaTransporte.getSistemaTransporte().getRutas()) {
-            if (ruta.getOrigen().getNombreParada().toLowerCase().contains(origen.toLowerCase())) {
-                resultado.add(ruta);
-            }
-        }
-        return resultado;
-    }
-
-    public ObservableList<Ruta> buscarPorDestino(String destino) {
-        ObservableList<Ruta> resultado = FXCollections.observableArrayList();
-        for (Ruta ruta : SistemaTransporte.getSistemaTransporte().getRutas()) {
-            if (ruta.getDestino().getNombreParada().toLowerCase().contains(destino.toLowerCase())) {
-                resultado.add(ruta);
-            }
-        }
-        return resultado;
-    }
 }

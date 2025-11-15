@@ -13,7 +13,7 @@ public class EventoRuta {
         this.ruta = ruta;
         this.tipoEvento = tipoEvento;
         this.fechaInicio = new Date();
-        this.fechaFin = new Date(fechaInicio.getTime() + duracionMinutos * 60 * 1000);
+        this.fechaFin = new Date(fechaInicio.getTime() + (long) duracionMinutos * 60 * 1000);
         this.activo = true;
     }
 

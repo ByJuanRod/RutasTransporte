@@ -2,7 +2,6 @@ package rutas.com.rutastransporte.controladores;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -20,8 +19,10 @@ import rutas.com.rutastransporte.utilidades.Modalidad;
 import rutas.com.rutastransporte.modelos.Parada;
 import rutas.com.rutastransporte.modelos.TipoParada;
 
+import java.util.Objects;
+
 public class RegistroParadaController implements Registro {
-    private ParadasDAO servicioParadas = new ParadasDAO();
+    private final ParadasDAO servicioParadas = new ParadasDAO();
 
     private Parada parada;
 
@@ -29,7 +30,7 @@ public class RegistroParadaController implements Registro {
 
     private Stage pantalla;
 
-    private AlertFactory alertFactory = new AlertFactory();
+    private final AlertFactory alertFactory = new AlertFactory();
 
     @FXML
     private Button btnRealizar;
@@ -71,7 +72,7 @@ public class RegistroParadaController implements Registro {
         setTipos();
     }
 
-    public void btnRealizarClick(ActionEvent e){
+    public void btnRealizarClick(){
         if(validar()){
             Alerta alerta = alertFactory.obtenerAlerta(Alert.AlertType.INFORMATION);
             if(modalidad == Modalidad.INSERTAR){
@@ -93,16 +94,16 @@ public class RegistroParadaController implements Registro {
         }
     }
 
-    public void btnCerrarClick(ActionEvent e){
+    public void btnCerrarClick(){
         pantalla.close();
     }
 
-    public void btnLimpiarClick(ActionEvent e){
+    public void btnLimpiarClick(){
         limpiar();
     }
 
-    public void cbxTipoParadaSeleccionado(ActionEvent e){
-        Image img = new Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + cbxTipoParada.getSelectionModel().selectedItemProperty().getValue().getImagen()));
+    public void cbxTipoParadaSeleccionado(){
+        Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + cbxTipoParada.getSelectionModel().selectedItemProperty().getValue().getImagen())));
         imgTransporte.setImage(img);
     }
 
@@ -114,13 +115,13 @@ public class RegistroParadaController implements Registro {
             txtNombre.setText(parada.getNombreParada());
             cbxTipoParada.setValue(parada.getTipo());
             btnRealizar.setText("Actualizar");
-            imgRealizar.setImage(new Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/editar.png")));
+            imgRealizar.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/editar.png"))));
         }
         else{
             cbxTipoParada.setValue(TipoParada.BUS);
         }
 
-        cbxTipoParadaSeleccionado(null);
+        cbxTipoParadaSeleccionado();
     }
 
     @Override

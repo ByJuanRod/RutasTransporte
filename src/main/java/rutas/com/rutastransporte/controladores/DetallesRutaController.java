@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class DetallesRutaController {
-    public AlertFactory alertFactory = new AlertFactory();
+    private final AlertFactory alertFactory = new AlertFactory();
 
     public Stage stage;
 
@@ -32,49 +32,10 @@ public class DetallesRutaController {
     }
 
     @FXML
-    private Label lblIndicador;
+    private Label lblIndicador, lblCamino, lblCosto, lblDistancia, lblTrasbordos, lblTiempo;
 
     @FXML
-    private ImageView imgIndicador;
-
-    @FXML
-    private Label lblCamino;
-
-    @FXML
-    private Label lblCosto;
-
-    @FXML
-    private Label lblDistancia;
-
-    @FXML
-    private Label lblTrasbordos;
-
-    @FXML
-    private Label lblTiempo;
-
-    @FXML
-    private ImageView imgTrasbordos;
-
-    @FXML
-    private ImageView imgRapida;
-
-    @FXML
-    private ImageView imgCorta;
-
-    @FXML
-    private ImageView imgEconomico;
-
-    @FXML
-    private ImageView imgAccidente;
-
-    @FXML
-    private ImageView imgDesvio;
-
-    @FXML
-    private ImageView imgLibre;
-
-    @FXML
-    private ImageView imgConcurrido;
+    private ImageView imgRapida, imgCorta, imgEconomico, imgAccidente, imgDesvio, imgLibre, imgConcurrido, imgTrasbordos, imgIndicador;
 
     public void cargarDatos(){
         try{
@@ -91,7 +52,7 @@ public class DetallesRutaController {
             aplicarSimulaciones();
         }
         catch (Exception e){
-            e.printStackTrace();
+            alertFactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Ha ocurrido un error.","Error.");
         }
     }
 
@@ -141,8 +102,6 @@ public class DetallesRutaController {
     public void imgAccidenteClick(){
         evaluarEventosSimulaciones("Se encontró un accidente dentro del camino.","No se encontraron accidentes en el camino.",TipoEvento.ACCIDENTE);
     }
-
-
 
     public void evaluarEventosSimulaciones(String mensajeSi, String mensajeNo, TipoEvento tipoEvento){
         if(ruta.getRegistroEventos().contains(tipoEvento)){

@@ -11,8 +11,8 @@ import java.util.Random;
 
 public class ServicioEventos {
     private static ServicioEventos instancia;
-    private Map<String, EventoRuta> eventosActivos;
-    private Random random;
+    private final Map<String, EventoRuta> eventosActivos;
+    private final Random random;
 
     private ServicioEventos(){
         eventosActivos = new HashMap<>();

@@ -6,7 +6,7 @@ import rutas.com.rutastransporte.modelos.Ruta;
 import java.util.*;
 
 public class GrafoTransporte {
-    private Map<Parada, List<Ruta>> listaAdyacencia;
+    private final Map<Parada, List<Ruta>> listaAdyacencia;
 
     public Set<Parada> getParadas(){
         return listaAdyacencia.keySet();

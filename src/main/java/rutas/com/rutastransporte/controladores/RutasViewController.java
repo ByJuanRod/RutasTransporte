@@ -1,14 +1,11 @@
 package rutas.com.rutastransporte.controladores;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.modelos.Ruta;
@@ -18,8 +15,10 @@ import rutas.com.rutastransporte.StageBuilder;
 import rutas.com.rutastransporte.utilidades.Modalidad;
 import rutas.com.rutastransporte.servicios.RutasDAO;
 import rutas.com.rutastransporte.excepciones.NotRemovableException;
+import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
 
 public class RutasViewController implements Vista<Ruta> {
+    private final AlertFactory alert = new AlertFactory();
 
     @FXML
     private TableView<Ruta> tblRutas;
@@ -28,39 +27,19 @@ public class RutasViewController implements Vista<Ruta> {
     private TextField txtBuscar;
 
     @FXML
-    private Button btnEliminar;
+    private TableColumn<Ruta, String> colCodigo, colNombre, colOrigen,colDestino;
 
-    @FXML
-    private Button btnInsertar;
-
-    @FXML
-    private Button btnActualizar;
-
-    @FXML
-    private TableColumn<Ruta, String> colCodigo;
-
-    @FXML
-    private TableColumn<Ruta, String> colNombre;
-
-    @FXML
-    private TableColumn<Ruta, String> colOrigen;
-
-    @FXML
-    private TableColumn<Ruta, String> colDestino;
-
-    private RutasDAO rutasDAO = new RutasDAO();
+    private final RutasDAO rutasDAO = new RutasDAO();
 
     @FXML
     public void initialize() {
         configurarColumnas();
         cargarDatos();
 
-        tblRutas.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-            RecursosVisuales.ajustarAnchoColumnas(tblRutas);
-        });
+        tblRutas.widthProperty().addListener((obs, oldWidth, newWidth) -> RecursosVisuales.ajustarAnchoColumnas(tblRutas));
     }
 
-    public void btnEliminarClick(ActionEvent e){
+    public void btnEliminarClick(){
         Ruta rutaSeleccionada = tblRutas.getSelectionModel().getSelectedItem();
 
         if (rutaSeleccionada == null) {
@@ -77,7 +56,7 @@ public class RutasViewController implements Vista<Ruta> {
                 try {
                     rutasDAO.eliminar(rutaSeleccionada);
                     cargarDatos();
-                    mostrarAlerta("Éxito", "Ruta eliminada correctamente.");
+                    mostrarAlerta("Éxito.", "Ruta eliminada correctamente.");
                 } catch (NotRemovableException ex) {
                     mostrarAlerta("Error", ex.getMessage());
                 }
@@ -85,7 +64,7 @@ public class RutasViewController implements Vista<Ruta> {
         });
     }
 
-    public void btnActualizarClick(ActionEvent e){
+    public void btnActualizarClick(){
         Ruta ruta = tblRutas.getSelectionModel().getSelectedItem();
         if (ruta == null) {
             mostrarAlerta("Selección requerida", "Por favor, seleccione una ruta para modificar.");
@@ -94,11 +73,11 @@ public class RutasViewController implements Vista<Ruta> {
         crearPantalla("Modificar Ruta", Modalidad.ACTUALIZAR, ruta);
     }
 
-    public void btnInsertarClick(ActionEvent e){
+    public void btnInsertarClick(){
         crearPantalla("Insertar Ruta", Modalidad.INSERTAR, null);
     }
 
-    public void txtBuscarKeyPressed(KeyEvent e){
+    public void txtBuscarKeyPressed(){
         filtrar();
     }
 
@@ -157,11 +136,7 @@ public class RutasViewController implements Vista<Ruta> {
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
+        alert.obtenerAlerta(Alert.AlertType.INFORMATION).crearAlerta(titulo, mensaje).showAndWait();
     }
 
     public void btnDestacadasClick(){

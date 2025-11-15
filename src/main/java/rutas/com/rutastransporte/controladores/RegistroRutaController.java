@@ -97,7 +97,7 @@ public class RegistroRutaController implements Registro {
         RecursosVisuales.configurarSpinnerNumerico(spnM,0,999,0);
         RecursosVisuales.configurarSpinnerNumerico(spnKM,0,100,0);
         RecursosVisuales.configurarSpinnerNumerico(spnMinutos,0,59,0);
-        RecursosVisuales.configurarSpinnerFlotante(spnCosto,0,1000,10);
+        RecursosVisuales.configurarSpinnerDecimal(spnCosto,0,1000,10);
         RecursosVisuales.configurarSpinnerNumerico(spnTrasbordos,1,100,1);
 
         if(modalidad == Modalidad.ACTUALIZAR){

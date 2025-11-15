@@ -7,5 +7,5 @@ package rutas.com.rutastransporte.utilidades;
     Objetivo: Determinar en que modalidad se encuentra un formulario de registro.
  */
 public enum Modalidad {
-    INSERTAR, ELIMINAR, ACTUALIZAR;
+    INSERTAR, ELIMINAR, ACTUALIZAR
 }

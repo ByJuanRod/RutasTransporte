@@ -1,12 +1,10 @@
 package rutas.com.rutastransporte.controladores;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.excepciones.NotRemovableException;
@@ -17,8 +15,10 @@ import rutas.com.rutastransporte.StageBuilder;
 import rutas.com.rutastransporte.utilidades.Modalidad;
 import rutas.com.rutastransporte.modelos.Parada;
 
+import java.util.Objects;
+
 public class ParadasViewController implements Vista<Parada> {
-    private ParadasDAO paradasDAO = new ParadasDAO();
+    private final ParadasDAO paradasDAO = new ParadasDAO();
 
     @FXML
     private TableView<Parada> tblParadas;
@@ -27,16 +27,7 @@ public class ParadasViewController implements Vista<Parada> {
     private TextField txtBuscar;
 
     @FXML
-    private TableColumn<Parada, String> colCodigo;
-
-    @FXML
-    private TableColumn<Parada, String> colNombre;
-
-    @FXML
-    private TableColumn<Parada, String> colDireccion;
-
-    @FXML
-    private TableColumn<Parada, String> colTipo;
+    private TableColumn<Parada, String> colCodigo, colDireccion,colNombre, colTipo;
 
     @FXML
     private TableColumn<Parada, ImageView> colImg;
@@ -46,13 +37,11 @@ public class ParadasViewController implements Vista<Parada> {
         configurarColumnas();
         cargarDatos();
 
-        tblParadas.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-            RecursosVisuales.ajustarAnchoColumnas(tblParadas);
-        });
+        tblParadas.widthProperty().addListener((obs, oldWidth, newWidth) -> RecursosVisuales.ajustarAnchoColumnas(tblParadas));
 
     }
 
-    public void btnEliminarClick(ActionEvent e){
+    public void btnEliminarClick(){
         Parada paradaSeleccionada = tblParadas.getSelectionModel().getSelectedItem();
 
         if (paradaSeleccionada == null) {
@@ -82,7 +71,7 @@ public class ParadasViewController implements Vista<Parada> {
         }
     }
 
-    public void btnActualizarClick(ActionEvent e){
+    public void btnActualizarClick(){
         Parada parada = tblParadas.getSelectionModel().getSelectedItem();
         if (parada == null) {
             mostrarAlerta("Selección requerida", "Por favor, seleccione una parada para modificar.");
@@ -91,11 +80,11 @@ public class ParadasViewController implements Vista<Parada> {
         crearPantalla("Modificar Parada", Modalidad.ACTUALIZAR, parada);
     }
 
-    public void btnInsertarClick(ActionEvent e){
+    public void btnInsertarClick(){
         crearPantalla("Insertar Parada", Modalidad.INSERTAR, null);
     }
 
-    public void txtBuscarKeyPressed(KeyEvent e){
+    public void txtBuscarKeyPressed(){
         filtrar();
     }
 
@@ -130,8 +119,6 @@ public class ParadasViewController implements Vista<Parada> {
 
         if (textoBusqueda.isEmpty()) {
             cargarDatos();
-        } else {
-            //tblParadas.setItems(paradasDAO.buscarPorNombre(textoBusqueda));
         }
     }
 
@@ -152,12 +139,12 @@ public class ParadasViewController implements Vista<Parada> {
             ImageView imageView = new ImageView();
 
             try {
-                Image image = new Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + nombreImagen));
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + nombreImagen)));
                 imageView.setImage(image);
                 imageView.setFitWidth(24);
                 imageView.setFitHeight(24);
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
 
             return new javafx.beans.property.SimpleObjectProperty<>(imageView);

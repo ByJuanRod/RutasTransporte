@@ -3,6 +3,7 @@ package rutas.com.rutastransporte.controladores;
 import com.brunomnsilva.smartgraph.graph.*;
 import com.brunomnsilva.smartgraph.graphview.*;
 import javafx.animation.PauseTransition;
+import javafx.animation.Transition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -14,14 +15,15 @@ import javafx.util.Duration;
 import rutas.com.rutastransporte.modelos.*;
 import rutas.com.rutastransporte.repositorio.SistemaTransporte;
 import rutas.com.rutastransporte.servicios.Calculador;
+import rutas.com.rutastransporte.servicios.ServicioMapa;
 import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
 import rutas.com.rutastransporte.utilidades.alertas.Alerta;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Stack;
 
 public class MapaViewController {
+    private final ServicioMapa sm = new  ServicioMapa();
     private final AlertFactory alertFactory = new AlertFactory();
     private SmartGraphPanel<Parada,Ruta> graphView;
 
@@ -79,10 +81,9 @@ public class MapaViewController {
                 }
             }
 
+            RutaPosible mejorRuta = sm.obtenerMejorRuta(posiblesRutas);
 
-            RutaPosible mejorRuta = obtenerMejorRuta(posiblesRutas);
-
-            ArrayList<RutaPosible> rutasUnicas = obtenerRutasUnicasExcluyendoMejor(posiblesRutas, mejorRuta);
+            ArrayList<RutaPosible> rutasUnicas = sm.obtenerRutasUnicasExcluyendoMejor(posiblesRutas, mejorRuta);
 
             if (mejorRuta != null) {
                 mejorRuta.agregarFirst(Criterio.MEJOR_RUTA);
@@ -110,11 +111,12 @@ public class MapaViewController {
 
         }
     }
-
     @FXML
     public void initialize() {
         scrollpane.fitToWidthProperty().set(true);
         cargarDatos();
+        cbxOrigen.setEditable(false);
+        cbxDestino.setEditable(false);
     }
 
     public void cargarDatos(){
@@ -124,7 +126,7 @@ public class MapaViewController {
         }
 
         Digraph<Parada, Ruta> g = new DigraphEdgeList<>();
-        rellenarGrafo(g);
+        sm.rellenarGrafo(g);
 
         SmartPlacementStrategy strategy = new SmartCircularSortedPlacementStrategy();
 
@@ -161,13 +163,9 @@ public class MapaViewController {
     private void inicializarGrafo() {
         try {
             graphView.init();
-
-            PauseTransition pause = new PauseTransition(Duration.millis(100));
-            pause.setOnFinished(e -> {
-                graphView.update();
-            });
+            Transition pause = new PauseTransition(Duration.millis(1000));
+            pause.setOnFinished(e -> graphView.update());
             pause.play();
-
         } catch (Exception e) {
             System.err.println("Error al inicializar el grafo: " + e.getMessage());
         }
@@ -181,122 +179,6 @@ public class MapaViewController {
         contenedorGeneral.getChildren().add(contenido);
     }
 
-    public RutaPosible obtenerMejorRuta(Stack<RutaPosible> posiblesRutas) {
-        if (posiblesRutas == null || posiblesRutas.isEmpty()) {
-            return null;
-        }
-
-        ArrayList<RutaPosible> rutasUnicas = new ArrayList<>();
-
-        for (RutaPosible rutaActual : posiblesRutas) {
-            if (rutaActual == null) continue;
-
-            boolean esDuplicada = false;
-            for (RutaPosible rutaUnica : rutasUnicas) {
-                if (rutaActual.sonIguales(rutaUnica.getCamino())) {
-                    esDuplicada = true;
-                    break;
-                }
-            }
-
-            if (!esDuplicada) {
-                rutasUnicas.add(rutaActual);
-            }
-        }
-
-        if (rutasUnicas.size() == 1) {
-            RutaPosible mejorRuta = new RutaPosible();
-            mejorRuta.clonar(rutasUnicas.getFirst());
-
-            for (RutaPosible posible : posiblesRutas) {
-                if (posible != null && posible.sonIguales(rutasUnicas.getFirst().getCamino())) {
-                    if (!posible.getCriteriosDestacados().isEmpty()) {
-                        mejorRuta.agregarCriterioDestacado(posible.getCriteriosDestacados().getFirst());
-                    }
-                }
-            }
-            return mejorRuta;
-        }
-
-        RutaPosible mejorRutaBase = null;
-        int maxCriteriosCoincidentes = 0;
-
-        for (RutaPosible rutaUnica : rutasUnicas) {
-            int criteriosCoincidentes = cantCriteriosParaMismoCamino(posiblesRutas, rutaUnica.getCamino());
-
-            if (criteriosCoincidentes > maxCriteriosCoincidentes) {
-                maxCriteriosCoincidentes = criteriosCoincidentes;
-                mejorRutaBase = rutaUnica;
-            }
-        }
-
-        if (mejorRutaBase != null) {
-            RutaPosible mejorRuta = new RutaPosible();
-            mejorRuta.clonar(mejorRutaBase);
-            for (RutaPosible posible : posiblesRutas) {
-                if (posible != null && posible.sonIguales(mejorRutaBase.getCamino())) {
-                    if (!posible.getCriteriosDestacados().isEmpty()) {
-                        mejorRuta.agregarCriterioDestacado(posible.getCriteriosDestacados().getFirst());
-                    }
-                }
-            }
-
-            return mejorRuta;
-        }
-
-        return null;
-    }
-
-    public int cantCriteriosParaMismoCamino(Stack<RutaPosible> posiblesRutas, LinkedList<Ruta> camino) {
-        int cantidadCriterios = 0;
-        for (RutaPosible posible : posiblesRutas) {
-            if (posible != null && posible.sonIguales(camino)) {
-                cantidadCriterios++;
-            }
-        }
-        return cantidadCriterios;
-    }
-
-    public ArrayList<RutaPosible> obtenerRutasUnicasExcluyendoMejor(Stack<RutaPosible> posiblesRutas, RutaPosible mejorRuta) {
-        ArrayList<RutaPosible> rutasUnicas = new ArrayList<>();
-
-        if (posiblesRutas == null || posiblesRutas.isEmpty()) {
-            return rutasUnicas;
-        }
-
-        for (RutaPosible rutaActual : posiblesRutas) {
-            if (rutaActual == null) continue;
-
-            if (mejorRuta != null && mejorRuta.sonIguales(rutaActual.getCamino())) {
-                continue;
-            }
-
-            boolean esDuplicada = false;
-            for (RutaPosible rutaUnica : rutasUnicas) {
-                if (rutaActual.sonIguales(rutaUnica.getCamino())) {
-                    esDuplicada = true;
-                    break;
-                }
-            }
-
-            if (!esDuplicada) {
-                rutasUnicas.add(rutaActual);
-            }
-        }
-
-        return rutasUnicas;
-    }
-
-    public void rellenarGrafo(Digraph<Parada, Ruta> grafo){
-        for(Parada parada : SistemaTransporte.getSistemaTransporte().getParadas()){
-            grafo.insertVertex(parada);
-        }
-
-        for(Ruta ruta : SistemaTransporte.getSistemaTransporte().getRutas()){
-            grafo.insertEdge(ruta.getOrigen(),ruta.getDestino(),ruta);
-        }
-    }
-
     public void aplicarEstilos(SmartGraphPanel<Parada,Ruta> panel){
         for(Vertex<Parada> vertice : panel.getModel().vertices()){
             panel.getStylableVertex(vertice).addStyleClass(vertice.element().getTipo().getClase());
@@ -306,9 +188,7 @@ public class MapaViewController {
     }
 
     private void configurarEventosGrafo(SmartGraphPanel<Parada,Ruta> panel) {
-        panel.setVertexDoubleClickAction(graphVertex -> {
-            evaluarEventos(panel, graphVertex.getUnderlyingVertex().element());
-        });
+        panel.setVertexDoubleClickAction(graphVertex -> evaluarEventos(panel, graphVertex.getUnderlyingVertex().element()));
     }
 
     private void evaluarEventos(SmartGraphPanel<Parada,Ruta> panel, Parada elemento){
