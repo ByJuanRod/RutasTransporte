@@ -11,8 +11,15 @@ import java.util.LinkedList;
 import java.util.Stack;
 
 public class ServicioMapa {
+    private final ServicioEventos servicioEventos = ServicioEventos.getInstancia();
+
+    public void crearSimulacion(){
+        servicioEventos.crearSimulacionEventos();
+    }
 
     public void rellenarGrafo(Digraph<Parada, Ruta> grafo){
+        crearSimulacion();
+
         for(Parada parada : SistemaTransporte.getSistemaTransporte().getParadas()){
             grafo.insertVertex(parada);
         }
@@ -127,5 +134,4 @@ public class ServicioMapa {
 
         return rutasUnicas;
     }
-
 }

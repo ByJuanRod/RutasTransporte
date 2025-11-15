@@ -9,6 +9,10 @@ import rutas.com.rutastransporte.repositorio.SistemaTransporte;
 
 import java.util.Hashtable;
 
+/*
+    Nombre: ServicioPrincipal
+    Objetivo: Ofrecer las funciones que permiten que el apartado principal funcione correctamente.
+ */
 public class ServicioPrincipal {
     public int getCantRutas(){
         return SistemaTransporte.getSistemaTransporte().getRutas().size();
@@ -18,6 +22,12 @@ public class ServicioPrincipal {
         return SistemaTransporte.getSistemaTransporte().getParadas().size();
     }
 
+    /*
+        Nombre: getCostoPromedio
+        Argumentos: -
+        Objetivo: Obtener el costo promedio de las rutas existentes.
+        Retorno: (float) Retorna el costo promedio de las rutas existentes.
+     */
     public float getCostoPromedio(){
         if(getCantRutas() == 0){
             return 0;
@@ -31,6 +41,12 @@ public class ServicioPrincipal {
 
     }
 
+    /*
+        Nombre: getSegmentacion
+        Argumentos: -
+        Objetivo: Obtener la segmentación de los tipos de paradas que existen en el programa.
+        Retorno: (Hashtable<TipoParada,Integer>) Retorna un tabla hash que contiene la cantidad que existe de cada parada.
+     */
     public Hashtable<TipoParada, Integer> getSegmentacion(){
         Hashtable<TipoParada,Integer> cantidadPorTipo =  new Hashtable<>();
 
@@ -45,6 +61,12 @@ public class ServicioPrincipal {
         return cantidadPorTipo;
     }
 
+    /*
+        Nombre: crearSeries
+        Argumentos: -
+        Objetivo: Crear las series del grafico de pie para permitir su visualizacion
+        Retorno: (ObservableList<PieChart.Data>) Retorna un lista que contiene todas las series de datos.
+     */
     public ObservableList<PieChart.Data> crearSeries(){
         ObservableList<PieChart.Data>  datos = FXCollections.observableArrayList();
         Hashtable<TipoParada, Integer> cantidadPorTipo = getSegmentacion();

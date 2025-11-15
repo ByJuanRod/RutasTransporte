@@ -4,6 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
+/*
+    Nombre: ConexionDB
+    Tipo: Clase
+    Objetivo: Almacenar los datos de la conexión MySQL para su reutilización.
+ */
 public class ConexionDB {
     private static final String URL = "jdbc:mysql://localhost:3306/rutas_transporte_db";
     private static final String USER = "root";
@@ -15,7 +21,6 @@ public class ConexionDB {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             System.out.println("Error: No se encontró el driver de MySQL.");
-            e.printStackTrace();
             throw new SQLException("Driver no encontrado", e);
         }
 

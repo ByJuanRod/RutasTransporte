@@ -1,10 +1,10 @@
-create database rutas_transporte_db
-use rutas_transporte_db
+CREATE DATABASE rutas_transporte_db
+USE rutas_transporte_db
 
-create table Paradas(
+CREATE TABLE Paradas(
                         codigo INT AUTO_INCREMENT PRIMARY KEY,
                         nombre_parada VARCHAR(40) NOT NULL,
-                        tipo_parada ENUM('bus','metro','tren') NOT NULL,
+                        tipo_parada VARCHAR(30) NOT NULL,
                         ubicacion VARCHAR(60) NOT NULL
 )
 
@@ -19,4 +19,13 @@ CREATE TABLE Rutas(
                       destino INT,
                       FOREIGN KEY (origen) REFERENCES Paradas(codigo) ON DELETE CASCADE,
                       FOREIGN KEY (destino) REFERENCES Paradas(codigo) ON DELETE CASCADE
+);
+
+CREATE TABLE Eventos(
+                        codigo INT AUTO_INCREMENT PRIMARY KEY,
+                        ruta INT NOT NULL,
+                        tipo_evento VARCHAR(30) NOT NULL,
+                        fecha_inicio DATETIME NOT NULL,
+                        fecha_fin DATETIME,
+                        FOREIGN KEY (ruta) REFERENCES Rutas(codigo) ON DELETE CASCADE
 );
