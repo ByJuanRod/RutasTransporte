@@ -121,8 +121,7 @@ public class RutasViewController implements Vista<Ruta> {
                 return true;
             }
 
-            boolean coincideCodigo = ruta.getCodigo() != null &&
-                    ruta.getCodigo().toLowerCase().contains(textoBusqueda);
+            boolean coincideCodigo = String.valueOf(ruta.getCodigo()).contains(textoBusqueda);
 
             boolean coincideNombre = ruta.getNombre() != null &&
                     ruta.getNombre().toLowerCase().contains(textoBusqueda);

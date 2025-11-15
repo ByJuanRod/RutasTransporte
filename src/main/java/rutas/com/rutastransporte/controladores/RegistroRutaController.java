@@ -1,6 +1,5 @@
 package rutas.com.rutastransporte.controladores;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -21,10 +20,12 @@ import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
 import rutas.com.rutastransporte.utilidades.alertas.Alerta;
 import rutas.com.rutastransporte.utilidades.Modalidad;
 
-public class RegistroRutaController implements Registro {
-    private AlertFactory alertfactory = new AlertFactory();
+import java.util.Objects;
 
-    private RutasDAO servicioRutas = new RutasDAO();
+public class RegistroRutaController implements Registro {
+    private final AlertFactory alertfactory = new AlertFactory();
+
+    private final RutasDAO servicioRutas = new RutasDAO();
 
     private Modalidad modalidad = Modalidad.INSERTAR;
 
@@ -79,6 +80,8 @@ public class RegistroRutaController implements Registro {
     }
 
     private void cargarParadas(){
+        cbxDestino.getItems().clear();
+        cbxOrigen.getItems().clear();
         for(Parada parada : SistemaTransporte.getSistemaTransporte().getParadas()){
             cbxOrigen.getItems().add(parada);
             cbxDestino.getItems().add(parada);
@@ -111,23 +114,16 @@ public class RegistroRutaController implements Registro {
             spnM.getValueFactory().setValue(ruta.getMetros());
             spnKM.getValueFactory().setValue(ruta.getKilometros());
             btnRealizar.setText("Actualizar");
-            imgRealizar.setImage(new Image(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/editar.png")));
+            imgRealizar.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/editar.png"))));
         }
 
     }
 
-    public void btnRealizarClick(ActionEvent e){
+    public void btnRealizarClick(){
         if(validar()){
             Alerta alerta = alertfactory.obtenerAlerta(Alert.AlertType.INFORMATION);
             if(modalidad == Modalidad.INSERTAR){
-                RutaBuilder rb = new RutaBuilder();
-                rb.setNombre(txtNombre.getText());
-                rb.setOrigen(cbxOrigen.getSelectionModel().getSelectedItem());
-                rb.setDestino(cbxDestino.getSelectionModel().getSelectedItem());
-                rb.setCosto(Float.parseFloat(spnCosto.getValue().toString()));
-                rb.setTiempo(Ruta.calcularTiempo(spnHoras.getValue(), spnMinutos.getValue()));
-                rb.setDistancia(Ruta.calcularDistancia(spnKM.getValue(),spnM.getValue()));
-                rb.setTrasbordos(spnTrasbordos.getValue());
+                RutaBuilder rb = getRutaBuilder();
                 servicioRutas.insertar(rb.construir());
                 alerta.crearAlerta("Ruta Insertada Exitosamente.","Registro Insertado.").show();
                 limpiar();
@@ -146,11 +142,23 @@ public class RegistroRutaController implements Registro {
         }
     }
 
-    public void btnLimpiarClick(ActionEvent e){
+    private RutaBuilder getRutaBuilder() {
+        RutaBuilder rb = new RutaBuilder();
+        rb.setNombre(txtNombre.getText());
+        rb.setOrigen(cbxOrigen.getSelectionModel().getSelectedItem());
+        rb.setDestino(cbxDestino.getSelectionModel().getSelectedItem());
+        rb.setCosto(Float.parseFloat(spnCosto.getValue().toString()));
+        rb.setTiempo(Ruta.calcularTiempo(spnHoras.getValue(), spnMinutos.getValue()));
+        rb.setDistancia(Ruta.calcularDistancia(spnKM.getValue(),spnM.getValue()));
+        rb.setTrasbordos(spnTrasbordos.getValue());
+        return rb;
+    }
+
+    public void btnLimpiarClick(){
         limpiar();
     }
 
-    public void btnCerrarClick(ActionEvent e){
+    public void btnCerrarClick(){
         stage.close();
     }
 

@@ -6,7 +6,7 @@ package rutas.com.rutastransporte.modelos;
     Objetivo: Representar el modelo de las rutas.
  */
 public class Ruta {
-    private String codigo;
+    private int codigo;
     private String nombre;
     private Parada origen;
     private Parada destino;
@@ -17,7 +17,7 @@ public class Ruta {
     private TipoEvento eventoActual;
     private boolean tieneEvento;
 
-    public Ruta(String codigo, String nombre, Parada origen, Parada destino, int distancia, float costo, int tiempo) {
+    public Ruta(int codigo, String nombre, Parada origen, Parada destino, int distancia, float costo, int tiempo, int trasbordos) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.origen = origen;
@@ -25,7 +25,7 @@ public class Ruta {
         this.distancia = distancia;
         this.costo = costo;
         this.tiempo = tiempo;
-        this.trasbordos = 1;
+        this.trasbordos = trasbordos;
         this.eventoActual = TipoEvento.NORMAL;
         this.tieneEvento = false;
     }
@@ -35,11 +35,11 @@ public class Ruta {
         this.tieneEvento = false;
     }
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 

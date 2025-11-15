@@ -12,7 +12,7 @@ public class RutaBuilder implements Builder<Ruta> {
         this.ruta = new Ruta();
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         ruta.setCodigo(codigo);
     }
 

@@ -5,84 +5,109 @@ import javafx.collections.ObservableList;
 import rutas.com.rutastransporte.excepciones.NotRemovableException;
 import rutas.com.rutastransporte.modelos.CRUD;
 import rutas.com.rutastransporte.modelos.Parada;
-import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.repositorio.SistemaTransporte;
+import rutas.com.rutastransporte.utilidades.ConexionDB;
 
+import java.sql.*;
 import java.util.Iterator;
 
 public class ParadasDAO implements CRUD<Parada> {
-
     @Override
     public void insertar(Parada parada) {
-        parada.setCodigo("P0" + (SistemaTransporte.getSistemaTransporte().getParadas().size() + 1));
-        SistemaTransporte.getSistemaTransporte().getParadas().add(parada);
-        SistemaTransporte.getSistemaTransporte().getGrafo().agregarParada(parada);
+        String sql = "INSERT INTO Paradas (nombre_parada, tipo_parada, ubicacion) VALUES (?, ?, ?)";
+
+        try (Connection con = ConexionDB.getConexion();
+             PreparedStatement pst = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            pst.setString(1, parada.getNombreParada());
+            pst.setString(2, parada.getTipo().name());
+            pst.setString(3, parada.getUbicacion());
+
+            int affectedRows = pst.executeUpdate();
+
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = pst.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        parada.setCodigo(generatedKeys.getInt(1));
+                        SistemaTransporte.getSistemaTransporte().getParadas().add(parada);
+                        SistemaTransporte.getSistemaTransporte().getGrafo().agregarParada(parada);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al insertar parada: " + e.getMessage());
+        }
     }
 
     @Override
-    public Parada buscarByCodigo(String codigo) {
-        for(Parada parada :SistemaTransporte.getSistemaTransporte().getParadas()){
-            if(parada.getCodigo().equals(codigo))
-                return parada;
-        }
+    public void actualizar(Parada paradaActualizada) {
+        String sql = "UPDATE Paradas SET nombre_parada = ?, tipo_parada = ?, ubicacion = ? WHERE codigo = ?";
 
-        return null;
-    }
+        try (Connection con = ConexionDB.getConexion();
+             PreparedStatement pst = con.prepareStatement(sql)) {
 
-    @Override
-    public void actualizar(Parada parada) {
-        for (int i = 0; i < SistemaTransporte.getSistemaTransporte().getParadas().size(); i++) {
-            Parada paradaExistente = SistemaTransporte.getSistemaTransporte().getParadas().get(i);
-            if (paradaExistente.getCodigo().equals(parada.getCodigo())) {
-                paradaExistente.setNombreParada(parada.getNombreParada());
-                paradaExistente.setTipo(parada.getTipo());
-                paradaExistente.setUbicacion(parada.getUbicacion());
-                break;
-            }
-        }
+            pst.setString(1, paradaActualizada.getNombreParada());
+            pst.setString(2, paradaActualizada.getTipo().name());
+            pst.setString(3, paradaActualizada.getUbicacion());
+            pst.setInt(4, paradaActualizada.getCodigo());
 
-        for (Ruta ruta : SistemaTransporte.getSistemaTransporte().getRutas()) {
-            if (ruta.getOrigen().getCodigo().equals(parada.getCodigo())) {
-                ruta.setOrigen(parada);
+            pst.executeUpdate();
+
+            SistemaTransporte sistema = SistemaTransporte.getSistemaTransporte();
+            for (int i = 0; i < sistema.getParadas().size(); i++) {
+                if (sistema.getParadas().get(i).getCodigo() == paradaActualizada.getCodigo()) {
+                    sistema.getParadas().set(i, paradaActualizada);
+                    break;
+                }
             }
-            if (ruta.getDestino().getCodigo().equals(parada.getCodigo())) {
-                ruta.setDestino(parada);
-            }
+
+            sistema.getGrafo().actualizarParada(paradaActualizada);
+
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar parada: " + e.getMessage());
         }
     }
 
     @Override
     public void eliminar(Parada parada) throws NotRemovableException {
-        boolean tieneRutasAsociadas = false;
+        String sqlCheck = "SELECT COUNT(*) as count FROM Rutas WHERE origen = ? OR destino = ?";
+        String sqlDelete = "DELETE FROM Paradas WHERE codigo = ?";
 
-        for (Ruta ruta : SistemaTransporte.getSistemaTransporte().getRutas()) {
-            if (ruta.getOrigen().equals(parada) || ruta.getDestino().equals(parada)) {
-                tieneRutasAsociadas = true;
-                break;
+        try (Connection con = ConexionDB.getConexion();
+             PreparedStatement pstCheck = con.prepareStatement(sqlCheck);
+             PreparedStatement pstDelete = con.prepareStatement(sqlDelete)) {
+
+            pstCheck.setInt(1, parada.getCodigo());
+            pstCheck.setInt(2, parada.getCodigo());
+            ResultSet rs = pstCheck.executeQuery();
+
+            if (rs.next() && rs.getInt("count") > 0) {
+                throw new NotRemovableException("No se puede eliminar la parada porque está siendo utilizada en una o más rutas");
             }
-        }
 
-        if (tieneRutasAsociadas) {
-            throw new NotRemovableException("No se puede eliminar la parada porque está siendo utilizada en una o más rutas.");
-        }
+            pstDelete.setInt(1, parada.getCodigo());
+            pstDelete.executeUpdate();
 
-        Iterator<Parada> iterator = SistemaTransporte.getSistemaTransporte().getParadas().iterator();
-        while (iterator.hasNext()) {
-            Parada p = iterator.next();
-            if (p.equals(parada)) {
-                iterator.remove();
-                break;
+            SistemaTransporte sistema = SistemaTransporte.getSistemaTransporte();
+            Iterator<Parada> iterator = sistema.getParadas().iterator();
+            while (iterator.hasNext()) {
+                if (iterator.next().getCodigo() == parada.getCodigo()) {
+                    iterator.remove();
+                    break;
+                }
             }
-        }
 
-        SistemaTransporte.getSistemaTransporte().getGrafo().eliminarParada(parada);
+            sistema.getGrafo().eliminarParada(parada);
+
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar parada: " + e.getMessage());
+            throw new NotRemovableException("Error al eliminar la parada: " + e.getMessage());
+        }
     }
 
     public ObservableList<Parada> getParadas() {
         ObservableList<Parada> paradas = FXCollections.observableArrayList();
         paradas.addAll(SistemaTransporte.getSistemaTransporte().getParadas());
-
         return paradas;
     }
-
 }

@@ -19,7 +19,7 @@ public class CargadorDatos {
 
         GrafoTransporte grafo = SistemaTransporte.getSistemaTransporte().getGrafo();
 
-        Map<String, Parada> paradasPorCodigo = new HashMap<>();
+        Map<Integer, Parada> paradasPorCodigo = new HashMap<>();
 
         String sqlParadas = "SELECT * FROM Paradas";
         String sqlRutas = "SELECT * FROM Rutas";
@@ -31,10 +31,10 @@ public class CargadorDatos {
              ResultSet rsParadas = stParadas.executeQuery(sqlParadas)) {
 
             while (rsParadas.next()) {
-                String codigo = rsParadas.getString("codigo");
-                String nombre = rsParadas.getString("nombreParada");
+                int codigo = rsParadas.getInt("codigo");
+                String nombre = rsParadas.getString("nombre_parada");
                 String ubicacion = rsParadas.getString("ubicacion");
-                TipoParada tipo = TipoParada.valueOf(rsParadas.getString("tipo"));
+                TipoParada tipo = TipoParada.valueOf(rsParadas.getString("tipo_parada"));
 
                 Parada parada = new Parada(codigo, nombre, tipo, ubicacion);
 
@@ -42,18 +42,17 @@ public class CargadorDatos {
                 SistemaTransporte.getSistemaTransporte().getParadas().add(parada);
                 paradasPorCodigo.put(codigo, parada);
             }
-            System.out.println("Cargadas " + paradasPorCodigo.size() + " paradas desde la BBDD.");
 
             try (Statement stRutas = con.createStatement();
                  ResultSet rsRutas = stRutas.executeQuery(sqlRutas)) {
 
                 int rutasCargadas = 0;
                 while (rsRutas.next()) {
-                    String codigo = rsRutas.getString("codigo");
-                    String nombre = rsRutas.getString("nombre");
+                    int codigo = rsRutas.getInt("codigo");
+                    String nombre = rsRutas.getString("nombre_ruta");
 
-                    String origenCodigo = rsRutas.getString("origen_codigo");
-                    String destinoCodigo = rsRutas.getString("destino_codigo");
+                    int origenCodigo = rsRutas.getInt("origen");
+                    int destinoCodigo = rsRutas.getInt("destino");
 
                     Parada origen = paradasPorCodigo.get(origenCodigo);
                     Parada destino = paradasPorCodigo.get(destinoCodigo);
@@ -66,7 +65,8 @@ public class CargadorDatos {
                                 destino,
                                 rsRutas.getInt("distancia"),
                                 rsRutas.getFloat("costo"),
-                                rsRutas.getInt("tiempo")
+                                rsRutas.getInt("tiempo"),
+                                rsRutas.getInt("trasbordos")
                         );
 
                         SistemaTransporte.getSistemaTransporte().getRutas().add(ruta);

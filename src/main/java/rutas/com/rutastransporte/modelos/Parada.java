@@ -8,12 +8,12 @@ import java.util.Objects;
     Objetivo: Representar el modelo de las paradas.
  */
 public class Parada {
-    private String codigo;
+    private int codigo;
     private String nombreParada;
     private TipoParada tipo;
     private String ubicacion;
 
-    public Parada(String codigo, String nombreParada, TipoParada tipo, String ubicacion) {
+    public Parada(int codigo, String nombreParada, TipoParada tipo, String ubicacion) {
         this.codigo = codigo;
         this.nombreParada = nombreParada;
         this.tipo = tipo;
@@ -24,11 +24,11 @@ public class Parada {
 
     }
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 

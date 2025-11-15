@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class ServicioEventos {
     private static ServicioEventos instancia;
-    private final Map<String, EventoRuta> eventosActivos;
+    private final Map<Integer, EventoRuta> eventosActivos;
     private final Random random;
 
     private ServicioEventos(){
@@ -43,9 +43,9 @@ public class ServicioEventos {
     }
 
     public void limpiarEventosExpirados() {
-        Iterator<Map.Entry<String, EventoRuta>> it = eventosActivos.entrySet().iterator();
+        Iterator<Map.Entry<Integer, EventoRuta>> it = eventosActivos.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry<String, EventoRuta> entry = it.next();
+            Map.Entry<Integer, EventoRuta> entry = it.next();
             if (!entry.getValue().estaActivo()) {
                 entry.getValue().getRuta().removerEvento();
                 it.remove();

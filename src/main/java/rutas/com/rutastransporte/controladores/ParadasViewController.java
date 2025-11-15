@@ -131,8 +131,7 @@ public class ParadasViewController implements Vista<Parada> {
                 return true;
             }
 
-            boolean coincideCodigo = parada.getCodigo() != null &&
-                    parada.getCodigo().toLowerCase().contains(textoBusqueda);
+            boolean coincideCodigo = String.valueOf(parada.getCodigo()).contains(textoBusqueda);
 
             boolean coincideNombre = parada.getNombreParada() != null &&
                     parada.getNombreParada().toLowerCase().contains(textoBusqueda);
