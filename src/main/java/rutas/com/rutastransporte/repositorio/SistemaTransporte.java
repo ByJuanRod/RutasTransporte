@@ -27,7 +27,7 @@ public class SistemaTransporte {
     public static SistemaTransporte getSistemaTransporte(){
         if(instancia == null){
             instancia = new SistemaTransporte();
-            CargadorDatos.cargarDatosEjemplo();
+            CargadorDatos.cargarDatos();
         }
         return instancia;
     }
