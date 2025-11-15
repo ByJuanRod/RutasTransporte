@@ -1,4 +1,32 @@
 <h1>🚎 Programa de Gestión de Rutas de Transporte Público</h1>
+
+<h2>⚙️ Configuración del Entorno (¡Importante!)</h2>
+<p>Este proyecto ahora utiliza una base de datos <b>MySQL</b> que corre en un contenedor de <b>Docker</b> para manejar todos los datos de paradas y rutas.
+</p>
+<p>Para ejecutar el proyecto localmente, sigue estos <b>3 pasos obligatorios</b>:</p>
+
+<h3>1. Instalar Docker</h3>
+<p>Asegúrate de tener <b>Docker Desktop</b> instalado y corriendo en tu computadora.<br>
+<a href="https://www.docker.com/products/docker-desktop/">Descargar Docker Desktop</a>
+</p>
+
+<h3>2. Iniciar el Contenedor de MySQL</h3>
+<p>Abre una terminal (PowerShell o Terminal) y ejecuta el siguiente comando. Esto descargará la imagen de MySQL y la iniciará con la configuración correcta:</p>
+
+<pre><code>docker run -d --name mi-proyecto-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=tu_clave_secreta mysql:8</code></pre>
+<p><i>(Espera un minuto la primera vez que lo ejecutes mientras descarga la imagen).</i></p>
+
+<h3>3. Crear y Poblar las Tablas</h3>
+<p>Una vez que el contenedor esté corriendo (puedes verlo en Docker Desktop):</p>
+<ol>
+    <li>Conéctate a la base de datos local (<code>localhost:3306</code>, usuario <code>root</code>, contraseña <code>tu_clave_secreta</code>) usando un cliente como DBeaver.</li>
+    <li>Ejecuta el script <code><b>database/schema.sql</b></code> para crear las tablas (<code>paradas</code>, <code>rutas</code>, <code>eventos</code>).</li>
+    <li>Ejecuta el script <code><b>database/data.sql</b></code> para insertar los datos de prueba.</li>
+</ol>
+<p>¡Después de esto, ya puedes ejecutar la aplicación desde IntelliJ!</p>
+
+<hr>
+
 <h2>✅ Objetivos</h2>
 <p>El programa tiene como objetivo simular un sistema de transporte público,
 utilizando un grafo para la representación de paradas (equivalente a un vertice) y rutas (equivalente a una arista).
@@ -6,6 +34,8 @@ utilizando un grafo para la representación de paradas (equivalente a un vertice
 
 <p>El programa utiliza los algoritmos de Dijkstra y Bellman-Ford para obtener la mejor ruta disponible entre 2 paradas.
 </p>
+
+<hr>
 
 <h2>🔰 Descripción del funcionamiento</h2>
 
@@ -24,13 +54,15 @@ origen y destino).
 <br><br>
 <b>📜 Mapa: </b>El apartado de mapa engloba la lógica principal permitiendo al usuario seleccionar 2 paradas dentro del grafo y luego calcular la ruta
 que mejor se adapte a ser la ruta más económica, más rápida, más corta y la que menos trasbordos tiene. Dependiendo del escenario
-se puede producir una mejor ruta (que es aquella que cumple con más de un criterio) o puede  que retorne opciones alternativas, en este caso 
+se puede producir una mejor ruta (que es aquella que cumple con más de un criterio) o puede  que retorne opciones alternativas, en este caso
 el usuario podra seleccionar la opción que más se adapte a lo que necesite.
 
 Luego de que el usuario seleccione el camino este podra visualizar el resumen de los resultados. En estos resultados se visualizara detalladamente
 los criterios con los que el camino logro ser una opción destacada, los detalles respecto a la cantidad de trasbordos, el tiempo estimado de la ruta, la distancia y el costo.
 Además, este resumen muestra si dentro del camino suceden, desvios, accidentes, zonas concurridas o calles libres que reduzcan el tiempo el de la ruta.
 </p>
+
+<hr>
 
 <h2>🚦 Simulaciones y Criterios</h2>
 
@@ -57,4 +89,3 @@ con algun criterio en especifico. Los criterios disponibles dentro del programa 
     <li>Ruta Más Económica</li>
     <li>Ruta Con Menos Trasbordos</li>
 </ul>
-
