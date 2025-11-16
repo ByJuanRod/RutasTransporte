@@ -196,7 +196,12 @@ public class ServicioEventos {
     }
 
     public void guardarEventoEnBD(EventoRuta evento) {
-        String sql = "INSERT INTO Eventos (ruta, tipo_evento, fecha_inicio, fecha_fin) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Eventos (ruta, tipo_evento, fecha_inicio, fecha_fin) " +
+                "VALUES (?, ?, ?, ?) " +
+                "ON DUPLICATE KEY UPDATE " +
+                "tipo_evento = VALUES(tipo_evento), " +
+                "fecha_inicio = VALUES(fecha_inicio), " +
+                "fecha_fin = VALUES(fecha_fin)";
 
         try (Connection con = ConexionDB.getConexion();
              PreparedStatement pst = con.prepareStatement(sql)) {
