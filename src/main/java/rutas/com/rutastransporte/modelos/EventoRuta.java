@@ -3,10 +3,10 @@ package rutas.com.rutastransporte.modelos;
 import java.util.Date;
 
 public class EventoRuta {
-    private Ruta ruta;
-    private TipoEvento tipoEvento;
-    private Date fechaInicio;
-    private Date fechaFin;
+    private final Ruta ruta;
+    private final TipoEvento tipoEvento;
+    private final Date fechaInicio;
+    private final Date fechaFin;
     private boolean activo;
 
     public EventoRuta(Ruta ruta, TipoEvento tipoEvento, int duracionMinutos) {

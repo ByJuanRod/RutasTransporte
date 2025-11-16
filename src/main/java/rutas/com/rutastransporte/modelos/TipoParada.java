@@ -36,4 +36,9 @@ public enum TipoParada {
     public String getClase() {
         return claseCSS;
     }
+
+    @Override
+    public String toString() {
+        return nombreTipo;
+    }
 }

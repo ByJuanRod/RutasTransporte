@@ -292,4 +292,15 @@ public class ServicioEventos {
         }
         return rutasConEventos;
     }
+
+    public List<Ruta> getRutasSinEventosActivos() {
+        limpiarEventosExpirados();
+        List<Ruta> rutasSinEventos = new ArrayList<>();
+        for (Ruta ruta : obtenerTodasLasRutas()) {
+            if(!ruta.getTieneEvento()){
+                rutasSinEventos.add(ruta);
+            }
+        }
+        return rutasSinEventos;
+    }
 }
