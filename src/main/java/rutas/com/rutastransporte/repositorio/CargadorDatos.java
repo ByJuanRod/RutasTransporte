@@ -3,7 +3,6 @@ package rutas.com.rutastransporte.repositorio;
 import rutas.com.rutastransporte.modelos.Parada;
 import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.modelos.TipoParada;
-import rutas.com.rutastransporte.modelos.TipoEvento;
 import rutas.com.rutastransporte.servicios.GrafoTransporte;
 import rutas.com.rutastransporte.servicios.ServicioEventos;
 import rutas.com.rutastransporte.utilidades.ConexionDB;
@@ -11,7 +10,6 @@ import rutas.com.rutastransporte.utilidades.ConexionDB;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,11 +20,9 @@ public class CargadorDatos {
         ServicioEventos servicioEventos = ServicioEventos.getInstancia();
 
         Map<Integer, Parada> paradasPorCodigo = new HashMap<>();
-        Map<Integer, Ruta> rutasPorCodigo = new HashMap<>();
 
         String sqlParadas = "SELECT * FROM Paradas";
         String sqlRutas = "SELECT * FROM Rutas";
-        String sqlEventosActivos = "SELECT * FROM Eventos WHERE fecha_fin > NOW()";
 
         try (Connection con = ConexionDB.getConexion();
              Statement stParadas = con.createStatement();
@@ -72,39 +68,11 @@ public class CargadorDatos {
 
                         SistemaTransporte.getSistemaTransporte().getRutas().add(ruta);
                         grafo.agregarRuta(ruta);
-                        rutasPorCodigo.put(codigo, ruta);
                     }
                 }
             }
 
-            try (Statement stEventos = con.createStatement();
-                 ResultSet rsEventos = stEventos.executeQuery(sqlEventosActivos)) {
-
-                while (rsEventos.next()) {
-                    int codigoRuta = rsEventos.getInt("ruta");
-                    String tipoEventoStr = rsEventos.getString("tipo_evento");
-                    Timestamp fechaFin = rsEventos.getTimestamp("fecha_fin");
-
-                    Ruta ruta = rutasPorCodigo.get(codigoRuta);
-
-                    if (ruta != null) {
-                        try {
-                            TipoEvento tipoEvento = TipoEvento.valueOf(tipoEventoStr);
-
-                            long duracionRestante = (fechaFin.getTime() - System.currentTimeMillis()) / (60 * 1000);
-
-                            if (duracionRestante > 0) {
-                                servicioEventos.aplicarEventoARuta(ruta, tipoEvento, (int) duracionRestante);
-                            }
-
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("ADVERTENCIA: Tipo de evento no válido '" + tipoEventoStr +
-                                    "' para ruta " + ruta.getNombre());
-                        }
-                    }
-                }
-            }
-            servicioEventos.limpiarEventosExpiradosBD();
+            servicioEventos.cargarEventosActivosDesdeBD();
 
         } catch (Exception e) {
             System.out.println("ERROR FATAL AL CARGAR DATOS DE LA BBDD:");

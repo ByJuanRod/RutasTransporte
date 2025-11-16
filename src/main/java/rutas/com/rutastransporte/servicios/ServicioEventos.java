@@ -8,6 +8,7 @@ import rutas.com.rutastransporte.utilidades.ConexionDB;
 import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
 
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
 public class ServicioEventos {
@@ -36,8 +37,8 @@ public class ServicioEventos {
         Ruta ruta = nuevoEvento.getRuta();
         int codigoRuta = ruta.getCodigo();
 
-        if (tieneEventoActivo(ruta)) {
-            eliminarEventoDeBD(codigoRuta);
+        if(tieneEventoActivo(ruta)) {
+            return;
         }
 
         eventosActivos.put(codigoRuta, nuevoEvento);
@@ -132,7 +133,6 @@ public class ServicioEventos {
     }
 
     public void generarEventoAleatorio(Ruta ruta) {
-        cargarEventosActivosDesdeBD();
         if (tieneEventoActivo(ruta)) {
             return;
         }
@@ -173,12 +173,14 @@ public class ServicioEventos {
     }
 
     public void aplicarEventoARuta(Ruta ruta, TipoEvento evento, int duracionMinutos) {
+        if (eventosActivos.containsKey(ruta.getCodigo())) {
+            eventosActivos.get(ruta.getCodigo()).setActivo(false);
+        }
+
         EventoRuta eventoRuta = new EventoRuta(ruta, evento, duracionMinutos);
-        eventoRuta.setActivo(true);
         eventosActivos.put(ruta.getCodigo(), eventoRuta);
         ruta.aplicarEvento(evento);
     }
-
 
     public void limpiarEventosExpiradosBD() {
         String sql = "DELETE FROM Eventos WHERE fecha_fin < NOW()";
@@ -221,6 +223,7 @@ public class ServicioEventos {
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
 
+            int eventosCargados = 0;
             while (rs.next()) {
                 int codigoRuta = rs.getInt("ruta");
                 TipoEvento tipoEvento = TipoEvento.valueOf(rs.getString("tipo_evento"));
@@ -238,18 +241,45 @@ public class ServicioEventos {
                     long duracionRestante = (fechaFin.getTime() - System.currentTimeMillis()) / (60 * 1000);
 
                     if (duracionRestante > 0) {
-                        aplicarEventoARuta(rutaEncontrada, tipoEvento, (int) duracionRestante);
+                        EventoRuta eventoRuta = crearEventoDesdeBD(rutaEncontrada, tipoEvento, fechaFin);
+                        eventosActivos.put(codigoRuta, eventoRuta);
+                        rutaEncontrada.aplicarEvento(tipoEvento);
+                        eventosCargados++;
                     }
                 }
             }
-
+            System.out.println("Eventos cargados desde BD: " + eventosCargados);
 
         } catch (SQLException e) {
             alt.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Error al cargar eventos.","Error.").show();
         }
     }
 
+    private EventoRuta crearEventoDesdeBD(Ruta ruta, TipoEvento tipoEvento, Timestamp fechaFin) {
+        long duracionRestante = (fechaFin.getTime() - System.currentTimeMillis()) / (60 * 1000);
+        Date fechaInicio = new Date(fechaFin.getTime() - (duracionRestante * 60 * 1000));
+
+        EventoRuta evento = new EventoRuta(ruta, tipoEvento, (int) duracionRestante);
+        try {
+            java.lang.reflect.Field fechaInicioField = EventoRuta.class.getDeclaredField("fechaInicio");
+            java.lang.reflect.Field fechaFinField = EventoRuta.class.getDeclaredField("fechaFin");
+
+            fechaInicioField.setAccessible(true);
+            fechaFinField.setAccessible(true);
+
+            fechaInicioField.set(evento, fechaInicio);
+            fechaFinField.set(evento, new Date(fechaFin.getTime()));
+
+        } catch (Exception e) {
+            System.out.println("Error al ajustar fechas del evento: " + e.getMessage());
+        }
+
+        return evento;
+    }
+
     public List<Ruta> getRutasConEventosActivos() {
+        limpiarEventosExpirados();
+
         List<Ruta> rutasConEventos = new ArrayList<>();
         for (EventoRuta evento : eventosActivos.values()) {
             if (evento.estaActivo()) {
