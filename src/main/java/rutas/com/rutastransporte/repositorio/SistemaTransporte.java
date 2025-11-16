@@ -14,7 +14,7 @@ public class SistemaTransporte {
 
     private static SistemaTransporte instancia = null;
 
-    private GrafoTransporte grafo;
+    private final GrafoTransporte grafo;
 
     private Calculador calculador;
 

@@ -80,7 +80,6 @@ public class MenuPrincipalController {
         catch (Exception e){
             Alerta alt = alert.obtenerAlerta(Alert.AlertType.ERROR);
             alt.crearAlerta("Error al cargar el apartado seleccionado.","Error").show();
-            e.printStackTrace();
         }
     }
 
