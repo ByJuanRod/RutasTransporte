@@ -20,7 +20,7 @@ public class InformeEventoController {
     }
 
     @FXML
-    private Label lblNombre, lblCosto, lblTiempo, lblDistancia, lblRuta, lblDescTiempo, lblDescDistancia, lblDescCosto;
+    private Label lblNombre, lblCosto, lblTiempo, lblDistancia, lblRuta, lblDescTiempo, lblDescDistancia, lblDescCosto, lblDuracion;
 
     @FXML
     private ImageView imgEvento;
@@ -39,6 +39,7 @@ public class InformeEventoController {
         lblTiempo.setText(Ruta.getTiempoFormatado(evento.getRuta().getTiempoDiff()));
         lblDistancia.setText(Ruta.getDistanciaFormatado(evento.getRuta().getDistanciaDiff()));
         lblRuta.setText(evento.getRuta().getNombre());
+        lblDuracion.setText(String.valueOf(evento.getTiempoRestanteMinutos()));
         cargarDescripciones();
         Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + evento.getTipoEvento().getImagen())));
         imgEvento.setImage(img);
