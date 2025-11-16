@@ -1,17 +1,21 @@
 package rutas.com.rutastransporte.servicios;
 
+import javafx.scene.control.Alert;
 import rutas.com.rutastransporte.modelos.EventoRuta;
 import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.modelos.TipoEvento;
 import rutas.com.rutastransporte.utilidades.ConexionDB;
+import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
 
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 public class ServicioEventos {
     private static ServicioEventos instancia;
     private final Map<Integer, EventoRuta> eventosActivos;
     private final Random random;
+    private final AlertFactory alt = new AlertFactory();
 
     private ServicioEventos(){
         eventosActivos = new HashMap<>();
@@ -27,30 +31,24 @@ public class ServicioEventos {
 
     public void insertar(EventoRuta nuevoEvento) {
         if (nuevoEvento == null || nuevoEvento.getRuta() == null) {
-            System.out.println("Error: El evento o la ruta no pueden ser nulos");
             return;
         }
 
         Ruta ruta = nuevoEvento.getRuta();
         int codigoRuta = ruta.getCodigo();
 
-        if (tieneEventoActivo(ruta)) {
-            System.out.println("La ruta " + ruta.getNombre() + " ya tiene un evento activo. Removiendo evento anterior.");
-            eliminarEventoDeBD(codigoRuta);
+        if(tieneEventoActivo(ruta)) {
+            return;
         }
 
         eventosActivos.put(codigoRuta, nuevoEvento);
         ruta.aplicarEvento(nuevoEvento.getTipoEvento());
 
         guardarEventoEnBD(nuevoEvento);
-
-        System.out.println("Evento insertado para ruta: " + ruta.getNombre() +
-                " - " + nuevoEvento.getTipoEvento().getNombre());
     }
 
     public void eliminar(EventoRuta evento) {
         if (evento == null || evento.getRuta() == null) {
-            System.out.println("Error: El evento a eliminar no puede ser nulo");
             return;
         }
 
@@ -60,12 +58,9 @@ public class ServicioEventos {
         if (eventosActivos.containsKey(codigoRuta)) {
             eventosActivos.remove(codigoRuta);
             ruta.removerEvento();
-            System.out.println("Evento removido de la memoria para ruta: " + ruta.getNombre());
         }
 
         eliminarEventoDeBD(codigoRuta);
-
-        System.out.println("Evento eliminado completamente para ruta: " + ruta.getNombre());
     }
 
     private void eliminarEventoDeBD(int codigoRuta) {
@@ -75,39 +70,30 @@ public class ServicioEventos {
              PreparedStatement pst = con.prepareStatement(sql)) {
 
             pst.setInt(1, codigoRuta);
-            int filasEliminadas = pst.executeUpdate();
-
-            if (filasEliminadas > 0) {
-                System.out.println("Evento eliminado de la BD para ruta código: " + codigoRuta);
-            }
+            pst.execute();
 
         } catch (SQLException e) {
-            System.out.println("Error al eliminar evento de la BD para ruta " + codigoRuta + ": " + e.getMessage());
+            alt.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Error al eliminar el evento.","Error.");
         }
     }
 
     public void eliminar(Ruta ruta) {
         if (ruta == null) {
-            System.out.println("Error: La ruta no puede ser nula");
             return;
         }
 
         EventoRuta evento = eventosActivos.get(ruta.getCodigo());
         if (evento != null) {
             eliminar(evento);
-        } else {
-            System.out.println("No se encontró evento activo para la ruta: " + ruta.getNombre());
         }
     }
 
     public void crearSimulacionEventos() {
-        System.out.println("Iniciando simulación de eventos aleatorios...");
         limpiarEventosExpirados();
 
         List<Ruta> todasLasRutas = obtenerTodasLasRutas();
 
         if (todasLasRutas.isEmpty()) {
-            System.out.println("No hay rutas disponibles para generar eventos.");
             return;
         }
 
@@ -127,8 +113,6 @@ public class ServicioEventos {
                 break;
             }
         }
-
-        System.out.println("Simulación completada. Eventos generados: " + eventosGenerados);
     }
 
     private List<Ruta> obtenerTodasLasRutas() {
@@ -142,8 +126,6 @@ public class ServicioEventos {
             if (tieneEventoActivo(ruta)) {
                 EventoRuta evento = getEvento(ruta);
                 guardarEventoEnBD(evento);
-                System.out.println("Evento generado para ruta " + ruta.getNombre() +
-                        ": " + evento.getTipoEvento().getNombre());
             }
         } catch (Exception e) {
             System.out.println("Error al generar evento para ruta " + ruta.getNombre() + ": " + e.getMessage());
@@ -151,9 +133,7 @@ public class ServicioEventos {
     }
 
     public void generarEventoAleatorio(Ruta ruta) {
-        //cargarEventosActivosDesdeBD();
         if (tieneEventoActivo(ruta)) {
-            System.out.println("La ruta " + ruta.getNombre() + " ya tiene un evento activo");
             return;
         }
 
@@ -174,7 +154,7 @@ public class ServicioEventos {
         Iterator<Map.Entry<Integer, EventoRuta>> it = eventosActivos.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<Integer, EventoRuta> entry = it.next();
-            if (!entry.getValue().estaActivo()) {
+            if (entry.getValue().estaExpirado()) {
                 entry.getValue().getRuta().removerEvento();
                 it.remove();
             }
@@ -195,7 +175,6 @@ public class ServicioEventos {
     public void aplicarEventoARuta(Ruta ruta, TipoEvento evento, int duracionMinutos) {
         if (eventosActivos.containsKey(ruta.getCodigo())) {
             eventosActivos.get(ruta.getCodigo()).setActivo(false);
-            ruta.removerEvento();
         }
 
         EventoRuta eventoRuta = new EventoRuta(ruta, evento, duracionMinutos);
@@ -203,20 +182,16 @@ public class ServicioEventos {
         ruta.aplicarEvento(evento);
     }
 
-
     public void limpiarEventosExpiradosBD() {
         String sql = "DELETE FROM Eventos WHERE fecha_fin < NOW()";
 
         try (Connection con = ConexionDB.getConexion();
              Statement st = con.createStatement()) {
 
-            int filasEliminadas = st.executeUpdate(sql);
-            if (filasEliminadas > 0) {
-                System.out.println("Eventos expirados eliminados de BD: " + filasEliminadas);
-            }
+            st.execute(sql);
 
         } catch (SQLException e) {
-            System.out.println("Error al limpiar eventos expirados de BD: " + e.getMessage());
+            alt.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Error al limpiar los eventos.","Error.").show();
         }
     }
 
@@ -236,26 +211,25 @@ public class ServicioEventos {
             pst.setTimestamp(3, new Timestamp(evento.getFechaInicio().getTime()));
             pst.setTimestamp(4, new Timestamp(evento.getFechaFin().getTime()));
 
-            pst.executeUpdate();
-            System.out.println("Evento guardado/actualizado en BD para ruta: " + evento.getRuta().getNombre());
+            pst.execute();
 
         } catch (SQLException e) {
-            System.out.println("Error al guardar/actualizar evento en BD: " + e.getMessage());
+            alt.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Error al guardar el evento.","Error.").show();
         }
     }
 
     public void cargarEventosActivosDesdeBD() {
-        String sql = "SELECT e.ruta, e.tipo_evento, e.fecha_fin FROM Eventos e WHERE e.fecha_fin > NOW()";
+        String sql = "SELECT e.ruta, e.tipo_evento, e.fecha_inicio, e.fecha_fin FROM Eventos e WHERE e.fecha_fin > NOW()";
 
         try (Connection con = ConexionDB.getConexion();
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
 
-            int eventosCargados = 0;
-
             while (rs.next()) {
                 int codigoRuta = rs.getInt("ruta");
                 TipoEvento tipoEvento = TipoEvento.valueOf(rs.getString("tipo_evento"));
+                Timestamp fechaInicio = rs.getTimestamp("fecha_inicio");
+                Timestamp fechaFin = rs.getTimestamp("fecha_fin");
 
                 Ruta rutaEncontrada = null;
                 for (Ruta ruta : obtenerTodasLasRutas()) {
@@ -266,26 +240,30 @@ public class ServicioEventos {
                 }
 
                 if (rutaEncontrada != null) {
-                    Timestamp fechaFin = rs.getTimestamp("fecha_fin");
                     long duracionRestante = (fechaFin.getTime() - System.currentTimeMillis()) / (60 * 1000);
 
                     if (duracionRestante > 0) {
-                        aplicarEventoARuta(rutaEncontrada, tipoEvento, (int) duracionRestante);
-                        eventosCargados++;
-                        System.out.println("Evento cargado para ruta: " + rutaEncontrada.getNombre() +
-                                " - " + tipoEvento.getNombre());
+                        EventoRuta eventoRuta = crearEventoDesdeBD(rutaEncontrada, tipoEvento, fechaInicio, fechaFin);
+                        eventosActivos.put(codigoRuta, eventoRuta);
+                        rutaEncontrada.aplicarEvento(tipoEvento);
                     }
                 }
             }
-
-            System.out.println("Eventos activos cargados desde BD: " + eventosCargados);
-
         } catch (SQLException e) {
-            System.out.println("Error al cargar eventos desde BD: " + e.getMessage());
+            alt.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Error al cargar eventos.","Error.").show();
         }
     }
 
+    private EventoRuta crearEventoDesdeBD(Ruta ruta, TipoEvento tipoEvento, Timestamp fechaInicio, Timestamp fechaFin) {
+        Date fechaInicioDate = new Date(fechaInicio.getTime());
+        Date fechaFinDate = new Date(fechaFin.getTime());
+
+        return new EventoRuta(ruta, tipoEvento, fechaInicioDate, fechaFinDate);
+    }
+
     public List<Ruta> getRutasConEventosActivos() {
+        limpiarEventosExpirados();
+
         List<Ruta> rutasConEventos = new ArrayList<>();
         for (EventoRuta evento : eventosActivos.values()) {
             if (evento.estaActivo()) {
@@ -294,4 +272,16 @@ public class ServicioEventos {
         }
         return rutasConEventos;
     }
+
+    public List<Ruta> getRutasSinEventosActivos() {
+        limpiarEventosExpirados();
+        List<Ruta> rutasSinEventos = new ArrayList<>();
+        for (Ruta ruta : obtenerTodasLasRutas()) {
+            if(!ruta.getTieneEvento()){
+                rutasSinEventos.add(ruta);
+            }
+        }
+        return rutasSinEventos;
+    }
+
 }

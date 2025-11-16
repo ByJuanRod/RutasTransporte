@@ -16,99 +16,104 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="656.0" prefWidth="824.0" stylesheets="@estilos/tablas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.controladores.EventosViewController">
-   <children>
-      <Circle fill="#19173c" layoutX="346.8" layoutY="61.0" radius="23.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.leftAnchor="323.8" />
-      <Circle fill="#49808e" layoutX="50.0" layoutY="57.0" radius="28.0" stroke="BLACK" strokeType="INSIDE" />
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="30.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@imagenes/barrera.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="98.0" layoutY="34.0" text="Eventos">
-         <font>
-            <Font name="Century Gothic Bold" size="36.0" />
-         </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
+<AnchorPane prefHeight="656.0" prefWidth="824.0" stylesheets="@estilos/tablas.css" xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="rutas.com.rutastransporte.controladores.EventosViewController">
+    <Circle fill="#19173c" layoutX="346.8" layoutY="61.0" radius="23.0" stroke="BLACK" strokeType="INSIDE"
+            AnchorPane.leftAnchor="323.8"/>
+    <Circle fill="#49808e" layoutX="50.0" layoutY="57.0" radius="28.0" stroke="BLACK" strokeType="INSIDE"/>
+    <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="30.0" layoutY="37.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@imagenes/barrera.png"/>
+    </ImageView>
+    <Label layoutX="98.0" layoutY="34.0" text="Eventos">
+        <font>
+          <Font name="Century Gothic Bold" size="36.0"/>
+        </font>
+        <textFill>
+          <LinearGradient>
+              <stops>
                   <Stop>
-                     <color>
-                        <Color red="0.09803921729326248" green="0.09019608050584793" blue="0.23529411852359772" />
-                     </color>
+                      <color>
+                          <Color red="0.09803921729326248" green="0.09019608050584793" blue="0.23529411852359772"/>
+                      </color>
                   </Stop>
                   <Stop offset="1.0">
-                     <color>
-                        <Color red="0.2862745225429535" green="0.501960813999176" blue="0.5568627715110779" />
-                     </color>
+                      <color>
+                          <Color red="0.2862745225429535" green="0.501960813999176" blue="0.5568627715110779"/>
+                      </color>
                   </Stop>
-               </stops>
-            </LinearGradient>
-         </textFill>
-      </Label>
-      <Line endX="100.0" layoutX="199.0" layoutY="85.0" startX="-100.0" />
-      <TableView fx:id="tblEventos" layoutX="26.4" layoutY="107.2" prefHeight="478.0" prefWidth="751.0" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="107.0">
-        <columns>
-          <TableColumn fx:id="colCodigo" prefWidth="87.19998407363892" resizable="false" text="Código" />
-          <TableColumn fx:id="colRuta" prefWidth="148.80001068115234" resizable="false" text="Ruta" />
-            <TableColumn fx:id="colTipoEvento" minWidth="0.0" prefWidth="232.80001831054688" resizable="false" text="Tipo" />
-            <TableColumn fx:id="colDuracion" minWidth="0.0" prefWidth="266.3999938964844" resizable="false" text="Duración" />
-        </columns>
-      </TableView>
-      <Button fx:id="btnInsertar" layoutX="24.0" layoutY="592.8000000000001" mnemonicParsing="false" onAction="#btnInsertarClick" prefHeight="40.0" prefWidth="188.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 10px;" text="Insertar" textFill="#fafafa" AnchorPane.bottomAnchor="10.399999999999977">
-         <font>
-            <Font name="Century Gothic Bold" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <graphic>
+              </stops>
+          </LinearGradient>
+        </textFill>
+    </Label>
+    <Line endX="100.0" layoutX="199.0" layoutY="85.0" startX="-100.0"/>
+    <TableView fx:id="tblEventos" layoutX="26.4" layoutY="107.2" prefHeight="478.0" prefWidth="751.0"
+               AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="25.0"
+               AnchorPane.topAnchor="107.0">
+      <columns>
+          <TableColumn fx:id="colCodigo" prefWidth="87.19998407363892" resizable="false" text="Código"/>
+          <TableColumn fx:id="colRuta" prefWidth="148.80001068115234" resizable="false" text="Ruta"/>
+          <TableColumn fx:id="colTipoEvento" minWidth="0.0" prefWidth="232.80001831054688" resizable="false"
+                       text="Tipo"/>
+          <TableColumn fx:id="colDuracion" minWidth="0.0" prefWidth="266.3999938964844" resizable="false"
+                       text="Duración"/>
+      </columns>
+    </TableView>
+    <Button layoutX="24.0" layoutY="592.8000000000001" mnemonicParsing="false"
+            onAction="#btnInsertarClick" prefHeight="40.0" prefWidth="188.0"
+            style="-fx-background-color: #1B4B6B; -fx-background-radius: 10px;" text="Insertar" textFill="#fafafa"
+            AnchorPane.bottomAnchor="10.399999999999977">
+        <font>
+          <Font name="Century Gothic Bold" size="18.0"/>
+        </font>
+        <cursor>
+          <Cursor fx:constant="HAND"/>
+        </cursor>
+        <graphic>
             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
-               <image>
-                  <Image url="@imagenes/insertar-ruta.png" />
-               </image>
+                <Image url="@imagenes/insertar-ruta.png"/>
             </ImageView>
-         </graphic>
-      </Button>
-      <TextField fx:id="txtBuscar" layoutX="383.0" layoutY="45.0" onKeyReleased="#txtBuscarKeyPressed" prefHeight="31.0" prefWidth="389.0" promptText="Buscar..." AnchorPane.leftAnchor="383.0">
-         <font>
-            <Font name="Century Gothic" size="16.0" />
-         </font>
-      </TextField>
-      <ImageView fitHeight="31.0" fitWidth="32.0" layoutX="333.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="333.0">
-         <image>
-            <Image url="@imagenes/lupa.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="btnEliminar" layoutX="220.0" layoutY="593.0" mnemonicParsing="false" onAction="#btnEliminarClick" prefHeight="40.0" prefWidth="188.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 10px;" text="Eliminar" textFill="#fafafa" AnchorPane.bottomAnchor="10.200000000000045">
-         <font>
-            <Font name="Century Gothic Bold" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <graphic>
+        </graphic>
+    </Button>
+    <TextField fx:id="txtBuscar" layoutX="383.0" layoutY="45.0" onKeyReleased="#txtBuscarKeyPressed" prefHeight="31.0"
+               prefWidth="389.0" promptText="Buscar..." AnchorPane.leftAnchor="383.0">
+        <font>
+          <Font name="Century Gothic" size="16.0"/>
+        </font>
+    </TextField>
+    <ImageView fitHeight="31.0" fitWidth="32.0" layoutX="333.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true"
+               AnchorPane.leftAnchor="333.0">
+        <Image url="@imagenes/lupa.png"/>
+    </ImageView>
+    <Button layoutX="220.0" layoutY="593.0" mnemonicParsing="false" onAction="#btnEliminarClick"
+            prefHeight="40.0" prefWidth="188.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 10px;"
+            text="Eliminar" textFill="#fafafa" AnchorPane.bottomAnchor="10.200000000000045">
+        <font>
+          <Font name="Century Gothic Bold" size="18.0"/>
+        </font>
+        <cursor>
+          <Cursor fx:constant="HAND"/>
+        </cursor>
+        <graphic>
             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
-               <image>
-                  <Image url="@imagenes/eliminar.png" />
-               </image>
+                <Image url="@imagenes/eliminar.png"/>
             </ImageView>
-         </graphic>
-      </Button>
-      <Button layoutX="416.0" layoutY="593.0" mnemonicParsing="false" onAction="#btnInformeClick" prefHeight="40.0" prefWidth="188.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 10px;" text="Informe" textFill="#fafafa" AnchorPane.bottomAnchor="10.200000000000045">
-         <font>
-            <Font name="Century Gothic Bold" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <graphic>
+        </graphic>
+    </Button>
+    <Button layoutX="416.0" layoutY="593.0" mnemonicParsing="false" onAction="#btnInformeClick" prefHeight="40.0"
+            prefWidth="188.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 10px;" text="Informe"
+            textFill="#fafafa" AnchorPane.bottomAnchor="10.200000000000045">
+        <font>
+          <Font name="Century Gothic Bold" size="18.0"/>
+        </font>
+        <cursor>
+          <Cursor fx:constant="HAND"/>
+        </cursor>
+        <graphic>
             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
-               <image>
-                  <Image url="@imagenes/informe.png" />
-               </image>
+                <Image url="@imagenes/informe.png"/>
             </ImageView>
-         </graphic>
-      </Button>
-   </children>
+        </graphic>
+    </Button>
 </AnchorPane>

@@ -1,10 +1,10 @@
-
 package rutas.com.rutastransporte.repositorio;
 
 import rutas.com.rutastransporte.modelos.Parada;
 import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.modelos.TipoParada;
 import rutas.com.rutastransporte.servicios.GrafoTransporte;
+import rutas.com.rutastransporte.servicios.ServicioEventos;
 import rutas.com.rutastransporte.utilidades.ConexionDB;
 
 import java.sql.Connection;
@@ -16,15 +16,13 @@ import java.util.Map;
 public class CargadorDatos {
 
     public static void cargarDatos() {
-
         GrafoTransporte grafo = SistemaTransporte.getSistemaTransporte().getGrafo();
+        ServicioEventos servicioEventos = ServicioEventos.getInstancia();
 
         Map<Integer, Parada> paradasPorCodigo = new HashMap<>();
 
         String sqlParadas = "SELECT * FROM Paradas";
         String sqlRutas = "SELECT * FROM Rutas";
-
-        System.out.println("Iniciando carga de datos desde MySQL...");
 
         try (Connection con = ConexionDB.getConexion();
              Statement stParadas = con.createStatement();
@@ -46,7 +44,6 @@ public class CargadorDatos {
             try (Statement stRutas = con.createStatement();
                  ResultSet rsRutas = stRutas.executeQuery(sqlRutas)) {
 
-                int rutasCargadas = 0;
                 while (rsRutas.next()) {
                     int codigo = rsRutas.getInt("codigo");
                     String nombre = rsRutas.getString("nombre_ruta");
@@ -71,18 +68,14 @@ public class CargadorDatos {
 
                         SistemaTransporte.getSistemaTransporte().getRutas().add(ruta);
                         grafo.agregarRuta(ruta);
-                        rutasCargadas++;
-                    } else {
-                        System.out.println("ADVERTENCIA: No se pudo cargar ruta " + codigo +
-                                " (origen o destino no encontrado).");
                     }
                 }
-                System.out.println("Cargadas " + rutasCargadas + " rutas desde la BBDD.");
             }
+
+            servicioEventos.cargarEventosActivosDesdeBD();
 
         } catch (Exception e) {
             System.out.println("ERROR FATAL AL CARGAR DATOS DE LA BBDD:");
-            //e.printStackTrace();
         }
         System.out.println("Cargando eventos activos desde la BBDD...");
         rutas.com.rutastransporte.servicios.ServicioEventos.getInstancia().cargarEventosActivosDesdeBD();

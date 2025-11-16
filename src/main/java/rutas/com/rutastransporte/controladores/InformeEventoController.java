@@ -2,10 +2,13 @@ package rutas.com.rutastransporte.controladores;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.modelos.EventoRuta;
 import rutas.com.rutastransporte.modelos.Ruta;
+
+import java.util.Objects;
 
 public class InformeEventoController {
     private Stage stage;
@@ -17,7 +20,7 @@ public class InformeEventoController {
     }
 
     @FXML
-    private Label lblNombre, lblCosto, lblTiempo, lblDistancia, lblRuta, lblDescTiempo, lblDescDistancia, lblDescCosto;
+    private Label lblNombre, lblCosto, lblTiempo, lblDistancia, lblRuta, lblDescTiempo, lblDescDistancia, lblDescCosto, lblDuracion;
 
     @FXML
     private ImageView imgEvento;
@@ -32,18 +35,21 @@ public class InformeEventoController {
 
     public void cargarDatos(){
         lblNombre.setText(evento.getTipoEvento().getNombre());
-        lblCosto.setText(String.valueOf(evento.getRuta().getCostoDiff()));
+        lblCosto.setText(evento.getRuta().getCostoDiff() + " (DOP)");
         lblTiempo.setText(Ruta.getTiempoFormatado(evento.getRuta().getTiempoDiff()));
         lblDistancia.setText(Ruta.getDistanciaFormatado(evento.getRuta().getDistanciaDiff()));
         lblRuta.setText(evento.getRuta().getNombre());
+        lblDuracion.setText(String.valueOf(evento.getTiempoRestanteMinutos()));
         cargarDescripciones();
+        Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + evento.getTipoEvento().getImagen())));
+        imgEvento.setImage(img);
     }
 
     private void cargarDescripciones(){
         switch (evento.getTipoEvento()){
             case ACCIDENTE:
                 lblDescTiempo.setText("50% más de Tiempo.");
-                lblDescDistancia.setText("100 más de Distancia.");
+                lblDescDistancia.setText("100% más de Distancia.");
                 lblDescCosto.setText("Mismo Costo.");
                 break;
 

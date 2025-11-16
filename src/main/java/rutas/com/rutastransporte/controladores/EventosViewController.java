@@ -81,11 +81,10 @@ public class EventosViewController {
         sb.setTitulo("Registrar Evento");
 
         RegistroEventoController controlador = (RegistroEventoController) sb.setContenido("RegistroEvento");
+        controlador.cargarDatos();
 
         Stage st = sb.construir();
-        if (controlador != null) {
-            controlador.setStage(st);
-        }
+        controlador.setStage(st);
 
         st.setOnHidden(event -> cargarDatos());
         st.show();
