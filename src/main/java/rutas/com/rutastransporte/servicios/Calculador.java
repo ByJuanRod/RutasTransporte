@@ -1,6 +1,7 @@
 package rutas.com.rutastransporte.servicios;
 
 import rutas.com.rutastransporte.modelos.*;
+import rutas.com.rutastransporte.repositorio.SistemaTransporte;
 
 import java.util.*;
 
@@ -186,4 +187,55 @@ public class Calculador {
 
         return rutaPosible;
     }
+
+    //kruskal-algorithm para el MST
+    public List<Ruta> calcularMST() {
+        List<Ruta> rutas = new ArrayList<>(SistemaTransporte.getSistemaTransporte().getRutas());
+        List<Parada> paradas = new ArrayList<>(SistemaTransporte.getSistemaTransporte().getParadas());
+
+        rutas.sort(Comparator.comparingInt(Ruta::getDistancia));
+
+        Map<Integer, Integer> padres = new HashMap<>();
+        for (Parada parada : paradas) {
+            padres.put(parada.getCodigo(), parada.getCodigo());
+        }
+
+        List<Ruta> mst = new ArrayList<>();
+        int numAristas = paradas.size() - 1;
+
+        for(Ruta ruta : rutas) {
+
+            int raizOrigen = find(padres, ruta.getOrigen().getCodigo());
+            int raizDestino = find(padres, ruta.getDestino().getCodigo());
+
+            if(raizOrigen != raizDestino){
+                mst.add(ruta);
+
+                union(padres, raizOrigen, raizDestino);
+
+            }
+
+            if(mst.size() == numAristas){
+                break;
+            }
+
+        }
+
+        return mst;
+
+    }
+
+    private int find(Map<Integer, Integer> padres, int i) {
+
+        if (padres.get(i) == i) {
+            return i;
+        }
+
+        return find(padres, padres.get(i));
+    }
+
+    private void union(Map<Integer, Integer> padres, int raizI, int raizJ) {
+        padres.put(raizI, raizJ);
+    }
+
 }

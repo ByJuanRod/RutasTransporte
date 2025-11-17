@@ -77,38 +77,35 @@ public class RutasDAO implements CRUD<Ruta> {
 
     @Override
     public void eliminar(Ruta ruta) throws NotRemovableException {
-        String sqlCheck = "SELECT COUNT(*) as count FROM Rutas WHERE origen = ? OR destino = ?";
+
         String sqlDelete = "DELETE FROM Rutas WHERE codigo = ?";
 
         try (Connection con = ConexionDB.getConexion();
-             PreparedStatement pstCheck = con.prepareStatement(sqlCheck);
              PreparedStatement pstDelete = con.prepareStatement(sqlDelete)) {
 
-            pstCheck.setInt(1, ruta.getCodigo());
-            pstCheck.setInt(2, ruta.getCodigo());
-            ResultSet rs = pstCheck.executeQuery();
-
-            if (rs.next() && rs.getInt("count") > 0) {
-                throw new NotRemovableException("No se puede eliminar la ruta porque es referenciada por otras rutas.");
-            }
-
             pstDelete.setInt(1, ruta.getCodigo());
-            pstDelete.executeUpdate();
+            int filasAfectadas = pstDelete.executeUpdate();
 
-            SistemaTransporte sistema = SistemaTransporte.getSistemaTransporte();
-            Iterator<Ruta> iterator = sistema.getRutas().iterator();
-            while (iterator.hasNext()) {
-                if (iterator.next().getCodigo() == ruta.getCodigo()) {
-                    iterator.remove();
-                    break;
+            if (filasAfectadas > 0) {
+                System.out.println("Ruta " + ruta.getCodigo() + " eliminada de la BBDD.");
+
+                SistemaTransporte sistema = SistemaTransporte.getSistemaTransporte();
+                Iterator<Ruta> iterator = sistema.getRutas().iterator();
+                while (iterator.hasNext()) {
+                    if (iterator.next().getCodigo() == ruta.getCodigo()) {
+                        iterator.remove();
+                        break;
+                    }
                 }
-            }
+                sistema.getGrafo().eliminarRuta(ruta);
 
-            sistema.getGrafo().eliminarRuta(ruta);
+            } else {
+                System.out.println("No se encontró la ruta " + ruta.getCodigo() + " en la BBDD para eliminar.");
+            }
 
         } catch (SQLException e) {
             System.out.println("Error al eliminar ruta: " + e.getMessage());
-            throw new NotRemovableException("Error al eliminar la ruta: " + e.getMessage());
+            throw new NotRemovableException("Error de SQL al eliminar la ruta: " + e.getMessage());
         }
     }
 
