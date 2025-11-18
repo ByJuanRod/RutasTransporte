@@ -2,6 +2,7 @@ package rutas.com.rutastransporte.controladores;
 
 import com.brunomnsilva.smartgraph.graph.*;
 import com.brunomnsilva.smartgraph.graphview.*;
+import com.brunomnsilva.smartgraph.containers.ContentZoomScrollPane;
 import javafx.animation.PauseTransition;
 import javafx.animation.Transition;
 import javafx.application.Platform;
@@ -20,6 +21,7 @@ import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
 import rutas.com.rutastransporte.utilidades.alertas.Alerta;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class MapaViewController {
@@ -126,20 +128,27 @@ public class MapaViewController {
         }
 
         Digraph<Parada, Ruta> g = new DigraphEdgeList<>();
-        sm.rellenarGrafo(g);
+        for(Parada p : SistemaTransporte.getSistemaTransporte().getParadas()) {
+            g.insertVertex(p);
+        }
 
         SmartPlacementStrategy strategy = new SmartCircularSortedPlacementStrategy();
-
         graphView = new SmartGraphPanel<>(g, strategy);
+
+        double tamanoLienzo = Math.max(1200, g.numVertices() * 50);
+        graphView.setPrefSize(tamanoLienzo, tamanoLienzo);
+
         graphView.setAutomaticLayout(true);
         aplicarEstilos(graphView);
 
-        AnchorPane.setLeftAnchor(graphView, 0.0);
-        AnchorPane.setTopAnchor(graphView, 0.0);
-        AnchorPane.setRightAnchor(graphView, 0.0);
-        AnchorPane.setBottomAnchor(graphView, 0.0);
+        ContentZoomScrollPane zoomPane = new ContentZoomScrollPane(graphView);
 
-        contenedorGrafo.getChildren().add(graphView);
+        AnchorPane.setLeftAnchor(zoomPane, 0.0);
+        AnchorPane.setTopAnchor(zoomPane, 0.0);
+        AnchorPane.setRightAnchor(zoomPane, 0.0);
+        AnchorPane.setBottomAnchor(zoomPane, 0.0);
+
+        contenedorGrafo.getChildren().add(zoomPane);
 
         Platform.runLater(() -> {
             if (graphView.getScene() != null) {
@@ -192,7 +201,7 @@ public class MapaViewController {
     }
 
     private void evaluarEventos(SmartGraphPanel<Parada,Ruta> panel, Parada elemento){
-        if (origen != null && destino != null) {
+        if (estilizada != null) {
             aplicarPorDefecto();
         }
 
@@ -200,16 +209,21 @@ public class MapaViewController {
             panel.getStylableVertex(elemento).addStyleClass("seleccionado");
             cbxOrigen.getSelectionModel().select(elemento);
             origen = elemento;
+
+            construirArbolVisual(origen);
         }
         else if (destino == null && !origen.equals(elemento)) {
             panel.getStylableVertex(elemento).addStyleClass("seleccionado");
             cbxDestino.getSelectionModel().select(elemento);
             destino = elemento;
+
         }
         else if (origen.equals(elemento)) {
             panel.getStylableVertex(elemento).removeStyleClass("seleccionado");
             cbxOrigen.getSelectionModel().clearSelection();
             origen = null;
+
+            limpiarAristasVisuales();
         }
         else if (destino != null && destino.equals(elemento)) {
             panel.getStylableVertex(elemento).removeStyleClass("seleccionado");
@@ -218,9 +232,43 @@ public class MapaViewController {
         }
     }
 
+    private void construirArbolVisual(Parada raiz) {
+        limpiarAristasVisuales();
+
+        Calculador calc = new Calculador();
+        calc.setGrafo(SistemaTransporte.getSistemaTransporte().getGrafo());
+
+        List<Ruta> arbol = calc.calcularArbolDijkstra(raiz);
+
+        for (Ruta r : arbol) {
+            try {
+                graphView.getModel().insertEdge(r.getOrigen(), r.getDestino(), r);
+            } catch (Exception ignored) { }
+        }
+
+        graphView.update();
+    }
+
+    private void limpiarAristasVisuales() {
+        if (graphView != null && graphView.getModel() != null) {
+            List<Edge<Ruta, Parada>> aristas = new ArrayList<>(graphView.getModel().edges());
+
+            for (Edge<Ruta, Parada> arista : aristas) {
+                graphView.getModel().removeEdge(arista);
+            }
+            graphView.update();
+        }
+    }
+
     public void estilizarRuta(RutaPosible ruta){
         for(Ruta rt : ruta.getCamino()){
-            graphView.getStylableEdge(rt).addStyleClass("camino");
+            SmartStylableNode visualRoute = graphView.getStylableEdge(rt);
+
+            if (visualRoute != null) {
+                visualRoute.addStyleClass("camino");
+            } else {
+                System.out.println("La ruta visual aún no está lista: " + rt.getNombre());
+            }
         }
     }
 

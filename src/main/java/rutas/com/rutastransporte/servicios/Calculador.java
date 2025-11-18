@@ -14,7 +14,6 @@ public class Calculador {
             case MAS_ECONOMICO -> ruta.getCostoConEvento();
             case MAS_CORTA -> ruta.getDistanciaConEvento();
             case MAS_RAPIDA -> ruta.getTiempoConEvento();
-            case MENOS_TRASBORDOS -> ruta.getTrasbordos();
             default -> 1.0f;
         };
     }
@@ -70,10 +69,6 @@ public class Calculador {
             Ruta ruta = anterior.get(pasoActual);
 
             rutaPosible.agregarAlCaminoFirst(ruta);
-            rutaPosible.agregarCosto(ruta.getCostoConEvento());
-            rutaPosible.agregarTrasbordos(ruta.getTrasbordos());
-            rutaPosible.agregarDistancia(ruta.getDistanciaConEvento());
-            rutaPosible.agregarTiempo(ruta.getTiempoConEvento());
             rutaPosible.agregarCriterioDestacado(criterio);
 
             pasoActual = ruta.getOrigen();
@@ -236,6 +231,62 @@ public class Calculador {
 
     private void union(Map<Integer, Integer> padres, int raizI, int raizJ) {
         padres.put(raizI, raizJ);
+    }
+
+    public List<Ruta> calcularArborescencia(Parada raiz) {
+        List<Ruta> arborescencia = new ArrayList<>();
+
+        Map<Parada, Ruta> mejoresEntrantes = new HashMap<>();
+
+        for (Ruta ruta : SistemaTransporte.getSistemaTransporte().getRutas()) {
+            Parada v = ruta.getDestino();
+            if (v.equals(raiz)) continue;
+
+            float costo = ruta.getCosto();
+
+            if (!mejoresEntrantes.containsKey(v) || costo < mejoresEntrantes.get(v).getCosto()) {
+                mejoresEntrantes.put(v, ruta);
+            }
+        }
+
+        arborescencia.addAll(mejoresEntrantes.values());
+        return arborescencia;
+    }
+
+    public List<Ruta> calcularArbolDijkstra(Parada raiz) {
+        Criterio criterio = Criterio.MENOS_TRASBORDOS;
+
+        Map<Parada, Ruta> edgeTo = new HashMap<>();
+
+        Map<Parada, Float> distTo = new HashMap<>();
+
+        PriorityQueue<Parada> pq = new PriorityQueue<>(Comparator.comparing(distTo::get));
+
+        for (Parada p : SistemaTransporte.getSistemaTransporte().getParadas()) {
+            distTo.put(p, Float.POSITIVE_INFINITY);
+        }
+        distTo.put(raiz, 0.0f);
+        pq.add(raiz);
+
+        while (!pq.isEmpty()) {
+            Parada actual = pq.poll();
+
+            for (Ruta ruta : grafo.getRutas(actual)) {
+                Parada vecino = ruta.getDestino();
+                float peso = getPeso(ruta, criterio);
+
+                if (distTo.get(actual) + peso < distTo.get(vecino)) {
+                    distTo.put(vecino, distTo.get(actual) + peso);
+
+                    edgeTo.put(vecino, ruta);
+
+                    pq.remove(vecino);
+                    pq.add(vecino);
+                }
+            }
+        }
+
+        return new ArrayList<>(edgeTo.values());
     }
 
 }

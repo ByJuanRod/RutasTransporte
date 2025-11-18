@@ -39,7 +39,10 @@ public class RutaPosible implements Clonable<RutaPosible> {
     }
 
     public int getCantTrasbordos() {
-        return cantTrasbordos;
+        if(camino == null || camino.isEmpty()){
+            return 0;
+        }
+        return camino.size() - 1;
     }
 
     public void agregarTiempo(float tiempo){
@@ -116,6 +119,11 @@ public class RutaPosible implements Clonable<RutaPosible> {
      */
     public void agregarAlCaminoFirst(Ruta ruta){
         camino.addFirst(ruta);
+
+        tiempoTotal += ruta.getTiempoConEvento();
+        costoTotal += ruta.getCostoConEvento();
+        distanciaTotal += ruta.getDistanciaConEvento();
+
         if(!ruta.getTipoEvento().equals(TipoEvento.NORMAL)){
             registroEventos.add(ruta.getTipoEvento());
         }
