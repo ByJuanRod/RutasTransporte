@@ -234,7 +234,6 @@ public class Calculador {
     }
 
     public List<Ruta> calcularArborescencia(Parada raiz) {
-        List<Ruta> arborescencia = new ArrayList<>();
 
         Map<Parada, Ruta> mejoresEntrantes = new HashMap<>();
 
@@ -249,8 +248,7 @@ public class Calculador {
             }
         }
 
-        arborescencia.addAll(mejoresEntrantes.values());
-        return arborescencia;
+        return new ArrayList<>(mejoresEntrantes.values());
     }
 
     public List<Ruta> calcularArbolDijkstra(Parada raiz) {
