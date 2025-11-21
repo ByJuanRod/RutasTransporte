@@ -28,6 +28,7 @@ public class MapaViewController {
     private final ServicioMapa sm = new  ServicioMapa();
     private final AlertFactory alertFactory = new AlertFactory();
     private SmartGraphPanel<Parada,Ruta> graphView;
+    private ContentZoomScrollPane zoomPane;
 
     private RutaPosible estilizada = null;
 
@@ -68,6 +69,8 @@ public class MapaViewController {
             Parada origen = cbxOrigen.getSelectionModel().getSelectedItem();
             Parada destino = cbxDestino.getSelectionModel().getSelectedItem();
 
+            RutaPosible rutaADibujar = null;
+
             for(Criterio criterio : Criterio.values()){
                 if(!criterio.equals(Criterio.MEJOR_RUTA)){
                     RutaPosible rt = calc.dijkstra(origen,destino,criterio);
@@ -75,6 +78,11 @@ public class MapaViewController {
                     if(rt != null){
                         contenedorGeneral.getChildren().clear();
                         posiblesRutas.add(rt);
+
+                        if(criterio.equals(Criterio.MENOS_TRASBORDOS)){
+                            rutaADibujar = rt;
+                        }
+
                     }
                     else{
                         alertFactory.obtenerAlerta(Alert.AlertType.WARNING).crearAlerta("Todavía no existe un camino para llegar desde " + origen.getNombreParada() + " a " + destino.getNombreParada() + ".","Advertencia de calculo.").show();
@@ -99,13 +107,34 @@ public class MapaViewController {
                 }
             }
 
-            if(mejorRuta != null){
-                estilizarRuta(mejorRuta);
-                estilizada = mejorRuta;
+            if (rutaADibujar == null && mejorRuta != null) {
+                rutaADibujar = mejorRuta;
+            } else if (rutaADibujar == null && !rutasUnicas.isEmpty()) {
+                rutaADibujar = rutasUnicas.getFirst();
             }
-            else{
-                estilizarRuta(rutasUnicas.getFirst());
-                estilizada = rutasUnicas.getFirst();
+
+            if (rutaADibujar != null) {
+                estilizada = rutaADibujar;
+
+                for (Ruta rt : rutaADibujar.getCamino()) {
+                    try {
+                        graphView.getModel().insertVertex(rt.getOrigen());
+                        graphView.getModel().insertVertex(rt.getDestino());
+                        graphView.getModel().insertEdge(rt.getOrigen(), rt.getDestino(), rt);
+                    } catch (Exception ignored) {  }
+                }
+
+                graphView.update();
+
+                final RutaPosible rutaFinal = rutaADibujar;
+                Platform.runLater(() -> {
+                    try {
+                        graphView.update();
+                        estilizarRuta(rutaFinal);
+                    } catch (Exception e) {
+                        System.out.println("Error visual menor al estilizar: " + e.getMessage());
+                    }
+                });
             }
 
             this.origen =  cbxOrigen.getSelectionModel().getSelectedItem();
@@ -122,6 +151,9 @@ public class MapaViewController {
     }
 
     public void cargarDatos(){
+
+        sm.crearSimulacion();
+
         for(Parada p : SistemaTransporte.getSistemaTransporte().getParadas()){
             cbxDestino.getItems().add(p);
             cbxOrigen.getItems().add(p);
@@ -141,7 +173,7 @@ public class MapaViewController {
         graphView.setAutomaticLayout(true);
         aplicarEstilos(graphView);
 
-        ContentZoomScrollPane zoomPane = new ContentZoomScrollPane(graphView);
+        zoomPane = new ContentZoomScrollPane(graphView);
 
         AnchorPane.setLeftAnchor(zoomPane, 0.0);
         AnchorPane.setTopAnchor(zoomPane, 0.0);
@@ -172,12 +204,15 @@ public class MapaViewController {
     private void inicializarGrafo() {
         try {
             graphView.init();
+            graphView.requestFocus();
+            Platform.runLater(() -> {
+                zoomPane.setHvalue(0.5);
+                zoomPane.setVvalue(0.5);
+            });
             Transition pause = new PauseTransition(Duration.millis(1000));
             pause.setOnFinished(e -> graphView.update());
             pause.play();
-        } catch (Exception e) {
-
-        }
+        } catch (Exception ignored) { }
     }
 
     public void crearPanel(RutaPosible ruta){

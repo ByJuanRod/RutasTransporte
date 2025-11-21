@@ -14,7 +14,6 @@ public class Calculador {
             case MAS_ECONOMICO -> ruta.getCostoConEvento();
             case MAS_CORTA -> ruta.getDistanciaConEvento();
             case MAS_RAPIDA -> ruta.getTiempoConEvento();
-            case MENOS_TRASBORDOS -> ruta.getTrasbordos();
             default -> 1.0f;
         };
     }

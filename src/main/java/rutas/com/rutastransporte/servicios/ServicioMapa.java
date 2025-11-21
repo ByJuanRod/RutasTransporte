@@ -1,10 +1,7 @@
 package rutas.com.rutastransporte.servicios;
 
-import com.brunomnsilva.smartgraph.graph.Digraph;
-import rutas.com.rutastransporte.modelos.Parada;
 import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.modelos.RutaPosible;
-import rutas.com.rutastransporte.repositorio.SistemaTransporte;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -15,18 +12,6 @@ public class ServicioMapa {
 
     public void crearSimulacion(){
         servicioEventos.crearSimulacionEventos();
-    }
-
-    public void rellenarGrafo(Digraph<Parada, Ruta> grafo){
-        crearSimulacion();
-
-        for(Parada parada : SistemaTransporte.getSistemaTransporte().getParadas()){
-            grafo.insertVertex(parada);
-        }
-
-        for(Ruta ruta : SistemaTransporte.getSistemaTransporte().getRutas()){
-            grafo.insertEdge(ruta.getOrigen(),ruta.getDestino(),ruta);
-        }
     }
 
     public RutaPosible obtenerMejorRuta(Stack<RutaPosible> posiblesRutas) {
