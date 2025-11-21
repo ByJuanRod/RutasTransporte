@@ -18,6 +18,9 @@ public class RutaPosible implements Clonable<RutaPosible> {
     private LinkedList<Criterio> criteriosDestacados;
     private boolean esMejorRuta;
     private Set<TipoEvento> registroEventos;
+    private float costoBase;
+    private float distanciaBase;
+    private float tiempoBase;
 
     public RutaPosible() {
         camino = new LinkedList<>();
@@ -27,6 +30,9 @@ public class RutaPosible implements Clonable<RutaPosible> {
         tiempoTotal = 0;
         cantTrasbordos = 0;
         esMejorRuta = false;
+        costoBase = 0;
+        distanciaBase = 0;
+        tiempoBase = 0;
         registroEventos = new HashSet<>();
     }
 
@@ -39,22 +45,22 @@ public class RutaPosible implements Clonable<RutaPosible> {
     }
 
     public int getCantTrasbordos() {
-        if(camino == null || camino.isEmpty()){
-            return 0;
-        }
-        return camino.size() - 1;
+        return cantTrasbordos;
     }
 
-    public void agregarTiempo(float tiempo){
-        tiempoTotal+=tiempo;
+    public void agregarTiempo(float tiempoEvento, float tiempoBase){
+        tiempoTotal+=tiempoEvento;
+        this.tiempoBase += tiempoBase;
     }
 
-    public void agregarCosto(float costo){
-        costoTotal+=costo;
+    public void agregarCosto(float costoEvento, float costoBase){
+        costoTotal += costoEvento;
+        this.costoBase += costoBase;
     }
 
-    public void agregarDistancia(float distancia){
-        distanciaTotal += distancia;
+    public void agregarDistancia(float distanciaEvento, float distanciaBase){
+        distanciaTotal += distanciaEvento;
+        this.distanciaBase += distanciaBase;
     }
 
     public void agregarTrasbordos(int trasbordos){
@@ -108,6 +114,10 @@ public class RutaPosible implements Clonable<RutaPosible> {
         tiempoTotal += ruta.getTiempoConEvento();
         costoTotal += ruta.getCostoConEvento();
         distanciaTotal += ruta.getDistanciaConEvento();
+        tiempoBase += ruta.getTiempo();
+        distanciaBase += ruta.getDistancia();
+        cantTrasbordos += ruta.getTrasbordos();
+        costoBase += ruta.getCosto();
     }
 
     /*
@@ -119,10 +129,14 @@ public class RutaPosible implements Clonable<RutaPosible> {
      */
     public void agregarAlCaminoFirst(Ruta ruta){
         camino.addFirst(ruta);
+        cantTrasbordos += ruta.getTrasbordos();
 
         tiempoTotal += ruta.getTiempoConEvento();
         costoTotal += ruta.getCostoConEvento();
         distanciaTotal += ruta.getDistanciaConEvento();
+        tiempoBase += ruta.getTiempo();
+        costoBase += ruta.getCosto();
+        distanciaBase += ruta.getDistancia();
 
         if(!ruta.getTipoEvento().equals(TipoEvento.NORMAL)){
             registroEventos.add(ruta.getTipoEvento());
@@ -176,4 +190,15 @@ public class RutaPosible implements Clonable<RutaPosible> {
         this.registroEventos = new HashSet<>(rutaPosible.registroEventos);
     }
 
+    public float getDiffCosto(){
+        return costoTotal - costoBase;
+    }
+
+    public float getDiffTiempo(){
+        return tiempoTotal - tiempoBase;
+    }
+
+    public float getDiffDistancia(){
+        return distanciaTotal - distanciaBase;
+    }
 }

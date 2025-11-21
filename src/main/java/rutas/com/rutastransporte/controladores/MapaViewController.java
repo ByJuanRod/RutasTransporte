@@ -176,7 +176,7 @@ public class MapaViewController {
             pause.setOnFinished(e -> graphView.update());
             pause.play();
         } catch (Exception e) {
-            System.err.println("Error al inicializar el grafo: " + e.getMessage());
+
         }
     }
 

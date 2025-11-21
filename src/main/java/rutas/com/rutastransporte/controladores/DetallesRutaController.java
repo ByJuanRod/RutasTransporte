@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.modelos.Criterio;
+import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.modelos.RutaPosible;
 import rutas.com.rutastransporte.RecursosVisuales;
 import rutas.com.rutastransporte.modelos.TipoEvento;
@@ -31,6 +32,8 @@ public class DetallesRutaController {
         this.ruta = ruta;
     }
 
+    public String mensajeSimulacion;
+
     @FXML
     private Label lblIndicador, lblCamino, lblCosto, lblDistancia, lblTrasbordos, lblTiempo;
 
@@ -50,7 +53,7 @@ public class DetallesRutaController {
             lblTiempo.setText(ruta.getTiempoFormatado());
             aplicarCriterios();
             aplicarSimulaciones();
-            System.out.println(ruta.getRegistroEventos().size());
+            mensajeSimulacion = crearMensajeSimulacion();
         }
         catch (Exception e){
             alertFactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Ha ocurrido un error.","Error.");
@@ -64,6 +67,7 @@ public class DetallesRutaController {
     }
 
     public void imgEconomicoClick(){
+
         evaluarEventosCriterios("Ruta destacada por ser la más económica.","No es la ruta más económica.",Criterio.MAS_ECONOMICO);
     }
 
@@ -131,5 +135,16 @@ public class DetallesRutaController {
         verificarSimulacion(TipoEvento.ACCIDENTE,ruta.getRegistroEventos(),imgAccidente);
         verificarSimulacion(TipoEvento.CAMINO_LIBRE,ruta.getRegistroEventos(),imgLibre);
         verificarSimulacion(TipoEvento.ZONA_CONCURRIDA,ruta.getRegistroEventos(),imgConcurrido);
+    }
+
+    public String crearMensajeSimulacion(){
+        return "\t\tDetalle de los Eventos\n" +
+                "\nCosto Agregado: " + ruta.getDiffCosto() + " (DOP)" +
+                "\nTiempo Agregado: " + Ruta.getTiempoFormatado(ruta.getDiffTiempo()) +
+                "\nDistancia Agregada: " + Ruta.getDistanciaFormatado(ruta.getDiffDistancia());
+    }
+
+    public void mostrarDetallesEventosClick(){
+        alertFactory.obtenerAlerta(Alert.AlertType.INFORMATION).crearAlerta(mensajeSimulacion,"Detalles de la Ruta.").show();
     }
 }

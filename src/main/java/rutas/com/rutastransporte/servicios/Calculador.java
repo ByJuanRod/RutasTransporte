@@ -14,6 +14,7 @@ public class Calculador {
             case MAS_ECONOMICO -> ruta.getCostoConEvento();
             case MAS_CORTA -> ruta.getDistanciaConEvento();
             case MAS_RAPIDA -> ruta.getTiempoConEvento();
+            case MENOS_TRASBORDOS -> ruta.getTrasbordos();
             default -> 1.0f;
         };
     }
@@ -171,10 +172,10 @@ public class Calculador {
             }
 
             rutaPosible.agregarAlCamino(ruta);
-            rutaPosible.agregarCosto(ruta.getCostoConEvento());
+            rutaPosible.agregarCosto(ruta.getCostoConEvento(),ruta.getCosto());
             rutaPosible.agregarTrasbordos(ruta.getTrasbordos());
-            rutaPosible.agregarDistancia(ruta.getDistanciaConEvento());
-            rutaPosible.agregarTiempo(ruta.getTiempoConEvento());
+            rutaPosible.agregarDistancia(ruta.getDistanciaConEvento(),ruta.getDistancia());
+            rutaPosible.agregarTiempo(ruta.getTiempoConEvento(),ruta.getTiempo());
             rutaPosible.agregarCriterioDestacado(criterio);
 
             actual = ruta.getDestino();
