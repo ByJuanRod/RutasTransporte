@@ -129,7 +129,7 @@ public class RegistroRutaController implements Registro {
                     limpiar();
                 }
                 else{
-                    alertfactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("No se logró insertar la ruta, intente nuevamente.","Error").show();
+                    alertfactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("No se logró insertar la ruta, intente nuevamente.").show();
                 }
             }
             else{
@@ -145,7 +145,7 @@ public class RegistroRutaController implements Registro {
                     alerta.crearAlerta("Ruta Modificada Exitosamente.","Registro Modificado.").show();
                 }
                 else{
-                    alertfactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("No se logró actualizar la ruta, intente nuevamente.","Error").show();
+                    alertfactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("No se logró actualizar la ruta, intente nuevamente.").show();
                 }
             }
         }
@@ -217,7 +217,7 @@ public class RegistroRutaController implements Registro {
             txtNombre.setText("Ruta " + cbxOrigen.getSelectionModel().getSelectedItem() + "-" + cbxDestino.getSelectionModel().getSelectedItem());
         }
         else{
-            alertfactory.obtenerAlerta(Alert.AlertType.WARNING).crearAlerta("El origen y destino deben ser paradas existentes para asignar el automático.","Advertencia").show();
+            alertfactory.obtenerAlerta(Alert.AlertType.WARNING).crearAlerta("El origen y destino deben ser paradas existentes para asignar el automático.").show();
         }
     }
 }

@@ -18,4 +18,14 @@ public class AlertaAdvertencia implements Alerta{
 
         return alerta;
     }
+
+    public Alert crearAlerta(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.WARNING);
+        alerta.setTitle("Advertencia");
+        alerta.setResizable(false);
+        alerta.setContentText(mensaje);
+        alerta.setHeaderText("Advertencia.");
+
+        return alerta;
+    }
 }

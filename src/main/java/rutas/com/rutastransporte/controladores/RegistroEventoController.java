@@ -37,7 +37,7 @@ public class RegistroEventoController {
     public void cargarDatos(){
         List<Ruta> rutas = ServicioEventos.getInstancia().getRutasSinEventosActivos();
         if(rutas.isEmpty()){
-            af.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("No se puede insertar un nuevo evento ya que no existen rutas o todas las existentes ya tienen un evento asociado.","Error.").show();
+            af.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("No se puede insertar un nuevo evento ya que no existen rutas o todas las existentes ya tienen un evento asociado.").show();
             stage.close();
             return;
         }
@@ -59,7 +59,7 @@ public class RegistroEventoController {
     public void btnRealizarClick(){
         EventoRuta ev = new EventoRuta(cbxRuta.getValue(),cbxTipo.getValue(),spnDuracion.getValue());
         ServicioEventos.getInstancia().insertar(ev);
-        af.obtenerAlerta(Alert.AlertType.INFORMATION).crearAlerta("Evento Insertado Exitosamente.","Inserción Correcta.").show();
+        af.obtenerAlerta(Alert.AlertType.INFORMATION).crearAlerta("Evento Insertado Exitosamente.").show();
     }
 
     public void btnLimpiarClick(){

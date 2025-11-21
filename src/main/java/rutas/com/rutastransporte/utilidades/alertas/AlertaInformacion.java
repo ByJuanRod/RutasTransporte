@@ -19,4 +19,14 @@ public class AlertaInformacion implements Alerta {
 
         return alerta;
     }
+
+    public Alert crearAlerta(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Información");
+        alerta.setResizable(false);
+        alerta.setContentText(mensaje);
+        alerta.setHeaderText("Información.");
+
+        return alerta;
+    }
 }

@@ -98,7 +98,7 @@ public class RegistroParadaController implements Registro {
                     alerta.crearAlerta("Parada Modificada Exitosamente.","Registro Modificado.").show();
                 }
                 else{
-                    alertFactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("No se logro actualizar la parada, intente nuevamente.","Error").show();
+                    alertFactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("No se logro actualizar la parada, intente nuevamente.").show();
                 }
             }
         }

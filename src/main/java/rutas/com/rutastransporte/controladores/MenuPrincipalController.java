@@ -10,7 +10,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
-import rutas.com.rutastransporte.utilidades.alertas.Alerta;
 import rutas.com.rutastransporte.utilidades.Colores;
 
 import java.util.Objects;
@@ -78,8 +77,7 @@ public class MenuPrincipalController {
             pnlContenedor.setCenter(contenido);
         }
         catch (Exception e){
-            Alerta alt = alert.obtenerAlerta(Alert.AlertType.ERROR);
-            alt.crearAlerta("Error al cargar el apartado seleccionado.","Error").show();
+            alert.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Error al cargar el apartado seleccionado.").show();
         }
     }
 

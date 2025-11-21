@@ -175,7 +175,7 @@ public class EventosViewController {
             st.show();
         }
         else{
-            alert.obtenerAlerta(Alert.AlertType.WARNING).crearAlerta("Para crear un informe debe tene run evento seleccionado.","Advertencia.").show();
+            alert.obtenerAlerta(Alert.AlertType.WARNING).crearAlerta("Para crear un informe debe tene run evento seleccionado.").show();
         }
 
     }

@@ -56,7 +56,7 @@ public class DetallesRutaController {
             mensajeSimulacion = crearMensajeSimulacion();
         }
         catch (Exception e){
-            alertFactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Ha ocurrido un error.","Error.");
+            alertFactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Ha ocurrido un error.");
         }
     }
 

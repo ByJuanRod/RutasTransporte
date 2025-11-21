@@ -18,4 +18,14 @@ public class AlertaError implements Alerta {
 
         return alerta;
     }
+
+    public Alert crearAlerta(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setResizable(false);
+        alerta.setContentText(mensaje);
+        alerta.setHeaderText("Error.");
+
+        return alerta;
+    }
 }

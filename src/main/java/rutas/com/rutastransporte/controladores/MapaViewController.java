@@ -58,7 +58,7 @@ public class MapaViewController {
 
         if(cbxDestino.getSelectionModel().getSelectedItem().equals(cbxOrigen.getSelectionModel().getSelectedItem())){
             Alerta alert = alertFactory.obtenerAlerta(Alert.AlertType.WARNING);
-            alert.crearAlerta("El origen y el destino no pueden ser el mismo seleccione un punto diferente.","Advertencia.").show();
+            alert.crearAlerta("El origen y el destino no pueden ser el mismo seleccione un punto diferente.").show();
         }
         else{
             Calculador calc = new Calculador();
@@ -85,7 +85,7 @@ public class MapaViewController {
 
                     }
                     else{
-                        alertFactory.obtenerAlerta(Alert.AlertType.WARNING).crearAlerta("Todavía no existe un camino para llegar desde " + origen.getNombreParada() + " a " + destino.getNombreParada() + ".","Advertencia de calculo.").show();
+                        alertFactory.obtenerAlerta(Alert.AlertType.WARNING).crearAlerta("Todavía no existe un camino para llegar desde " + origen.getNombreParada() + " a " + destino.getNombreParada() + ".","Advertencia de cálculo.").show();
                         return;
                     }
                 }
