@@ -168,9 +168,7 @@ public class ParadasViewController implements Vista<Parada> {
                 imageView.setImage(image);
                 imageView.setFitWidth(24);
                 imageView.setFitHeight(24);
-            } catch (Exception e) {
-
-            }
+            } catch (Exception ignored) {}
 
             return new javafx.beans.property.SimpleObjectProperty<>(imageView);
         });

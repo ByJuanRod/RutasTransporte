@@ -1,9 +1,9 @@
 package rutas.com.rutastransporte.modelos;
 
 public interface CRUD<T> {
-    void insertar(T objeto);
+    boolean insertar(T objeto);
 
-    void actualizar(T objeto);
+    boolean actualizar(T objeto);
 
     void eliminar(T objeto);
 

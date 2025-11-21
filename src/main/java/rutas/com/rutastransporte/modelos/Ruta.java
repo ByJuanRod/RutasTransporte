@@ -149,7 +149,7 @@ public class Ruta {
 
     public float getCostoConEvento() {
         float costoBase = getCosto();
-        return tieneEvento ? costoBase * eventoActual.getFactorCosto() : costoBase;
+        return tieneEvento ? Math.round(costoBase * eventoActual.getFactorCosto()) : costoBase;
     }
 
     public int getTiempoConEvento() {
@@ -178,7 +178,7 @@ public class Ruta {
         int horas = (int) (tiempoTotal / 60);
         int minutos = (int) (tiempoTotal % 60);
 
-        return horas + "h " + minutos + "m";
+        return horas + "h " + minutos + "min";
     }
 
     public static String getDistanciaFormatado(float distanciaTotal){

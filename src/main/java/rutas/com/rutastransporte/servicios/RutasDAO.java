@@ -14,7 +14,7 @@ import java.util.Iterator;
 public class RutasDAO implements CRUD<Ruta> {
 
     @Override
-    public void insertar(Ruta ruta) {
+    public boolean insertar(Ruta ruta) {
         String sql = "INSERT INTO Rutas (nombre_ruta, distancia, costo, tiempo, trasbordos, origen, destino) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = ConexionDB.getConexion();
@@ -33,8 +33,9 @@ public class RutasDAO implements CRUD<Ruta> {
                     }
                 }
             }
+            return true;
         } catch (SQLException e) {
-            System.out.println("Error al insertar ruta: " + e.getMessage());
+            return false;
         }
     }
 
@@ -49,7 +50,7 @@ public class RutasDAO implements CRUD<Ruta> {
     }
 
     @Override
-    public void actualizar(Ruta rutaActualizada) {
+    public boolean actualizar(Ruta rutaActualizada) {
         String sql = "UPDATE Rutas SET nombre_ruta = ?, distancia = ?, costo = ?, tiempo = ?, trasbordos = ?, origen = ?, destino = ? WHERE codigo = ?";
 
         try (Connection con = ConexionDB.getConexion();
@@ -69,9 +70,9 @@ public class RutasDAO implements CRUD<Ruta> {
             }
 
             sistema.getGrafo().actualizarRuta(rutaActualizada);
-
+            return true;
         } catch (SQLException e) {
-            System.out.println("Error al actualizar ruta: " + e.getMessage());
+            return false;
         }
     }
 

@@ -1,7 +1,6 @@
 package rutas.com.rutastransporte.repositorio;
 
 import rutas.com.rutastransporte.modelos.*;
-import rutas.com.rutastransporte.servicios.Calculador;
 import rutas.com.rutastransporte.servicios.GrafoTransporte;
 
 import java.util.ArrayList;
@@ -15,8 +14,6 @@ public class SistemaTransporte {
     private static SistemaTransporte instancia = null;
 
     private final GrafoTransporte grafo;
-
-    private Calculador calculador;
 
     private SistemaTransporte() {
         paradas = new ArrayList<>();
@@ -42,18 +39,6 @@ public class SistemaTransporte {
 
     public ArrayList<Ruta> getRutas(){
         return rutas;
-    }
-
-    public void conectarParadas(Parada origen, Parada destinoa) {
-        RutaBuilder rutaBuilder = new RutaBuilder();
-        Ruta ruta = rutaBuilder.construir();
-        grafo.agregarRuta(ruta);
-        rutas.add(ruta);
-    }
-
-    public RutaPosible calcularRutaOptima(Parada origen, Parada destino, Criterio criterio) {
-        calculador.setGrafo(grafo);
-        return calculador.dijkstra(origen, destino, criterio);
     }
 
 }

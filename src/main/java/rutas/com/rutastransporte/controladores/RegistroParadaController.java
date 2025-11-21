@@ -80,16 +80,26 @@ public class RegistroParadaController implements Registro {
                 parada.setNombreParada(txtNombre.getText());
                 parada.setTipo(cbxTipoParada.getSelectionModel().getSelectedItem());
                 parada.setUbicacion(txtDireccion.getText());
-                servicioParadas.insertar(parada.construir());
-                alerta.crearAlerta("Parada Insertada Exitosamente.","Registro Insertado.").show();
-                limpiar();
+
+                if(servicioParadas.insertar(parada.construir())){
+                    alerta.crearAlerta("Parada Insertada Exitosamente.","Registro Insertado.").show();
+                    limpiar();
+                }
+                else{
+                    alertFactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("No se logro insertar la parada, intente nuevamente.","Error").show();
+                }
             }
             else{
                 parada.setNombreParada(txtNombre.getText());
                 parada.setTipo(cbxTipoParada.getSelectionModel().getSelectedItem());
                 parada.setUbicacion(txtDireccion.getText());
-                servicioParadas.actualizar(parada);
-                alerta.crearAlerta("Parada Modificada Exitosamente.","Registro Modificado.").show();
+
+                if(servicioParadas.actualizar(parada)){
+                    alerta.crearAlerta("Parada Modificada Exitosamente.","Registro Modificado.").show();
+                }
+                else{
+                    alertFactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("No se logro actualizar la parada, intente nuevamente.","Error").show();
+                }
             }
         }
     }
@@ -114,6 +124,7 @@ public class RegistroParadaController implements Registro {
             txtDireccion.setText(parada.getUbicacion());
             txtNombre.setText(parada.getNombreParada());
             cbxTipoParada.setValue(parada.getTipo());
+            imgRealizar.translateXProperty().setValue(-20);
             btnRealizar.setText("Actualizar");
             imgRealizar.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/editar.png"))));
         }

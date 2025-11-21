@@ -14,6 +14,7 @@ public class Calculador {
             case MAS_ECONOMICO -> ruta.getCostoConEvento();
             case MAS_CORTA -> ruta.getDistanciaConEvento();
             case MAS_RAPIDA -> ruta.getTiempoConEvento();
+            case MENOS_TRASBORDOS -> ruta.getTrasbordos();
             default -> 1.0f;
         };
     }
@@ -69,10 +70,10 @@ public class Calculador {
             Ruta ruta = anterior.get(pasoActual);
 
             rutaPosible.agregarAlCaminoFirst(ruta);
-            rutaPosible.agregarCriterioDestacado(criterio);
-
             pasoActual = ruta.getOrigen();
         }
+
+        rutaPosible.agregarCriterioDestacado(criterio);
 
         return rutaPosible;
     }
@@ -179,7 +180,6 @@ public class Calculador {
         return rutaPosible;
     }
 
-    //kruskal-algorithm para el MST
     public List<Ruta> calcularMST() {
         List<Ruta> rutas = new ArrayList<>(SistemaTransporte.getSistemaTransporte().getRutas());
         List<Parada> paradas = new ArrayList<>(SistemaTransporte.getSistemaTransporte().getParadas());

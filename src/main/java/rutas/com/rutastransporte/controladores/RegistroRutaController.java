@@ -114,9 +114,9 @@ public class RegistroRutaController implements Registro {
             spnM.getValueFactory().setValue(ruta.getMetros());
             spnKM.getValueFactory().setValue(ruta.getKilometros());
             btnRealizar.setText("Actualizar");
+            imgRealizar.translateXProperty().setValue(-20);
             imgRealizar.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/editar.png"))));
         }
-
     }
 
     public void btnRealizarClick(){
@@ -124,9 +124,13 @@ public class RegistroRutaController implements Registro {
             Alerta alerta = alertfactory.obtenerAlerta(Alert.AlertType.INFORMATION);
             if(modalidad == Modalidad.INSERTAR){
                 RutaBuilder rb = getRutaBuilder();
-                servicioRutas.insertar(rb.construir());
-                alerta.crearAlerta("Ruta Insertada Exitosamente.","Registro Insertado.").show();
-                limpiar();
+                if(servicioRutas.insertar(rb.construir())){
+                    alerta.crearAlerta("Ruta Insertada Exitosamente.","Registro Insertado.").show();
+                    limpiar();
+                }
+                else{
+                    alertfactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("No se logró insertar la ruta, intente nuevamente.","Error").show();
+                }
             }
             else{
                 ruta.setNombre(txtNombre.getText());
@@ -136,8 +140,13 @@ public class RegistroRutaController implements Registro {
                 ruta.setDistancia(Ruta.calcularDistancia(spnKM.getValue(), spnM.getValue()));
                 ruta.setTiempo(Ruta.calcularTiempo(spnHoras.getValue(), spnMinutos.getValue()));
                 ruta.setTrasbordos(spnTrasbordos.getValue());
-                servicioRutas.actualizar(ruta);
-                alerta.crearAlerta("Ruta Modificada Exitosamente.","Registro Modificado.").show();
+
+                if(servicioRutas.actualizar(ruta)){
+                    alerta.crearAlerta("Ruta Modificada Exitosamente.","Registro Modificado.").show();
+                }
+                else{
+                    alertfactory.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("No se logró actualizar la ruta, intente nuevamente.","Error").show();
+                }
             }
         }
     }

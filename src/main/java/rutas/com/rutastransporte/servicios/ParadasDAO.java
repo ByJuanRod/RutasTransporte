@@ -13,7 +13,7 @@ import java.util.Iterator;
 
 public class ParadasDAO implements CRUD<Parada> {
     @Override
-    public void insertar(Parada parada) {
+    public boolean insertar(Parada parada) {
         String sql = "INSERT INTO Paradas (nombre_parada, tipo_parada, ubicacion) VALUES (?, ?, ?)";
 
         try (Connection con = ConexionDB.getConexion();
@@ -34,13 +34,15 @@ public class ParadasDAO implements CRUD<Parada> {
                     }
                 }
             }
+
+            return true;
         } catch (SQLException e) {
-            System.out.println("Error al insertar parada: " + e.getMessage());
+            return false;
         }
     }
 
     @Override
-    public void actualizar(Parada paradaActualizada) {
+    public boolean actualizar(Parada paradaActualizada) {
         String sql = "UPDATE Paradas SET nombre_parada = ?, tipo_parada = ?, ubicacion = ? WHERE codigo = ?";
 
         try (Connection con = ConexionDB.getConexion();
@@ -62,9 +64,10 @@ public class ParadasDAO implements CRUD<Parada> {
             }
 
             sistema.getGrafo().actualizarParada(paradaActualizada);
+            return true;
 
         } catch (SQLException e) {
-            System.out.println("Error al actualizar parada: " + e.getMessage());
+            return false;
         }
     }
 
@@ -98,9 +101,7 @@ public class ParadasDAO implements CRUD<Parada> {
             }
 
             sistema.getGrafo().eliminarParada(parada);
-
         } catch (SQLException e) {
-            System.out.println("Error al eliminar parada: " + e.getMessage());
             throw new NotRemovableException("Error al eliminar la parada: " + e.getMessage());
         }
     }

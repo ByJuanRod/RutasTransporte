@@ -88,8 +88,7 @@ public class ResultadoRutaController {
         try {
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/ahorro.png")));
             imgCondicion.setImage(image);
-        } catch (Exception e) {
-            System.err.println("Error al cargar la imagen: " + e.getMessage());
+        } catch (Exception ignored) {
         }
 
         lblIndicador = new Label();
@@ -202,8 +201,7 @@ public class ResultadoRutaController {
             try {
                 Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + rutaPosible.getCriteriosDestacados().getFirst().getImagen())));
                 imgCondicion.setImage(img);
-            } catch (Exception e) {
-                System.err.println("Error al cargar la imagen del criterio: " + e.getMessage());
+            } catch (Exception ignored) {
             }
         }
     }

@@ -69,7 +69,6 @@ public class GrafoTransporte {
         }
 
         if (rutaExistente == null) {
-            System.out.println("Advertencia: Ruta no encontrada en el grafo, agregando como nueva ruta");
             agregarRuta(rutaActualizada);
             return;
         }
@@ -88,8 +87,6 @@ public class GrafoTransporte {
         }
 
         agregarParada(rutaActualizada.getDestino());
-
-        System.out.println("Ruta actualizada en el grafo: " + rutaActualizada.getNombre());
     }
 
     public void actualizarParada(Parada paradaActualizada) {

@@ -131,9 +131,7 @@ public class MapaViewController {
                     try {
                         graphView.update();
                         estilizarRuta(rutaFinal);
-                    } catch (Exception e) {
-                        System.out.println("Error visual menor al estilizar: " + e.getMessage());
-                    }
+                    } catch (Exception ignored) {}
                 });
             }
 
@@ -301,8 +299,6 @@ public class MapaViewController {
 
             if (visualRoute != null) {
                 visualRoute.addStyleClass("camino");
-            } else {
-                System.out.println("La ruta visual aún no está lista: " + rt.getNombre());
             }
         }
     }
