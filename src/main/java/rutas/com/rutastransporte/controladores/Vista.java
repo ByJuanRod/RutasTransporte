@@ -1,4 +1,4 @@
-package rutas.com.rutastransporte.modelos;
+package rutas.com.rutastransporte.controladores;
 
 import rutas.com.rutastransporte.utilidades.Modalidad;
 

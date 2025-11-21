@@ -11,7 +11,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.modelos.Ruta;
-import rutas.com.rutastransporte.modelos.Vista;
 import rutas.com.rutastransporte.RecursosVisuales;
 import rutas.com.rutastransporte.StageBuilder;
 import rutas.com.rutastransporte.utilidades.Modalidad;

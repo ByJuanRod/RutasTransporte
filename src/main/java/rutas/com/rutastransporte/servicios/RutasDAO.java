@@ -105,7 +105,6 @@ public class RutasDAO implements CRUD<Ruta> {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error al eliminar ruta: " + e.getMessage());
             throw new NotRemovableException("Error de SQL al eliminar la ruta: " + e.getMessage());
         }
     }

@@ -17,7 +17,7 @@ import java.awt.*;
  */
 public class StageBuilder implements Builder<Stage> {
     private final Stage stage;
-    AlertFactory alertFactory = new AlertFactory();
+    private final AlertFactory alertFactory = new AlertFactory();
 
     public StageBuilder() {
         stage = new Stage();
@@ -75,8 +75,7 @@ public class StageBuilder implements Builder<Stage> {
         }
         catch(Exception e){
             Alerta alt = alertFactory.obtenerAlerta(Alert.AlertType.ERROR);
-            alt.crearAlerta("El contenido de este apartado no esta disponible en este momento.","Error.").show();
-            e.printStackTrace();
+            alt.crearAlerta("El contenido de este apartado no esta disponible en este momento.").show();
         }
         return fxmlLoader.getController();
 

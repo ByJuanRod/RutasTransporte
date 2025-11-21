@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.excepciones.NotRemovableException;
-import rutas.com.rutastransporte.modelos.Vista;
 import rutas.com.rutastransporte.RecursosVisuales;
 import rutas.com.rutastransporte.servicios.ParadasDAO;
 import rutas.com.rutastransporte.StageBuilder;

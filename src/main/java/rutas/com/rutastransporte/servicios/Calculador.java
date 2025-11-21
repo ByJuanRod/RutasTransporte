@@ -180,7 +180,7 @@ public class Calculador {
         return rutaPosible;
     }
 
-    public List<Ruta> calcularMST() {
+    /* public List<Ruta> calcularMST() {
         List<Ruta> rutas = new ArrayList<>(SistemaTransporte.getSistemaTransporte().getRutas());
         List<Parada> paradas = new ArrayList<>(SistemaTransporte.getSistemaTransporte().getParadas());
 
@@ -245,7 +245,7 @@ public class Calculador {
         }
 
         return new ArrayList<>(mejoresEntrantes.values());
-    }
+    }*/
 
     public List<Ruta> calcularArbolDijkstra(Parada raiz) {
         Criterio criterio = Criterio.MENOS_TRASBORDOS;

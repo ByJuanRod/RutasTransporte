@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 public class SistemaTransporte {
 
-    public ArrayList<Parada> paradas;
+    private final ArrayList<Parada> paradas;
 
-    public ArrayList<Ruta> rutas;
+    private final ArrayList<Ruta> rutas;
 
     private static SistemaTransporte instancia = null;
 

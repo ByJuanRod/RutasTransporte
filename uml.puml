@@ -1,0 +1,373 @@
+@startuml
+
+interface CRUD{
+    insertar(T objeto) : boolean
+    actualizar(T objeto) : boolean
+    eliminar(T objeto) : void
+}
+
+interface Builder{
+    construir() : T
+}
+
+interface Clonable{
+    clonar(T objeto) : void
+}
+
+enum Criterio{
+    MAS_ECONOMICO("Ruta Más Económica","ahorro.png"),
+    MAS_CORTA("Ruta Más Corta","distancia.png"),
+    MAS_RAPIDA("Ruta Más Rápida","tiempo.png"),
+    MENOS_TRASBORDOS("Ruta con Menos Trasbordos","trasbordos.png"),
+    MEJOR_RUTA("Mejor Ruta","mejor.png" )
+
+    - final String : nombre
+    - final String : imagen
+}
+
+class EventoRuta{
+    - final Ruta : ruta
+    - final TipoEvento : tipoEvento
+    - final Date : fechaInicio
+    - final Date : fechaFin
+    - boolean : activo
+
+    + estaExpirado() : boolean
+    + estaActivo() : boolean
+    + getTiempoRestanteMinutos() : long
+
+}
+
+EventoRuta "1" o.. "1" Ruta
+EventoRuta "1" o.. "1" TipoEvento
+
+class Parada{
+    - int : codigo
+    - String : nombreParada
+    - TipoParada : tipo
+    - String : ubicacion
+}
+
+Parada "1" o.. "1" TipoParada
+
+class ParadaBuilder{
+    - final Parada : parada
+    + setNombreParada(String nombreParada) : void
+    + setTipo(TipoParada tipo) : void
+    + setUbicacion(String ubicacion) : void
+    + construir() : Parada
+}
+
+ParadaBuilder --|> Builder
+ParadaBuilder o.. Parada
+
+interface Registro{
+    validar() : boolean
+    limpiar() : void
+    setModalidad(Modalidad modalidad) : void
+    cargarDatos() : void
+}
+
+Registro --> Modalidad
+
+class Ruta{
+    - int : codigo
+    - String : nombre
+    - Parada : origen
+    - Parada : destino
+    - int : distancia
+    - float : costo
+    - int : tiempo
+    - int : trasbordos
+    - TipoEvento : eventoActual
+    - boolean : tieneEvento
+
+    + getHoras() : int
+    + getMinutos() : int
+    + getKilometros() : int
+    + getMetros() : int
+    + {static} calcularDistancia(int kilometros, int metros) : int
+    + {static} calcularTiempo(int horas, int minutos) : int
+    + aplicarEvento(TipoEvento evento) : void
+    + removerEvento() : void
+    + getCostoConEvento() : float
+    + getTiempoConEvento() : int
+    + getDistanciaConEvento() : int
+    + getTiempoDiff() : int
+    + getCostoDiff() : float
+    + getDistanciaDiff() : int
+    + {static} getTiempoFormatado(float tiempoTotal) : String
+    + {static} getDistanciaFormatado(float distanciaTotal) : String
+
+}
+
+Ruta "1" o.. "2" Parada
+Ruta "1" o.. "1" TipoEvento
+
+class RutaBuilder{
+    - final Ruta: ruta
+    + setNombre(String nombre) : void
+    + setOrigen(Parada parada) : void
+    + setDestino(Parada parada) : void
+    + setDistancia(int distancia) : void
+    + setCosto(float costo) : void
+    + setTiempo(int tiempo) : void
+    + setTrasbordos(int trasbordos) : void
+    + construir() : Ruta
+}
+
+RutaBuilder --|> Builder
+RutaBuilder "1" o.. "1" Ruta
+
+class RutaPosible{
+    - LinkedList<Ruta> : camino
+    - float : costoTotal
+    - float : distanciaTotal
+    - float : tiempoTotal
+    - int : cantTrasbordos
+    - LinkedList<Criterio> : criteriosDestacados
+    - boolean : esMejorRuta
+    - Set<TipoEvento> : registroEventos
+    - float : costoBase
+    - float : distanciaBase
+    - float : tiempoBase
+}
+
+RutaPosible "1" o.. "0...n" Ruta
+RutaPosible "1" o.. "0...n" Criterio
+RutaPosible "1" o.. "0...n" TipoEvento
+RutaPosible --|> Clonable
+
+enum TipoEvento{
+    ACCIDENTE("Accidente","accidente.png", 1.5f, 2.0f, 1.0f),
+    DESVIO("Desvío","desvio.png", 1.3f, 1.5f, 1.1f),
+    CAMINO_LIBRE("Camino Libre","libre.png", 0.7f, 0.9f, 1.0f),
+    ZONA_CONCURRIDA("Zona Concurrida","concurrido.png",1.4f, 1.1f, 1.2f),
+    NORMAL("Normal","",1.0f, 1.0f, 1.0f)
+
+    - final String : nombre
+    - final float : factorTiempo
+    - final float : factorDistancia
+    - final float : factorCosto
+    - final String : imagen
+}
+
+enum TipoParada{
+    BUS("Parada de Bus","bus.png","bus"),
+    TAXI("Parada de Taxi","taxi.png","taxi"),
+    TREN("Estación de Tren ","tren.png","tren")
+
+    - final String : nombreTipo
+    - final String : imagenTipo;
+    - final String : claseCSS;
+}
+
+interface Vista{
+    crearPantalla(String titulo, Modalidad modalidad, T objeto) : void
+    cargarDatos() : void
+    filtrar() : void
+    configurarColumnas() : void
+}
+
+class CargadorDatos{
+    + {static} cargarDatos()
+}
+
+CargadorDatos --> ConexionDB
+
+class SistemaTransporte{
+    - final List<Parada> : paradas
+    - final List<Ruta> : rutas
+    - {static} SistemaTransporte : instancia
+    + {static} getSistemaTransporte() : SistemaTransporte
+}
+
+SistemaTransporte --> CargadorDatos
+SistemaTransporte "1" o.. "0...n" Parada
+SistemaTransporte "1" o.. "0...n" Ruta
+SistemaTransporte "1" o.. "1" GrafoTransporte
+
+class Calculador{
+    - GrafoTransporte : grafo
+    - getPeso(Ruta ruta, Criterio criterio) : float
+    + dijkstra(Parada origen, Parada destino, Criterio criterio) : RutaPosible
+    + setGrafo(GrafoTransporte grafo) : void
+    + floidWarshall(Criterio criterio) : RutaPosible
+    - encontrarRutaDirecta(Parada origen, Parada destino) : Ruta
+    - reconstruirRutaFloydWarshall(Parada origen, Parada destino, Map<Parada, Map<Parada, Ruta>> rutasIntermedias, Criterio criterio) : RutaPosible
+    + calcularArbolDijkstra(Parada raiz) : List<Ruta>
+}
+
+Calculador "1" o.. "1" GrafoTransporte
+Calculador --> Criterio
+Calculador -- RutaPosible
+
+class GrafoTransporte{
+    - final Map<Parada,List<Ruta>> : listaAdyacencia
+    + getParadas() : Set<Parada>
+    + agregarParada(Parada parada) : void
+    + agregarRuta(Ruta ruta) : void
+    + getRutas() : List<Ruta>
+    + eliminarParada(Parada parada) : void
+    + eliminarRuta(Ruta ruta) : void
+    + actualizarRuta(Ruta rutaActualizada) : void
+    + actualizarParada(Parada paradaActualizada) : void
+}
+
+GrafoTransporte "1" o.. "0...n" Parada
+GrafoTransporte "1" o.. "0..n" Ruta
+
+class ParadasDAO{
+    + insertar(Parada parada) : boolean
+    + actualizar(Parada paradaActualizada) : boolean
+    + eliminar(Parada parada) : void
+    + getParadas() : ObservableList<Parada>
+}
+
+ParadasDAO ..|> CRUD
+ParadasDAO --> SistemaTransporte
+ParadasDAO --> ConexionDB
+
+class RutasDAO{
+    + insertar(Ruta ruta) : boolean
+    + setDatos(Ruta ruta, PreparedStatement pst) : void
+    + actualizar(Ruta rutaActualizada) : boolean
+    + eliminar(Ruta ruta) : void
+    + getRutas() : ObservableList<Ruta>
+}
+
+RutasDAO ..|> CRUD
+RutasDAO --> SistemaTransporte
+RutasDAO --> ConexionDB
+
+class ServicioEventos{
+    - {static} ServicioEventos : servicioEventos
+    - final Map<Integer,EventoRuta> : eventosActivos
+    - final Random : random
+    - final AlertFactory : alt
+
+    + getInstancia() : ServicioEventos
+    + insertar(EventoRuta nuevoEvento) : void
+    + eliminar(EventoRuta evento) : void
+    - eliminarEventoDB(int codigo) : void
+    - obtenerTodasLasRutas() : List<Ruta>
+    + crearSimulacion() : void
+    - generarYGuardarEvento(Ruta ruta) : void
+    - generarEventoAleatorio(Ruta ruta) : void
+    + limpiarEventosExpirados() : void
+    + tieneEventoActivo(Ruta ruta) : boolean
+    + getEvento(Ruta ruta) : EventoRuta
+    + aplicarEventoRuta(Ruta ruta, TipoEvento evento, int duracionMinutos) : void
+    + limpiarEventosExpiradosDB() : void
+    + guardarEventoEnBD(EventoRuta evento) : void
+    + cargarEventosActivosDesdeBD() : void
+    + crearEventoDesdeBD(Ruta ruta, TipoEvento tipoEvento, Timestamp fechaInicio, Timestamp fechaFin) : EventoRuta
+    + getRutasConEventosActivos() : List<Ruta>
+    + getRutasSinEventosActivos() : List<Ruta>
+}
+
+ServicioEventos "1" o.. "1" AlertFactory
+ServicioEventos --> ConexionDB
+ServicioEventos --> SistemaTransporte
+
+class ServicioMapa{
+    - final ServicioEventos: servicioEventos
+    + crearSimulacion() : void
+    + obtenerMejorRuta(Stack<RutaPosible> posiblesRutas) : RutaPosible
+    + cantCriteriosParaMismoCamino(Stack<RutaPosible> posiblesRutas, LinkedList<Ruta> camino) : int
+    + obtenerRutasUnicasExcluyendoMejor(Stack<RutaPosible> posiblesRutas, RutaPosible mejorRuta) : ArrayList<RutaPosible>
+}
+
+ServicioMapa "1" o.. "1" ServicioEventos
+
+class ServicioPrincipal{
+    + getCantRutas() : int
+    + getCantParadas() : int
+    + getCostoPromedio() : float
+    + getSegmentacion() : HashTable<TipoParada,Integer>
+    + crearSeries() : ObservableList<PieChart.Data>
+}
+
+ServicioPrincipal --> SistemaTransporte
+
+interface Alerta{
+    crearAlerta(String mensaje, String cabecera) : Alert
+    crearAlerta(String mensaje) : Alert
+}
+
+class  AlertaAdvertencia{
+    + crearAlerta(String mensaje, String cabecera) : Alert
+    + crearAlerta(String mensaje) : Alert
+}
+
+Alerta <|.. AlertaAdvertencia
+
+class AlertaError{
+    + crearAlerta(String mensaje, String cabecera) : Alert
+    + crearAlerta(String mensaje) : Alert
+}
+
+ Alerta <|.. AlertaError
+
+class AlertaInformacion{
+    + crearAlerta(String mensaje, String cabecera) : Alert
+    + crearAlerta(String mensaje) : Alert
+}
+
+ Alerta <|.. AlertaInformacion
+
+class AlertFactory{
+    + obtenerAlerta(AlertType tipoAlerta) : Alerta
+}
+
+AlertFactory -->  Alerta
+
+enum Colores{
+    FONDO("#FAFAFA"),
+    ENFASIS("#19173C"),
+    DETALLES("#49808E"),
+    DECORATIVOS("#1B4B6B")
+
+    - final String: color
+    + getColor() : String
+}
+
+class ConexionDB{
+    - {static} final String: URL
+    - {static} final String: user
+    - {static} final String: password
+
+    + {static} getConexion() : Connection
+}
+
+
+enum Modalidad{
+    INSERTAR, ELIMINAR, ACTUALIZAR
+}
+
+class RecursosVisuales{
+    - {static} final Image: icono
+    - {static} final Image: tieneCriterio
+    - {static} final Dimension: registroDim
+
+    + {static} getTieneCriterio() : Image
+    + {static} getIcono() : Image
+    + {static} getDimRegistro() : Dimension
+    + {static} configurarSpinnerNumerico(Spinner<Integer> spinner, int minimo, int maximo, int inicial) : void
+    + {static} configurarSpinnerDecimal(Spinner<Double> spinner, int minimo, int maximo, int inicial) : void
+    + {static} ajustarAnchoColumnas(TableView<?,?> tabla) : void
+}
+
+class StageBuilder{
+    - final Stage: stage
+    - final AlertFactory: alertFactory
+    + setTitulo(String titulo) : void
+    + setSize(Dimension size) : void
+    + setModalidad(Modality modalidad) : void
+    + setContenido(String nombreRecurso) : void
+    + construir() : Stage
+}
+
+StageBuilder ..|> Builder
+
+@enduml
