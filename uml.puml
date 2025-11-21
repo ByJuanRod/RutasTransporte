@@ -1,47 +1,26 @@
 @startuml
 
-interface CRUD{
-    insertar(T objeto) : boolean
-    actualizar(T objeto) : boolean
-    eliminar(T objeto) : void
+note "Los elementos con este color pertenecen al Paquete General\n <b>src</b>" as N5 #CDC1FF
+
+class StageBuilder #CDC1FF{
+    - final Stage: stage
+    - final AlertFactory: alertFactory
+    + setTitulo(String titulo) : void
+    + setSize(Dimension size) : void
+    + setModalidad(Modality modalidad) : void
+    + setContenido(String nombreRecurso) : void
+    + construir() : Stage
 }
 
-interface Builder{
+StageBuilder ..|> Builder
+
+note "Los elementos con este color pertenecen al Paquete\n <b>Modelos</b>" as N1 #AEDEFC
+
+interface Builder #AEDEFC{
     construir() : T
 }
 
-interface Clonable{
-    clonar(T objeto) : void
-}
-
-enum Criterio{
-    MAS_ECONOMICO("Ruta Más Económica","ahorro.png"),
-    MAS_CORTA("Ruta Más Corta","distancia.png"),
-    MAS_RAPIDA("Ruta Más Rápida","tiempo.png"),
-    MENOS_TRASBORDOS("Ruta con Menos Trasbordos","trasbordos.png"),
-    MEJOR_RUTA("Mejor Ruta","mejor.png" )
-
-    - final String : nombre
-    - final String : imagen
-}
-
-class EventoRuta{
-    - final Ruta : ruta
-    - final TipoEvento : tipoEvento
-    - final Date : fechaInicio
-    - final Date : fechaFin
-    - boolean : activo
-
-    + estaExpirado() : boolean
-    + estaActivo() : boolean
-    + getTiempoRestanteMinutos() : long
-
-}
-
-EventoRuta "1" o.. "1" Ruta
-EventoRuta "1" o.. "1" TipoEvento
-
-class Parada{
+class Parada #AEDEFC{
     - int : codigo
     - String : nombreParada
     - TipoParada : tipo
@@ -50,7 +29,7 @@ class Parada{
 
 Parada "1" o.. "1" TipoParada
 
-class ParadaBuilder{
+class ParadaBuilder #AEDEFC{
     - final Parada : parada
     + setNombreParada(String nombreParada) : void
     + setTipo(TipoParada tipo) : void
@@ -61,7 +40,7 @@ class ParadaBuilder{
 ParadaBuilder --|> Builder
 ParadaBuilder o.. Parada
 
-interface Registro{
+interface Registro #FFBF78{
     validar() : boolean
     limpiar() : void
     setModalidad(Modalidad modalidad) : void
@@ -70,7 +49,7 @@ interface Registro{
 
 Registro --> Modalidad
 
-class Ruta{
+class Ruta #AEDEFC{
     - int : codigo
     - String : nombre
     - Parada : origen
@@ -104,7 +83,7 @@ class Ruta{
 Ruta "1" o.. "2" Parada
 Ruta "1" o.. "1" TipoEvento
 
-class RutaBuilder{
+class RutaBuilder #AEDEFC{
     - final Ruta: ruta
     + setNombre(String nombre) : void
     + setOrigen(Parada parada) : void
@@ -119,7 +98,23 @@ class RutaBuilder{
 RutaBuilder --|> Builder
 RutaBuilder "1" o.. "1" Ruta
 
-class RutaPosible{
+class EventoRuta #AEDEFC{
+    - final Ruta : ruta
+    - final TipoEvento : tipoEvento
+    - final Date : fechaInicio
+    - final Date : fechaFin
+    - boolean : activo
+
+    + estaExpirado() : boolean
+    + estaActivo() : boolean
+    + getTiempoRestanteMinutos() : long
+
+}
+
+EventoRuta "1" o.. "1" Ruta
+EventoRuta "1" o.. "1" TipoEvento
+
+class RutaPosible #AEDEFC{
     - LinkedList<Ruta> : camino
     - float : costoTotal
     - float : distanciaTotal
@@ -138,7 +133,8 @@ RutaPosible "1" o.. "0...n" Criterio
 RutaPosible "1" o.. "0...n" TipoEvento
 RutaPosible --|> Clonable
 
-enum TipoEvento{
+
+enum TipoEvento #AEDEFC{
     ACCIDENTE("Accidente","accidente.png", 1.5f, 2.0f, 1.0f),
     DESVIO("Desvío","desvio.png", 1.3f, 1.5f, 1.1f),
     CAMINO_LIBRE("Camino Libre","libre.png", 0.7f, 0.9f, 1.0f),
@@ -152,7 +148,7 @@ enum TipoEvento{
     - final String : imagen
 }
 
-enum TipoParada{
+enum TipoParada #AEDEFC{
     BUS("Parada de Bus","bus.png","bus"),
     TAXI("Parada de Taxi","taxi.png","taxi"),
     TREN("Estación de Tren ","tren.png","tren")
@@ -162,20 +158,55 @@ enum TipoParada{
     - final String : claseCSS;
 }
 
-interface Vista{
-    crearPantalla(String titulo, Modalidad modalidad, T objeto) : void
-    cargarDatos() : void
-    filtrar() : void
-    configurarColumnas() : void
+interface CRUD #AEDEFC{
+    insertar(T objeto) : boolean
+    actualizar(T objeto) : boolean
+    eliminar(T objeto) : void
 }
 
-class CargadorDatos{
-    + {static} cargarDatos()
+
+interface Clonable #AEDEFC{
+    clonar(T objeto) : void
 }
 
-CargadorDatos --> ConexionDB
+enum Criterio #AEDEFC{
+    MAS_ECONOMICO("Ruta Más Económica","ahorro.png"),
+    MAS_CORTA("Ruta Más Corta","distancia.png"),
+    MAS_RAPIDA("Ruta Más Rápida","tiempo.png"),
+    MENOS_TRASBORDOS("Ruta con Menos Trasbordos","trasbordos.png"),
+    MEJOR_RUTA("Mejor Ruta","mejor.png" )
 
-class SistemaTransporte{
+    - final String : nombre
+    - final String : imagen
+}
+
+note "Los elementos con este color pertenecen al Paquete\n <b>Controladores</b>" as N7 #FFBF78
+note "Los elementos con este color pertenecen al Paquete\n <b>Servicios</b>" as N3 #DEE791
+
+class ParadasDAO #DEE791{
+    + insertar(Parada parada) : boolean
+    + actualizar(Parada paradaActualizada) : boolean
+    + eliminar(Parada parada) : void
+    + getParadas() : ObservableList<Parada>
+}
+
+ParadasDAO ..|> CRUD
+ParadasDAO --> SistemaTransporte
+ParadasDAO --> ConexionDB
+
+class RutasDAO #DEE791{
+    + insertar(Ruta ruta) : boolean
+    + setDatos(Ruta ruta, PreparedStatement pst) : void
+    + actualizar(Ruta rutaActualizada) : boolean
+    + eliminar(Ruta ruta) : void
+    + getRutas() : ObservableList<Ruta>
+}
+
+RutasDAO ..|> CRUD
+RutasDAO --> SistemaTransporte
+RutasDAO --> ConexionDB
+
+class SistemaTransporte #FCFFC1{
     - final List<Parada> : paradas
     - final List<Ruta> : rutas
     - {static} SistemaTransporte : instancia
@@ -187,7 +218,7 @@ SistemaTransporte "1" o.. "0...n" Parada
 SistemaTransporte "1" o.. "0...n" Ruta
 SistemaTransporte "1" o.. "1" GrafoTransporte
 
-class Calculador{
+class Calculador #DEE791{
     - GrafoTransporte : grafo
     - getPeso(Ruta ruta, Criterio criterio) : float
     + dijkstra(Parada origen, Parada destino, Criterio criterio) : RutaPosible
@@ -202,7 +233,7 @@ Calculador "1" o.. "1" GrafoTransporte
 Calculador --> Criterio
 Calculador -- RutaPosible
 
-class GrafoTransporte{
+class GrafoTransporte #DEE791{
     - final Map<Parada,List<Ruta>> : listaAdyacencia
     + getParadas() : Set<Parada>
     + agregarParada(Parada parada) : void
@@ -217,30 +248,7 @@ class GrafoTransporte{
 GrafoTransporte "1" o.. "0...n" Parada
 GrafoTransporte "1" o.. "0..n" Ruta
 
-class ParadasDAO{
-    + insertar(Parada parada) : boolean
-    + actualizar(Parada paradaActualizada) : boolean
-    + eliminar(Parada parada) : void
-    + getParadas() : ObservableList<Parada>
-}
-
-ParadasDAO ..|> CRUD
-ParadasDAO --> SistemaTransporte
-ParadasDAO --> ConexionDB
-
-class RutasDAO{
-    + insertar(Ruta ruta) : boolean
-    + setDatos(Ruta ruta, PreparedStatement pst) : void
-    + actualizar(Ruta rutaActualizada) : boolean
-    + eliminar(Ruta ruta) : void
-    + getRutas() : ObservableList<Ruta>
-}
-
-RutasDAO ..|> CRUD
-RutasDAO --> SistemaTransporte
-RutasDAO --> ConexionDB
-
-class ServicioEventos{
+class ServicioEventos #DEE791{
     - {static} ServicioEventos : servicioEventos
     - final Map<Integer,EventoRuta> : eventosActivos
     - final Random : random
@@ -270,7 +278,7 @@ ServicioEventos "1" o.. "1" AlertFactory
 ServicioEventos --> ConexionDB
 ServicioEventos --> SistemaTransporte
 
-class ServicioMapa{
+class ServicioMapa #DEE791{
     - final ServicioEventos: servicioEventos
     + crearSimulacion() : void
     + obtenerMejorRuta(Stack<RutaPosible> posiblesRutas) : RutaPosible
@@ -280,7 +288,7 @@ class ServicioMapa{
 
 ServicioMapa "1" o.. "1" ServicioEventos
 
-class ServicioPrincipal{
+class ServicioPrincipal #DEE791{
     + getCantRutas() : int
     + getCantParadas() : int
     + getCostoPromedio() : float
@@ -290,49 +298,51 @@ class ServicioPrincipal{
 
 ServicioPrincipal --> SistemaTransporte
 
-interface Alerta{
+note "Los elementos con este color pertenecen al Paquete\n <b>Alertas</b>" as N6 #FBB4A5
+
+interface Alerta #FBB4A5{
     crearAlerta(String mensaje, String cabecera) : Alert
     crearAlerta(String mensaje) : Alert
 }
 
-class  AlertaAdvertencia{
+class  AlertaAdvertencia #FBB4A5{
     + crearAlerta(String mensaje, String cabecera) : Alert
     + crearAlerta(String mensaje) : Alert
 }
 
 Alerta <|.. AlertaAdvertencia
 
-class AlertaError{
+class AlertaError #FBB4A5{
     + crearAlerta(String mensaje, String cabecera) : Alert
     + crearAlerta(String mensaje) : Alert
 }
 
  Alerta <|.. AlertaError
 
-class AlertaInformacion{
+class AlertaInformacion #FBB4A5{
     + crearAlerta(String mensaje, String cabecera) : Alert
     + crearAlerta(String mensaje) : Alert
 }
 
  Alerta <|.. AlertaInformacion
 
-class AlertFactory{
+class AlertFactory #FBB4A5{
     + obtenerAlerta(AlertType tipoAlerta) : Alerta
 }
 
 AlertFactory -->  Alerta
 
-enum Colores{
-    FONDO("#FAFAFA"),
-    ENFASIS("#19173C"),
-    DETALLES("#49808E"),
-    DECORATIVOS("#1B4B6B")
+note "Los elementos con este color pertenecen al Paquete\n <b>Repositorio</b>" as N4 #FCFFC1
 
-    - final String: color
-    + getColor() : String
+class CargadorDatos #FCFFC1{
+    + {static} cargarDatos()
 }
 
-class ConexionDB{
+CargadorDatos --> ConexionDB
+
+note "Los elementos con este color pertenecen al Paquete\n <b>Utilidades</b>" as N2 #91ADC8
+
+class ConexionDB #91ADC8{
     - {static} final String: URL
     - {static} final String: user
     - {static} final String: password
@@ -341,11 +351,12 @@ class ConexionDB{
 }
 
 
-enum Modalidad{
+enum Modalidad #91ADC8{
     INSERTAR, ELIMINAR, ACTUALIZAR
 }
 
-class RecursosVisuales{
+
+class RecursosVisuales #CDC1FF{
     - {static} final Image: icono
     - {static} final Image: tieneCriterio
     - {static} final Dimension: registroDim
@@ -358,16 +369,22 @@ class RecursosVisuales{
     + {static} ajustarAnchoColumnas(TableView<?,?> tabla) : void
 }
 
-class StageBuilder{
-    - final Stage: stage
-    - final AlertFactory: alertFactory
-    + setTitulo(String titulo) : void
-    + setSize(Dimension size) : void
-    + setModalidad(Modality modalidad) : void
-    + setContenido(String nombreRecurso) : void
-    + construir() : Stage
+interface Vista #FFBF78{
+    crearPantalla(String titulo, Modalidad modalidad, T objeto) : void
+    cargarDatos() : void
+    filtrar() : void
+    configurarColumnas() : void
 }
 
-StageBuilder ..|> Builder
+
+enum Colores #91ADC8{
+    FONDO("#FAFAFA"),
+    ENFASIS("#19173C"),
+    DETALLES("#49808E"),
+    DECORATIVOS("#1B4B6B")
+
+    - final String: color
+    + getColor() : String
+}
 
 @enduml

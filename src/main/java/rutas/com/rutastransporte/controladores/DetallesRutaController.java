@@ -67,7 +67,6 @@ public class DetallesRutaController {
     }
 
     public void imgEconomicoClick(){
-
         evaluarEventosCriterios("Ruta destacada por ser la más económica.","No es la ruta más económica.",Criterio.MAS_ECONOMICO);
     }
 

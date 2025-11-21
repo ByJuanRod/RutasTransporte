@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.modelos.Parada;
-import rutas.com.rutastransporte.modelos.Registro;
 import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.modelos.RutaBuilder;
 import rutas.com.rutastransporte.RecursosVisuales;
