@@ -46,9 +46,12 @@
          </font>
          <graphic>
              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" translateX="-10.0">
-                 <Image url="@imagenes/trafico.png"/>
+                 <Image url="@imagenes/trafico.png" />
              </ImageView>
          </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
     </AnchorPane>
     <AnchorPane layoutX="15.0" layoutY="356.0" prefHeight="200.0" prefWidth="754.0" style="-fx-background-color: #19173C; -fx-background-radius: 5px;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.400000000000091" AnchorPane.topAnchor="356.0">

@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.RecursosVisuales;
 import rutas.com.rutastransporte.StageBuilder;
+import rutas.com.rutastransporte.repositorio.SistemaTransporte;
 import rutas.com.rutastransporte.utilidades.Modalidad;
 import rutas.com.rutastransporte.servicios.RutasDAO;
 import rutas.com.rutastransporte.excepciones.NotRemovableException;
@@ -33,6 +34,7 @@ public class RutasViewController implements Vista<Ruta> {
     private final RutasDAO rutasDAO = new RutasDAO();
 
     private FilteredList<Ruta> filteredData;
+
 
     @FXML
     public void initialize() {
@@ -77,6 +79,10 @@ public class RutasViewController implements Vista<Ruta> {
     }
 
     public void btnInsertarClick(){
+        if(SistemaTransporte.getSistemaTransporte().getParadas().size() < 2){
+            alert.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Todavía no se pueden crear rutas,ya que se requieren almenos 2 paradas.").show();
+            return;
+        }
         crearPantalla("Insertar Ruta", Modalidad.INSERTAR, null);
     }
 

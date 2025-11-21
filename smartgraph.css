@@ -17,9 +17,11 @@
 
 .vertex-label {
     -fx-font: bold 12px "Century Gothic";
-    -fx-padding: 10px;
+    -fx-padding: 6px 10px;
     -fx-fill: #FAFAFA;
     -fx-background-color: #19173C;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
     -fx-start-margin: 10px;
     -fx-end-margin: 10px;
 }
@@ -31,18 +33,18 @@
 }
 
 .bus{
-    -fx-fill: #658C58;
-    -fx-stroke: #31694E;
+    -fx-fill: #6F00FF;
+    -fx-stroke: #3B0270;
 }
 
 .taxi{
-    -fx-fill: #456882;
-    -fx-stroke: #1B3C53;
+    -fx-fill: #3E7B27;
+    -fx-stroke: #004030;
 }
 
 .tren{
-    -fx-stroke: #540863;
-    -fx-fill: #92487A;
+    -fx-fill: #3B9797;
+    -fx-stroke: #132440;
 }
 
 .arrow {
@@ -51,7 +53,7 @@
 
 .seleccionado{
     -fx-stroke: #DD0303;
-    -fx-fill:#BF092F ;
+    -fx-fill:#BF092F;
 }
 
 .camino{

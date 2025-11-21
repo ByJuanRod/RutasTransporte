@@ -8,7 +8,7 @@ import javafx.animation.Transition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -46,116 +46,111 @@ public class MapaViewController {
     private ScrollPane scrollpane;
 
     @FXML
-    private ComboBox<Parada> cbxOrigen;
+    private Label lblOrigen;
 
     @FXML
-    private ComboBox<Parada> cbxDestino;
+    private Label lblDestino;
 
     public void buscarClick() {
         if(estilizada != null) {
             aplicarPorDefecto();
         }
 
-        if(cbxDestino.getSelectionModel().getSelectedItem().equals(cbxOrigen.getSelectionModel().getSelectedItem())){
+        if(origen == null || destino == null){
+            Alerta alert = alertFactory.obtenerAlerta(Alert.AlertType.WARNING);
+            alert.crearAlerta("Debe seleccionar tanto origen como destino en el mapa.").show();
+            return;
+        }
+
+        if(destino.equals(origen)){
             Alerta alert = alertFactory.obtenerAlerta(Alert.AlertType.WARNING);
             alert.crearAlerta("El origen y el destino no pueden ser el mismo seleccione un punto diferente.").show();
+            return;
         }
-        else{
-            Calculador calc = new Calculador();
-            calc.setGrafo(SistemaTransporte.getSistemaTransporte().getGrafo());
 
-            Stack<RutaPosible> posiblesRutas = new Stack<>();
+        Calculador calc = new Calculador();
+        calc.setGrafo(SistemaTransporte.getSistemaTransporte().getGrafo());
 
-            Parada origen = cbxOrigen.getSelectionModel().getSelectedItem();
-            Parada destino = cbxDestino.getSelectionModel().getSelectedItem();
+        Stack<RutaPosible> posiblesRutas = new Stack<>();
 
-            RutaPosible rutaADibujar = null;
+        RutaPosible rutaADibujar = null;
 
-            for(Criterio criterio : Criterio.values()){
-                if(!criterio.equals(Criterio.MEJOR_RUTA)){
-                    RutaPosible rt = calc.dijkstra(origen,destino,criterio);
+        for(Criterio criterio : Criterio.values()){
+            if(!criterio.equals(Criterio.MEJOR_RUTA)){
+                RutaPosible rt = calc.dijkstra(origen, destino, criterio);
 
-                    if(rt != null){
-                        contenedorGeneral.getChildren().clear();
-                        posiblesRutas.add(rt);
+                if(rt != null){
+                    contenedorGeneral.getChildren().clear();
+                    posiblesRutas.add(rt);
 
-                        if(criterio.equals(Criterio.MENOS_TRASBORDOS)){
-                            rutaADibujar = rt;
-                        }
-
+                    if(criterio.equals(Criterio.MENOS_TRASBORDOS)){
+                        rutaADibujar = rt;
                     }
-                    else{
-                        alertFactory.obtenerAlerta(Alert.AlertType.WARNING).crearAlerta("Todavía no existe un camino para llegar desde " + origen.getNombreParada() + " a " + destino.getNombreParada() + ".","Advertencia de cálculo.").show();
-                        return;
-                    }
+
+                }
+                else{
+                    alertFactory.obtenerAlerta(Alert.AlertType.WARNING).crearAlerta("Todavía no existe un camino para llegar desde " + origen.getNombreParada() + " a " + destino.getNombreParada() + ".","Advertencia de cálculo.").show();
+                    return;
                 }
             }
+        }
 
-            RutaPosible mejorRuta = sm.obtenerMejorRuta(posiblesRutas);
+        RutaPosible mejorRuta = sm.obtenerMejorRuta(posiblesRutas);
 
-            ArrayList<RutaPosible> rutasUnicas = sm.obtenerRutasUnicasExcluyendoMejor(posiblesRutas, mejorRuta);
+        ArrayList<RutaPosible> rutasUnicas = sm.obtenerRutasUnicasExcluyendoMejor(posiblesRutas, mejorRuta);
 
-            if (mejorRuta != null) {
-                mejorRuta.agregarFirst(Criterio.MEJOR_RUTA);
-                mejorRuta.setEsMejorRuta(true);
-                crearPanel(mejorRuta);
+        if (mejorRuta != null) {
+            mejorRuta.agregarFirst(Criterio.MEJOR_RUTA);
+            mejorRuta.setEsMejorRuta(true);
+            crearPanel(mejorRuta);
+        }
+
+        for(RutaPosible rutaUnica : rutasUnicas){
+            if(rutaUnica != null){
+                crearPanel(rutaUnica);
+            }
+        }
+
+        if (rutaADibujar == null && mejorRuta != null) {
+            rutaADibujar = mejorRuta;
+        } else if (rutaADibujar == null && !rutasUnicas.isEmpty()) {
+            rutaADibujar = rutasUnicas.getFirst();
+        }
+
+        if (rutaADibujar != null) {
+            estilizada = rutaADibujar;
+
+            for (Ruta rt : rutaADibujar.getCamino()) {
+                try {
+                    graphView.getModel().insertVertex(rt.getOrigen());
+                    graphView.getModel().insertVertex(rt.getDestino());
+                    graphView.getModel().insertEdge(rt.getOrigen(), rt.getDestino(), rt);
+                } catch (Exception ignored) {  }
             }
 
-            for(RutaPosible rutaUnica : rutasUnicas){
-                if(rutaUnica != null){
-                    crearPanel(rutaUnica);
-                }
-            }
+            graphView.update();
 
-            if (rutaADibujar == null && mejorRuta != null) {
-                rutaADibujar = mejorRuta;
-            } else if (rutaADibujar == null && !rutasUnicas.isEmpty()) {
-                rutaADibujar = rutasUnicas.getFirst();
-            }
-
-            if (rutaADibujar != null) {
-                estilizada = rutaADibujar;
-
-                for (Ruta rt : rutaADibujar.getCamino()) {
-                    try {
-                        graphView.getModel().insertVertex(rt.getOrigen());
-                        graphView.getModel().insertVertex(rt.getDestino());
-                        graphView.getModel().insertEdge(rt.getOrigen(), rt.getDestino(), rt);
-                    } catch (Exception ignored) {  }
-                }
-
-                graphView.update();
-
-                final RutaPosible rutaFinal = rutaADibujar;
-                Platform.runLater(() -> {
-                    try {
-                        graphView.update();
-                        estilizarRuta(rutaFinal);
-                    } catch (Exception ignored) {}
-                });
-            }
-
-            this.origen =  cbxOrigen.getSelectionModel().getSelectedItem();
-            this.destino = cbxDestino.getSelectionModel().getSelectedItem();
-
+            final RutaPosible rutaFinal = rutaADibujar;
+            Platform.runLater(() -> {
+                try {
+                    graphView.update();
+                    estilizarRuta(rutaFinal);
+                } catch (Exception ignored) {}
+            });
         }
     }
+
     @FXML
     public void initialize() {
         scrollpane.fitToWidthProperty().set(true);
         cargarDatos();
-        cbxOrigen.setEditable(false);
-        cbxDestino.setEditable(false);
+
+        lblOrigen.setText("Seleccione origen en el mapa");
+        lblDestino.setText("Seleccione destino en el mapa");
     }
 
     public void cargarDatos(){
-
         sm.crearSimulacion();
-
-        for(Parada p : SistemaTransporte.getSistemaTransporte().getParadas()){
-            cbxDestino.getItems().add(p);
-            cbxOrigen.getItems().add(p);
-        }
 
         Digraph<Parada, Ruta> g = new DigraphEdgeList<>();
         for(Parada p : SistemaTransporte.getSistemaTransporte().getParadas()) {
@@ -240,27 +235,27 @@ public class MapaViewController {
 
         if (origen == null) {
             panel.getStylableVertex(elemento).addStyleClass("seleccionado");
-            cbxOrigen.getSelectionModel().select(elemento);
+            lblOrigen.setText(elemento.getNombreParada());
             origen = elemento;
 
             construirArbolVisual(origen);
         }
         else if (destino == null && !origen.equals(elemento)) {
             panel.getStylableVertex(elemento).addStyleClass("seleccionado");
-            cbxDestino.getSelectionModel().select(elemento);
+            lblDestino.setText(elemento.getNombreParada());
             destino = elemento;
 
         }
         else if (origen.equals(elemento)) {
             panel.getStylableVertex(elemento).removeStyleClass("seleccionado");
-            cbxOrigen.getSelectionModel().clearSelection();
+            lblOrigen.setText("Seleccione origen en el mapa");
             origen = null;
 
             limpiarAristasVisuales();
         }
         else if (destino != null && destino.equals(elemento)) {
             panel.getStylableVertex(elemento).removeStyleClass("seleccionado");
-            cbxDestino.getSelectionModel().clearSelection();
+            lblDestino.setText("Seleccione destino en el mapa");
             destino = null;
         }
     }
@@ -313,14 +308,16 @@ public class MapaViewController {
 
         if (origen != null) {
             graphView.getStylableVertex(origen).removeStyleClass("seleccionado");
-            cbxOrigen.getSelectionModel().clearSelection();
+            lblOrigen.setText("Seleccione origen en el mapa");
             origen = null;
         }
 
         if (destino != null) {
             graphView.getStylableVertex(destino).removeStyleClass("seleccionado");
-            cbxDestino.getSelectionModel().clearSelection();
+            lblDestino.setText("Seleccione destino en el mapa");
             destino = null;
         }
+
+        limpiarAristasVisuales();
     }
 }

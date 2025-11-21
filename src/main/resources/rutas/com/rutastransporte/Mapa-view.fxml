@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -14,113 +13,67 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="593.0" prefWidth="878.0"
-            style="-fx-background-color: #19173C; -fx-border-radius: 10px; -fx-background-radius: 10px;"
-            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="rutas.com.rutastransporte.controladores.MapaViewController">
-    <BorderPane layoutX="145.0" layoutY="33.0" prefHeight="604.0" prefWidth="878.0" AnchorPane.bottomAnchor="-11.0"
-                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane prefHeight="605.0" prefWidth="895.0" style="-fx-background-color: #19173C; -fx-border-radius: 10px; -fx-background-radius: 10px;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rutas.com.rutastransporte.controladores.MapaViewController">
+    <BorderPane layoutX="145.0" layoutY="33.0" prefHeight="604.0" prefWidth="878.0" AnchorPane.bottomAnchor="-11.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <bottom>
           <BorderPane prefHeight="362.0" prefWidth="878.0" BorderPane.alignment="CENTER">
               <center>
-                  <AnchorPane prefHeight="278.0" prefWidth="840.0"
-                              style="-fx-background-color: #FAFAFA;">
-                      <ScrollPane fx:id="scrollpane" fitToWidth="true" layoutX="70.0" layoutY="33.0"
-                                  prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
-                                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                                  AnchorPane.topAnchor="0.0">
-                          <VBox fx:id="contenedorGeneral" prefHeight="290.0" prefWidth="877.0"
-                                style="-fx-background-color: #FAFAFA;">
+                  <AnchorPane prefHeight="278.0" prefWidth="840.0" style="-fx-background-color: #FAFAFA;">
+                      <ScrollPane fx:id="scrollpane" fitToWidth="true" layoutX="70.0" layoutY="33.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <VBox fx:id="contenedorGeneral" prefHeight="290.0" prefWidth="877.0" style="-fx-background-color: #FAFAFA;">
                               <AnchorPane prefHeight="282.0" prefWidth="877.0">
                                   <padding>
-                                      <Insets bottom="5.0" left="10.0" right="10.0" top="10.0"/>
+                                      <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
                                   </padding>
-                                  <AnchorPane layoutX="51.199999999999996"
-                                              layoutY="31.200000000000003" prefHeight="238.0"
-                                              prefWidth="818.0"
-                                              style="-fx-background-color: #1B4B6B; -fx-background-radius: 5px;"
-                                              AnchorPane.bottomAnchor="10.0"
-                                              AnchorPane.leftAnchor="10.0"
-                                              AnchorPane.rightAnchor="10.0"
-                                              AnchorPane.topAnchor="10.0">
-                                      <Circle fill="#49808e" layoutX="75.0" layoutY="123.0"
-                                              radius="38.0" stroke="BLACK" strokeType="INSIDE"/>
-                                      <ImageView fitHeight="58.0" fitWidth="65.0" layoutX="46.0"
-                                                 layoutY="94.0" pickOnBounds="true"
-                                                 preserveRatio="true">
-                                          <Image url="@imagenes/ahorro.png"/>
+                                  <AnchorPane layoutX="51.199999999999996" layoutY="31.200000000000003" prefHeight="238.0" prefWidth="818.0" style="-fx-background-color: #1B4B6B; -fx-background-radius: 5px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                      <Circle fill="#49808e" layoutX="75.0" layoutY="123.0" radius="38.0" stroke="BLACK" strokeType="INSIDE" />
+                                      <ImageView fitHeight="58.0" fitWidth="65.0" layoutX="46.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                                          <Image url="@imagenes/ahorro.png" />
                                       </ImageView>
-                                      <Label layoutX="22.0" layoutY="14.0" prefHeight="62.0"
-                                             prefWidth="768.0"
-                                             text="Encuentra el camino que se adapta a ti."
-                                             textFill="WHITE">
+                                      <Label layoutX="22.0" layoutY="14.0" prefHeight="62.0" prefWidth="768.0" text="Encuentra el camino que se adapta a ti." textFill="WHITE">
                                           <font>
-                                              <Font name="Century Gothic Bold" size="23.0"/>
+                                              <Font name="Century Gothic Bold" size="23.0" />
                                           </font>
                                       </Label>
-                                      <Circle fill="#49808e" layoutX="235.0" layoutY="123.0"
-                                              radius="38.0" stroke="BLACK" strokeType="INSIDE"/>
-                                      <ImageView fitHeight="58.0" fitWidth="65.0" layoutX="200.0"
-                                                 layoutY="94.0" pickOnBounds="true"
-                                                 preserveRatio="true">
-                                          <Image url="@imagenes/distancia.png"/>
+                                      <Circle fill="#49808e" layoutX="235.0" layoutY="123.0" radius="38.0" stroke="BLACK" strokeType="INSIDE" />
+                                      <ImageView fitHeight="58.0" fitWidth="65.0" layoutX="200.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                                          <Image url="@imagenes/distancia.png" />
                                       </ImageView>
-                                      <Circle fill="#49808e" layoutX="391.0" layoutY="123.0"
-                                              radius="38.0" stroke="BLACK" strokeType="INSIDE"/>
-                                      <ImageView fitHeight="58.0" fitWidth="65.0" layoutX="362.0"
-                                                 layoutY="94.0" pickOnBounds="true"
-                                                 preserveRatio="true">
-                                          <Image url="@imagenes/tiempo.png"/>
+                                      <Circle fill="#49808e" layoutX="391.0" layoutY="123.0" radius="38.0" stroke="BLACK" strokeType="INSIDE" />
+                                      <ImageView fitHeight="58.0" fitWidth="65.0" layoutX="362.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                                          <Image url="@imagenes/tiempo.png" />
                                       </ImageView>
-                                      <Circle fill="#49808e" layoutX="552.0" layoutY="123.0"
-                                              radius="38.0" stroke="BLACK" strokeType="INSIDE"/>
-                                      <ImageView fitHeight="58.0" fitWidth="65.0" layoutX="523.0"
-                                                 layoutY="94.0" pickOnBounds="true"
-                                                 preserveRatio="true">
-                                          <Image url="@imagenes/trasbordos.png"/>
+                                      <Circle fill="#49808e" layoutX="552.0" layoutY="123.0" radius="38.0" stroke="BLACK" strokeType="INSIDE" />
+                                      <ImageView fitHeight="58.0" fitWidth="65.0" layoutX="523.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                                          <Image url="@imagenes/trasbordos.png" />
                                       </ImageView>
-                                      <Label layoutX="22.0" layoutY="166.0" prefHeight="57.0"
-                                             prefWidth="122.0" text="Ahorrando&#10;Dinero."
-                                             textAlignment="CENTER" textFill="WHITE">
+                                      <Label layoutX="22.0" layoutY="166.0" prefHeight="57.0" prefWidth="122.0" text="Ahorrando&#10;Dinero." textAlignment="CENTER" textFill="WHITE">
                                           <font>
-                                              <Font name="Century Gothic Italic" size="20.0"/>
+                                              <Font name="Century Gothic Italic" size="20.0" />
                                           </font>
                                       </Label>
-                                      <Label layoutX="166.0" layoutY="165.0" prefHeight="60.0"
-                                             prefWidth="126.0" text="Acortando &#10;Distancias."
-                                             textAlignment="CENTER" textFill="WHITE">
+                                      <Label layoutX="166.0" layoutY="165.0" prefHeight="60.0" prefWidth="126.0" text="Acortando &#10;Distancias." textAlignment="CENTER" textFill="WHITE">
                                           <font>
-                                              <Font name="Century Gothic Italic" size="20.0"/>
+                                              <Font name="Century Gothic Italic" size="20.0" />
                                           </font>
                                       </Label>
-                                      <Label layoutX="328.0" layoutY="165.0" prefHeight="60.0"
-                                             prefWidth="126.0" text="Reduciendo&#10;Tiempo."
-                                             textAlignment="CENTER" textFill="WHITE">
+                                      <Label layoutX="328.0" layoutY="165.0" prefHeight="60.0" prefWidth="126.0" text="Reduciendo&#10;Tiempo." textAlignment="CENTER" textFill="WHITE">
                                           <font>
-                                              <Font name="Century Gothic Italic" size="20.0"/>
+                                              <Font name="Century Gothic Italic" size="20.0" />
                                           </font>
                                       </Label>
-                                      <Label layoutX="479.0" layoutY="165.0" prefHeight="60.0"
-                                             prefWidth="157.0"
-                                             text="Eliminando los&#10;Trasbordos."
-                                             textAlignment="CENTER" textFill="WHITE">
+                                      <Label layoutX="479.0" layoutY="165.0" prefHeight="60.0" prefWidth="157.0" text="Eliminando los&#10;Trasbordos." textAlignment="CENTER" textFill="WHITE">
                                           <font>
-                                              <Font name="Century Gothic Italic" size="20.0"/>
+                                              <Font name="Century Gothic Italic" size="20.0" />
                                           </font>
                                       </Label>
-                                      <Circle fill="#49808e" layoutX="739.0" layoutY="123.0"
-                                              radius="38.0" stroke="BLACK" strokeType="INSIDE"/>
-                                      <ImageView fitHeight="58.0" fitWidth="65.0" layoutX="710.0"
-                                                 layoutY="94.0" pickOnBounds="true"
-                                                 preserveRatio="true">
-                                          <Image url="@imagenes/mejor.png"/>
+                                      <Circle fill="#49808e" layoutX="739.0" layoutY="123.0" radius="38.0" stroke="BLACK" strokeType="INSIDE" />
+                                      <ImageView fitHeight="58.0" fitWidth="65.0" layoutX="710.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                                          <Image url="@imagenes/mejor.png" />
                                       </ImageView>
-                                      <Label layoutX="660.0" layoutY="165.0" prefHeight="60.0"
-                                             prefWidth="157.0"
-                                             text="Obteniendo la&#10;Mejor Opción."
-                                             textAlignment="CENTER" textFill="WHITE">
+                                      <Label layoutX="660.0" layoutY="165.0" prefHeight="60.0" prefWidth="157.0" text="Obteniendo la&#10;Mejor Opción." textAlignment="CENTER" textFill="WHITE">
                                           <font>
-                                              <Font name="Century Gothic Italic" size="20.0"/>
+                                              <Font name="Century Gothic Italic" size="20.0" />
                                           </font>
                                       </Label>
                                   </AnchorPane>
@@ -130,54 +83,50 @@
                   </AnchorPane>
               </center>
               <top>
-                  <AnchorPane prefHeight="68.0" prefWidth="878.0"
-                              style="-fx-background-color: #1B4B6B; -fx-border-color: WHITE;"
-                              BorderPane.alignment="CENTER">
-                      <Circle fill="#19173c" layoutX="39.0" layoutY="36.0" radius="25.0" stroke="WHITE"
-                              strokeType="INSIDE"/>
-                      <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="23.0" layoutY="19.0"
-                                 pickOnBounds="true" preserveRatio="true">
-                          <Image url="@imagenes/mapa.png"/>
+                  <AnchorPane prefHeight="68.0" prefWidth="878.0" style="-fx-background-color: #1B4B6B; -fx-border-color: WHITE;" BorderPane.alignment="CENTER">
+                      <Circle fill="#19173c" layoutX="39.0" layoutY="36.0" radius="25.0" stroke="WHITE" strokeType="INSIDE" />
+                      <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="23.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                          <Image url="@imagenes/mapa.png" />
                       </ImageView>
-                      <Label layoutX="80.0" layoutY="23.0" prefHeight="22.0" prefWidth="112.0" text="Origen:"
-                             textFill="WHITE">
+                      <Label layoutX="74.0" layoutY="24.0" prefHeight="22.0" prefWidth="112.0" text="Origen:" textFill="WHITE">
                           <font>
-                              <Font name="Century Gothic Bold" size="18.0"/>
+                              <Font name="Century Gothic Bold" size="18.0" />
                           </font>
                       </Label>
-                      <ComboBox fx:id="cbxOrigen" layoutX="156.0" layoutY="22.0" prefHeight="26.0"
-                                prefWidth="226.0" promptText="Seleccione el Origen..."/>
-                      <Label layoutX="402.0" layoutY="24.0" prefHeight="22.0" prefWidth="112.0" text="Destino:"
-                             textFill="WHITE">
+                      <Label layoutX="391.0" layoutY="24.0" prefHeight="23.0" prefWidth="78.0" text="Destino:" textFill="WHITE">
                           <font>
-                              <Font name="Century Gothic Bold" size="18.0"/>
+                              <Font name="Century Gothic Bold" size="18.0" />
                           </font>
                       </Label>
-                      <ComboBox fx:id="cbxDestino" layoutX="478.0" layoutY="21.0" prefHeight="26.0"
-                                prefWidth="226.0" promptText="Seleccione el Destino..."/>
-                      <Button layoutX="718.0" layoutY="13.0" mnemonicParsing="false" onAction="#buscarClick"
-                              prefHeight="42.0" prefWidth="138.0"
-                              style="-fx-background-color: #19173C; -fx-border-color: white; -fx-border-radius: 5px; -fx-background-radius: 5px;"
-                              text="Buscar" textFill="WHITE">
+                      <Button layoutX="730.0" layoutY="13.0" mnemonicParsing="false" onAction="#buscarClick" prefHeight="42.0" prefWidth="138.0" style="-fx-background-color: #19173C; -fx-border-color: white; -fx-border-radius: 5px; -fx-background-radius: 5px;" text="Buscar" textFill="WHITE">
                           <font>
-                              <Font name="Century Gothic Bold" size="17.0"/>
+                              <Font name="Century Gothic Bold" size="17.0" />
                           </font>
                           <graphic>
-                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true"
-                                         translateX="-20.0">
-                                  <Image url="@imagenes/lupa.png"/>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
+                                  <Image url="@imagenes/lupa.png" />
                               </ImageView>
                           </graphic>
                           <cursor>
-                              <Cursor fx:constant="HAND"/>
+                              <Cursor fx:constant="HAND" />
                           </cursor>
                       </Button>
+                  <Label fx:id="lblOrigen" layoutX="148.0" layoutY="20.0" prefHeight="18.0" prefWidth="233.0" style="-fx-background-color: #19173C; -fx-border-width: 1px; -fx-border-color: white; -fx-padding: 6px 10px; -fx-border-radius: 5px; -fx-background-radius: 5px;" text="Label" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblDestino" layoutX="468.0" layoutY="19.0" prefHeight="33.0" prefWidth="242.0" style="-fx-background-color: #19173C; -fx-border-width: 1px; -fx-border-color: white; -fx-padding: 6px 10px; -fx-border-radius: 5px; -fx-background-radius: 5px;" text="Label" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic" size="14.0" />
+                     </font>
+                  </Label>
                   </AnchorPane>
               </top>
           </BorderPane>
         </bottom>
         <center>
-          <AnchorPane fx:id="contenedorGrafo" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+          <AnchorPane fx:id="contenedorGrafo" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
         </center>
     </BorderPane>
 </AnchorPane>

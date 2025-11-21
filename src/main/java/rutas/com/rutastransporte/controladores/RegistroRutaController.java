@@ -74,6 +74,9 @@ public class RegistroRutaController implements Registro {
     @FXML
     private ImageView imgRealizar;
 
+    @FXML
+    private ImageView imgTransporte;
+
     @Override
     public void setModalidad(Modalidad modalidad){
         this.modalidad = modalidad;
@@ -113,10 +116,20 @@ public class RegistroRutaController implements Registro {
             spnCosto.getValueFactory().setValue((double)ruta.getCosto());
             spnM.getValueFactory().setValue(ruta.getMetros());
             spnKM.getValueFactory().setValue(ruta.getKilometros());
+            imgTransporte.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + ruta.getOrigen().getTipo().getImagen()))));
             btnRealizar.setText("Actualizar");
             imgRealizar.translateXProperty().setValue(-20);
             imgRealizar.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/editar.png"))));
         }
+        else{
+            cbxOrigen.getSelectionModel().select(cbxOrigen.getItems().getFirst());
+            imgTransporte.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + cbxOrigen.getSelectionModel().getSelectedItem().getTipo().getImagen()))));
+            cbxDestino.getSelectionModel().select(cbxDestino.getItems().get(1));
+        }
+    }
+
+    public void cbxOrigenChange(){
+        imgTransporte.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + cbxOrigen.getSelectionModel().getSelectedItem().getTipo().getImagen()))));
     }
 
     public void btnRealizarClick(){

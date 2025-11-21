@@ -73,7 +73,13 @@ public class RecursosVisuales {
         double anchoTabla = tabla.getWidth();
         if (anchoTabla > 0) {
             int numColumnas = tabla.getColumns().size();
-            double anchoPorColumna = (anchoTabla / numColumnas) - 4;
+            double anchoPorColumna;
+            if(numColumnas == 4){
+                anchoPorColumna = (anchoTabla / numColumnas) - 4;
+            }
+            else{
+                anchoPorColumna = (anchoTabla / numColumnas) - 7;
+            }
 
             for (TableColumn<?, ?> columna : tabla.getColumns()) {
                 columna.setPrefWidth(anchoPorColumna);

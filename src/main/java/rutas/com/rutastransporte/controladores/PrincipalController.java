@@ -29,13 +29,9 @@ public class PrincipalController {
         lblCantRutas.setText(String.valueOf(servicioPrincipal.getCantRutas()));
         lblCantParadas.setText(String.valueOf(servicioPrincipal.getCantParadas()));
         grSegmentacion.setLabelsVisible(true);
-
-        Thread thread = new Thread(() -> lblPrecioProm.setText(String.valueOf(servicioPrincipal.getCostoPromedio())));
-
         Thread thread2 = new Thread(() -> grSegmentacion.setData(servicioPrincipal.crearSeries()));
+        lblPrecioProm.setText(String.valueOf(servicioPrincipal.getCostoPromedio()));
 
-
-       thread.start();
        thread2.start();
     }
 }
