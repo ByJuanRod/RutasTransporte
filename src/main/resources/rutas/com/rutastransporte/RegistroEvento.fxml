@@ -111,6 +111,6 @@
         </font>
     </Label>
     <ImageView fx:id="imgVista" fitHeight="40.0" fitWidth="40.0" layoutX="648.0" layoutY="159.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@imagenes/libre.png" />
+        <Image url="@imagenes/accidente.png" />
     </ImageView>
 </AnchorPane>

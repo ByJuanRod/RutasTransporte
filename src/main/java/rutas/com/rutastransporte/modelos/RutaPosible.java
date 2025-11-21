@@ -110,14 +110,10 @@ public class RutaPosible implements Clonable<RutaPosible> {
      */
     public void agregarAlCamino(Ruta ruta){
         camino.add(ruta);
-        cantTrasbordos += ruta.getTrasbordos();
-        tiempoTotal += ruta.getTiempoConEvento();
-        costoTotal += ruta.getCostoConEvento();
-        distanciaTotal += ruta.getDistanciaConEvento();
-        tiempoBase += ruta.getTiempo();
-        distanciaBase += ruta.getDistancia();
-        cantTrasbordos += ruta.getTrasbordos();
-        costoBase += ruta.getCosto();
+        agregarCosto(ruta.getCostoConEvento(),ruta.getCosto());
+        agregarTrasbordos(ruta.getTrasbordos());
+        agregarDistancia(ruta.getDistanciaConEvento(),ruta.getDistancia());
+        agregarTiempo(ruta.getTiempoConEvento(),ruta.getTiempo());
     }
 
     /*
@@ -129,14 +125,10 @@ public class RutaPosible implements Clonable<RutaPosible> {
      */
     public void agregarAlCaminoFirst(Ruta ruta){
         camino.addFirst(ruta);
-        cantTrasbordos += ruta.getTrasbordos();
-
-        tiempoTotal += ruta.getTiempoConEvento();
-        costoTotal += ruta.getCostoConEvento();
-        distanciaTotal += ruta.getDistanciaConEvento();
-        tiempoBase += ruta.getTiempo();
-        costoBase += ruta.getCosto();
-        distanciaBase += ruta.getDistancia();
+        agregarCosto(ruta.getCostoConEvento(),ruta.getCosto());
+        agregarTrasbordos(ruta.getTrasbordos());
+        agregarDistancia(ruta.getDistanciaConEvento(),ruta.getDistancia());
+        agregarTiempo(ruta.getTiempoConEvento(),ruta.getTiempo());
 
         if(!ruta.getTipoEvento().equals(TipoEvento.NORMAL)){
             registroEventos.add(ruta.getTipoEvento());
@@ -181,6 +173,9 @@ public class RutaPosible implements Clonable<RutaPosible> {
     @Override
     public void clonar(RutaPosible rutaPosible){
         this.camino = rutaPosible.camino;
+        this.costoBase = rutaPosible.costoBase;
+        this.distanciaBase = rutaPosible.distanciaBase;
+        this.tiempoBase = rutaPosible.tiempoBase;
         this.costoTotal = rutaPosible.costoTotal;
         this.distanciaTotal = rutaPosible.distanciaTotal;
         this.tiempoTotal = rutaPosible.tiempoTotal;

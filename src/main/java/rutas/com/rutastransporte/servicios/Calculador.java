@@ -172,10 +172,6 @@ public class Calculador {
             }
 
             rutaPosible.agregarAlCamino(ruta);
-            rutaPosible.agregarCosto(ruta.getCostoConEvento(),ruta.getCosto());
-            rutaPosible.agregarTrasbordos(ruta.getTrasbordos());
-            rutaPosible.agregarDistancia(ruta.getDistanciaConEvento(),ruta.getDistancia());
-            rutaPosible.agregarTiempo(ruta.getTiempoConEvento(),ruta.getTiempo());
             rutaPosible.agregarCriterioDestacado(criterio);
 
             actual = ruta.getDestino();

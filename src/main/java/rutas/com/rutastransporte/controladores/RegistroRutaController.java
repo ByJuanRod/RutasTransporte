@@ -203,4 +203,12 @@ public class RegistroRutaController implements Registro {
         spnTrasbordos.getValueFactory().setValue(1);
     }
 
+    public void btnAutomaticoClick(){
+        if(cbxOrigen.getSelectionModel().getSelectedItem() != null && cbxDestino.getSelectionModel().getSelectedItem() != null){
+            txtNombre.setText("Ruta " + cbxOrigen.getSelectionModel().getSelectedItem() + "-" + cbxDestino.getSelectionModel().getSelectedItem());
+        }
+        else{
+            alertfactory.obtenerAlerta(Alert.AlertType.WARNING).crearAlerta("El origen y destino deben ser paradas existentes para asignar el automático.","Advertencia").show();
+        }
+    }
 }
