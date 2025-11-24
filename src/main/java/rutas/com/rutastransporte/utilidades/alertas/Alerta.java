@@ -9,7 +9,5 @@ import javafx.scene.control.Alert;
  */
 public interface Alerta {
     Alert crearAlerta(String mensaje, String cabecera);
-
     Alert crearAlerta(String mensaje);
-
 }

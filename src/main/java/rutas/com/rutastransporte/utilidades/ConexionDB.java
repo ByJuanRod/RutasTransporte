@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
 /*
     Nombre: ConexionDB
     Tipo: Clase
@@ -15,7 +14,12 @@ public class ConexionDB {
     private static final String USER = "root";
     private static final String PASSWORD = "claveruta";
 
-
+    /*
+        Nombre: getConexion
+        Argumentos: -
+        Objetivo: Procesar la conexión a la base de datos
+        Retorno: (Connection) Retorna la conexión a la base de datos
+     */
     public static Connection getConexion() throws SQLException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

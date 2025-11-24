@@ -22,6 +22,12 @@ public class ServicioEventos {
         random = new Random();
     }
 
+    /*
+        Nombre: getInstancia
+        Argumentos: -
+        Objetivo: Obtener la instancia de ServicioEventos, en caso de no existir una instancia creará una.
+        Retorno: (ServicioEventos) Retorna la instancia de servicio eventos existente.
+     */
     public static ServicioEventos getInstancia(){
         if(instancia == null){
             instancia = new ServicioEventos();
@@ -29,6 +35,13 @@ public class ServicioEventos {
         return instancia;
     }
 
+    /*
+        Nombre: insertar
+        Argumentos:
+            (EventoRuta) nuevoEvento: Representa el evento que se va a agregar.
+        Objetivo: Insertar un nuevo evento a una ruta.
+        Retorno: -
+     */
     public void insertar(EventoRuta nuevoEvento) {
         if (nuevoEvento == null || nuevoEvento.getRuta() == null) {
             return;
@@ -47,6 +60,13 @@ public class ServicioEventos {
         guardarEventoEnBD(nuevoEvento);
     }
 
+    /*
+        Nombre: eliminar
+        Argumentos:
+            (EventoRuta) evento: Representa el evento que se va a eliminar
+        Objetivo: Eliminar un evento de una ruta y de la base de datos.
+        Retorno: -
+     */
     public void eliminar(EventoRuta evento) {
         if (evento == null || evento.getRuta() == null) {
             return;
@@ -63,6 +83,13 @@ public class ServicioEventos {
         eliminarEventoDeBD(codigoRuta);
     }
 
+    /*
+        Nombre: eliminarEventoDeDB
+        Argumentos:
+            (int) codigoRuta: Representa el codigo de la ruta.
+         Objetivo: Eliminar un evento de la base de datos.
+         Retorno: -
+     */
     private void eliminarEventoDeBD(int codigoRuta) {
         String sql = "DELETE FROM Eventos WHERE ruta = ?";
 
@@ -73,10 +100,17 @@ public class ServicioEventos {
             pst.execute();
 
         } catch (SQLException e) {
-            alt.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Error al eliminar el evento.","Error.");
+            alt.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Error al eliminar el evento.","Error.").show();
         }
     }
 
+    /*
+        Nombre: eliminar
+        Argumentos:
+            (Ruta) ruta: Representa la ruta de la que se eliminara el evento
+         Objetivo: Eliminar el evento de una ruta.
+         Retorno: -
+     */
     public void eliminar(Ruta ruta) {
         if (ruta == null) {
             return;
@@ -88,6 +122,12 @@ public class ServicioEventos {
         }
     }
 
+    /*
+        Nombre: crearSimulacionEventos
+        Argumentos: -
+        Objetivo: Crear la simulacion de los eventos en la aplicación.
+        Retorno: -
+     */
     public void crearSimulacionEventos() {
         limpiarEventosExpirados();
 
@@ -115,10 +155,23 @@ public class ServicioEventos {
         }
     }
 
+    /*
+        Nombre: obtenerTodasLasRutas
+        Argumentos: -
+        Objetivo: Obtener todas las rutas existentes.
+        Retorno: (List<Ruta>) Retorna la lista de todas las rutas existentes.
+     */
     private List<Ruta> obtenerTodasLasRutas() {
         return new ArrayList<>(rutas.com.rutastransporte.repositorio.SistemaTransporte.getSistemaTransporte().getRutas());
     }
 
+    /*
+        Nombre: generarYGuardarEvento
+        Argumento:
+            (Ruta) ruta: Representa la ruta a la que se le aplicará un evento aleatorio.
+         Objetivo: Generar un evento aleatorio en una ruta y guardarlo en la base de datos.
+         Retorno: -
+     */
     private void generarYGuardarEvento(Ruta ruta) {
         try {
             generarEventoAleatorio(ruta);
@@ -127,11 +180,16 @@ public class ServicioEventos {
                 EventoRuta evento = getEvento(ruta);
                 guardarEventoEnBD(evento);
             }
-        } catch (Exception e) {
-            System.out.println("Error al generar evento para ruta " + ruta.getNombre() + ": " + e.getMessage());
-        }
+        } catch (Exception ignored) {}
     }
 
+    /*
+        Nombre: generarEventoAleatorio
+        Argumentos:
+            (Ruta) ruta: Representa la ruta a la que se le generará el evento aleatorio.
+         Objetivo: Generar un evento aleatorio en una ruta.
+         Retorno: -
+     */
     public void generarEventoAleatorio(Ruta ruta) {
         if (tieneEventoActivo(ruta)) {
             return;
@@ -150,6 +208,12 @@ public class ServicioEventos {
         aplicarEventoARuta(ruta, evento, duracion);
     }
 
+    /*
+        Nombre: limpiarEventosExpirados
+        Argumentos: -
+        Objetivo: Eliminar los eventos que ya estan expirados de la aplicación
+        Retorno: -
+     */
     public void limpiarEventosExpirados() {
         Iterator<Map.Entry<Integer, EventoRuta>> it = eventosActivos.entrySet().iterator();
         while (it.hasNext()) {
@@ -163,15 +227,39 @@ public class ServicioEventos {
         limpiarEventosExpiradosBD();
     }
 
+    /*
+        Nombre: tieneEventoActivo
+        Argumento:
+            (Ruta) ruta: Representa la ruta que se verificará.
+        Objetivo: Verificar si una ruta tiene un evento activo.
+        Retorno: (boolean) Retorna true la ruta ya tiene un evento asociado.
+                           Retorna false si la ruta no tiene eventos asociados.
+     */
     public boolean tieneEventoActivo(Ruta ruta) {
         return eventosActivos.containsKey(ruta.getCodigo()) &&
                 eventosActivos.get(ruta.getCodigo()).estaActivo();
     }
 
+    /*
+        Nombre: getEvento
+        Argumentos:
+            (Ruta) ruta: Representa la ruta que se va a obtener su evento.
+        Objetivo: Obtener el evento activo asociado a una ruta.
+        Retorno: (EventoRuta) Retorna el evento que una ruta tiene activo.
+     */
     public EventoRuta getEvento(Ruta ruta) {
         return eventosActivos.get(ruta.getCodigo());
     }
 
+    /*
+        Nombre: aplicarEventoARuta
+        Argumentos:
+            (Ruta) ruta: Representa la ruta a la que se le va a aplicar el evento.
+            (TipoEvento) evento: Representa el evento que se va a aplicar.
+            (int) duracionMinutos: Representa la duración que tendra el evento.
+        Objetivo: Aplicarle un evento a una ruta.
+        Retorno: -
+     */
     public void aplicarEventoARuta(Ruta ruta, TipoEvento evento, int duracionMinutos) {
         if (eventosActivos.containsKey(ruta.getCodigo())) {
             eventosActivos.get(ruta.getCodigo()).setActivo(false);
@@ -182,19 +270,35 @@ public class ServicioEventos {
         ruta.aplicarEvento(evento);
     }
 
+    /*
+        Nombre: limpiarEventosExpiradosDB
+        Argumentos: -
+        Objetivo: Eliminar los eventos expirados de la base de datos.
+        Retorno: -
+     */
     public void limpiarEventosExpiradosBD() {
-        String sql = "DELETE FROM Eventos WHERE fecha_fin < NOW()";
+        String sql = "DELETE FROM Eventos WHERE fecha_fin < ?";
 
         try (Connection con = ConexionDB.getConexion();
-             Statement st = con.createStatement()) {
-
-            st.execute(sql);
+             PreparedStatement pst = con.prepareStatement(sql)) {
+            pst.setTimestamp(1, new Timestamp(new Date().getTime()));
+            int filasAfectadas = pst.executeUpdate();
+            System.out.println("Eventos eliminados: " + filasAfectadas);
 
         } catch (SQLException e) {
-            alt.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Error al limpiar los eventos.","Error.").show();
+            alt.obtenerAlerta(Alert.AlertType.ERROR)
+                    .crearAlerta("Error al limpiar los eventos.", "Error.")
+                    .show();
         }
     }
 
+    /*
+        Nombre: guardarEventoEnDB
+        Argumentos:
+            (EventoRuta) evento: Representa el evento que se va a almacenar.
+         Objetivo: Guardar un evento en la base de datos.
+         Retorno: -
+     */
     public void guardarEventoEnBD(EventoRuta evento) {
         String sql = "INSERT INTO Eventos (ruta, tipo_evento, fecha_inicio, fecha_fin) VALUES (?, ?, ?, ?)";
 
@@ -213,42 +317,62 @@ public class ServicioEventos {
         }
     }
 
+    /*
+        Nombre: cargarEventosActivosDesdeDB
+        Argumentos: -
+        Objetivo: Cargar los eventos activos de la base de datos.
+        Retorno: -
+     */
     public void cargarEventosActivosDesdeBD() {
-        String sql = "SELECT e.ruta, e.tipo_evento, e.fecha_inicio, e.fecha_fin FROM Eventos e WHERE e.fecha_fin > NOW()";
+        String sql = "SELECT e.ruta, e.tipo_evento, e.fecha_inicio, e.fecha_fin FROM Eventos e WHERE e.fecha_fin > ?";
 
         try (Connection con = ConexionDB.getConexion();
-             Statement st = con.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
+             PreparedStatement pst = con.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                int codigoRuta = rs.getInt("ruta");
-                TipoEvento tipoEvento = TipoEvento.valueOf(rs.getString("tipo_evento"));
-                Timestamp fechaInicio = rs.getTimestamp("fecha_inicio");
-                Timestamp fechaFin = rs.getTimestamp("fecha_fin");
+            pst.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
 
-                Ruta rutaEncontrada = null;
-                for (Ruta ruta : obtenerTodasLasRutas()) {
-                    if (ruta.getCodigo() == codigoRuta) {
-                        rutaEncontrada = ruta;
-                        break;
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    int codigoRuta = rs.getInt("ruta");
+                    TipoEvento tipoEvento = TipoEvento.valueOf(rs.getString("tipo_evento"));
+                    Timestamp fechaInicio = rs.getTimestamp("fecha_inicio");
+                    Timestamp fechaFin = rs.getTimestamp("fecha_fin");
+
+                    Ruta rutaEncontrada = null;
+                    for (Ruta ruta : obtenerTodasLasRutas()) {
+                        if (ruta.getCodigo() == codigoRuta) {
+                            rutaEncontrada = ruta;
+                            break;
+                        }
                     }
-                }
 
-                if (rutaEncontrada != null) {
-                    long duracionRestante = (fechaFin.getTime() - System.currentTimeMillis()) / (60 * 1000);
+                    if (rutaEncontrada != null) {
+                        long duracionRestante = (fechaFin.getTime() - System.currentTimeMillis()) / (60 * 1000);
 
-                    if (duracionRestante > 0) {
-                        EventoRuta eventoRuta = crearEventoDesdeBD(rutaEncontrada, tipoEvento, fechaInicio, fechaFin);
-                        eventosActivos.put(codigoRuta, eventoRuta);
-                        rutaEncontrada.aplicarEvento(tipoEvento);
+                        if (duracionRestante > 0) {
+                            EventoRuta eventoRuta = crearEventoDesdeBD(rutaEncontrada, tipoEvento, fechaInicio, fechaFin);
+                            eventosActivos.put(codigoRuta, eventoRuta);
+                            rutaEncontrada.aplicarEvento(tipoEvento);
+                        }
                     }
                 }
             }
         } catch (SQLException e) {
-            alt.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Error al cargar eventos.","Error.").show();
+            alt.obtenerAlerta(Alert.AlertType.ERROR)
+                    .crearAlerta("Error al cargar eventos.", "Error.")
+                    .show();
         }
     }
 
+    /*
+    Nombre: crearEventoDesdeBD
+    Argumentos:
+        (Ruta) ruta: Reprsenta la ruta a la quee se le asociará el evento.
+        (Timestamp) fechaInicio: Representa la fecha de inicio del evento.
+        (Timestamp) fechaFin: Representa la fecha fin del evento.
+     Objetivo: Crear un nuevo evento desde los datos de la base de datos.
+     Retorno: (EventoRuta) Representa el evento que se creo de la base de datos.
+     */
     private EventoRuta crearEventoDesdeBD(Ruta ruta, TipoEvento tipoEvento, Timestamp fechaInicio, Timestamp fechaFin) {
         Date fechaInicioDate = new Date(fechaInicio.getTime());
         Date fechaFinDate = new Date(fechaFin.getTime());
@@ -256,6 +380,12 @@ public class ServicioEventos {
         return new EventoRuta(ruta, tipoEvento, fechaInicioDate, fechaFinDate);
     }
 
+    /*
+    Nombre: getRutasConEventosActivos
+    Argumentos: -
+    Objetivo: Obtener todas las rutas con eventos activos.
+    Retorno: (List<Ruta>) Retorna una lista de todas las rutas que tienen eventos activos.
+     */
     public List<Ruta> getRutasConEventosActivos() {
         limpiarEventosExpirados();
 
@@ -268,6 +398,12 @@ public class ServicioEventos {
         return rutasConEventos;
     }
 
+    /*
+        Nombre: getRutasSinEventosActivos
+        Argumentos:
+        Objetivo: Obtener las rutas que no tienen eventos activos.
+        Retorno: (List<Ruta>) Retorna una lista con todas las rutas sin eventos activos.
+     */
     public List<Ruta> getRutasSinEventosActivos() {
         limpiarEventosExpirados();
         List<Ruta> rutasSinEventos = new ArrayList<>();

@@ -14,10 +14,22 @@ import java.util.Hashtable;
     Objetivo: Ofrecer las funciones que permiten que el apartado principal funcione correctamente.
  */
 public class ServicioPrincipal {
+    /*
+        Nombre: getCantRutas
+        Argumentos: -
+        Objetivo: Obtener la cantidad de rutas existentes.
+        Retorno: (int) Retorna la cantidad de rutas existentes.
+     */
     public int getCantRutas(){
         return SistemaTransporte.getSistemaTransporte().getRutas().size();
     }
 
+    /*
+        Nombre: getCantParadas
+        Argumentos: -
+        Objetivo: Obtener la cantidad de paradas existentes.
+        Retorno: (int) Retorna la cantidad de paradas existentes.
+     */
     public int getCantParadas(){
         return SistemaTransporte.getSistemaTransporte().getParadas().size();
     }

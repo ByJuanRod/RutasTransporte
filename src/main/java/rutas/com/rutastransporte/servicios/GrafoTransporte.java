@@ -5,6 +5,11 @@ import rutas.com.rutastransporte.modelos.Ruta;
 
 import java.util.*;
 
+/*
+    Nombre: GrafoTransporte
+    Tipo: Clase
+    Objetivo: Representar el grafo del sistema de transporte.
+ */
 public class GrafoTransporte {
     private final Map<Parada, List<Ruta>> listaAdyacencia;
 
@@ -20,6 +25,13 @@ public class GrafoTransporte {
         listaAdyacencia.putIfAbsent(parada, new ArrayList<>());
     }
 
+    /*
+        Nombre: agregarRuta
+        Argumentos:
+            (Ruta) ruta: Representa la ruta que se agregara a la lista de adyacencia.
+        Objetivo: Agregar una ruta a la lista de adyacencia para representar el grafo.
+        Retorno: -
+     */
     public void agregarRuta(Ruta ruta) {
         Parada origen = ruta.getOrigen();
         listaAdyacencia.putIfAbsent(origen, new ArrayList<>());
@@ -30,6 +42,13 @@ public class GrafoTransporte {
         return listaAdyacencia.getOrDefault(parada, new ArrayList<>());
     }
 
+    /*
+        Nombre: eliminarParada
+        Argumento:
+            (Parada) parada: Representa la parada que se va a eliminar.
+        Objetivo: Eliminar una parada de la lista de adyacencia.
+        Retorno: -
+     */
     public void eliminarParada(Parada parada) {
         listaAdyacencia.remove(parada);
 
@@ -39,6 +58,13 @@ public class GrafoTransporte {
 
     }
 
+    /*
+        Nombre: eliminarRuta
+        Argumentos:
+            (Ruta) ruta: Representa la ruta que se va a eliminar.
+        Objetivo: Eliminar una ruta de la lista de adyacencia.
+        Retorno: -
+     */
     public void eliminarRuta(Ruta ruta) {
         Parada origen = ruta.getOrigen();
         List<Ruta> rutas = listaAdyacencia.get(origen);
@@ -49,6 +75,13 @@ public class GrafoTransporte {
 
     }
 
+    /*
+        Nombre: actualizarRuta
+        Argumentos:
+            (Ruta) rutaActualizada: Representa la ruta que se va a actualizar.
+        Objetivo: Actualizar una ruta de la lista de adyacencia dependiendo si el destino o el origen cambio.
+        Retorno: -
+     */
     public void actualizarRuta(Ruta rutaActualizada) {
         if (rutaActualizada == null) {
             throw new IllegalArgumentException("La ruta actualizada no puede ser nula");
@@ -89,6 +122,13 @@ public class GrafoTransporte {
         agregarParada(rutaActualizada.getDestino());
     }
 
+    /*
+        Nombre: actualizarParada
+        Argumentos:
+            (Parada) paradaActualizada: Representa la parada a actualizar.
+        Objetivo: Modificar una parada desde la lista de adyacencia.
+        Retorno: -
+     */
     public void actualizarParada(Parada paradaActualizada) {
         if (paradaActualizada == null) {
             throw new IllegalArgumentException("La parada actualizada no puede ser nula");

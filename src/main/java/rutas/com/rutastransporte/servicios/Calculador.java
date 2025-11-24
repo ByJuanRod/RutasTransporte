@@ -5,10 +5,23 @@ import rutas.com.rutastransporte.repositorio.SistemaTransporte;
 
 import java.util.*;
 
+/*
+    Nombre: Calculador
+    Tipo: Clase
+    Objetivo: Manejar todos los metodos de la logica de calculo de caminos.
+ */
 public class Calculador {
 
     private GrafoTransporte grafo;
 
+    /*
+        Nombre: getPeso
+        Argumentos:
+            (Ruta) ruta: Reprsenta la ruta que se le tomará el peso.
+            (Criterio) criterio: Representa la propiedad que sera utilizada para el calculo.
+        Objetivo: Obtener la propiedad de la ruta que sera evaluada en el calculo
+        Retorno: (float) Retorna el valor del criterio seleccionado.
+     */
     private float getPeso(Ruta ruta, Criterio criterio){
         return switch (criterio) {
             case MAS_ECONOMICO -> ruta.getCostoConEvento();
@@ -19,6 +32,15 @@ public class Calculador {
         };
     }
 
+    /*
+        Nombre: dijkstra
+        Argumentos:
+            (Parada) origen: Representa el punto de origen del camino.
+            (Parada) destino: Representa el punto de fin del camino.
+            (Criterio) criterio: Representa el criterio que se evaluará en el algoritmo.
+        Objetivo: Obtener el mejor camino desde un punto de origen hasta un destino tomando como referencia un criterio.
+        Retorno: (RutaPosible) Retorna el camino que es la mejor ruta segun el criterio selccionado.
+     */
     public RutaPosible dijkstra(Parada origen, Parada destino, Criterio criterio) {
         ServicioEventos.getInstancia().limpiarEventosExpirados();
 
@@ -82,6 +104,13 @@ public class Calculador {
         this.grafo = grafo;
     }
 
+    /*
+        Nombre: floidWarshall
+        Argumentos:
+            (Criterio) criterio: Representa el criterio que será tomado en cuenta para obtener la mejor ruta en el grafo.
+        Objetivo: Obtener la mejor ruta del el grafo segun un criterio seleccionado.
+        Retorno: (RutaPosible) Retorna el camino destacado del criterio seleccionado.
+     */
     public RutaPosible floidWarshall(Criterio criterio) {
         ServicioEventos.getInstancia().limpiarEventosExpirados();
 
@@ -150,6 +179,15 @@ public class Calculador {
         return reconstruirRutaFloydWarshall(mejorOrigen, mejorDestino, rutasIntermedias, criterio);
     }
 
+    /*
+        Nombre: encontrarRutaDirecta
+        Argumentos:
+            (Parada) origen: Representa el punto de origen.
+            (Parada) destino: Representa la parada de destino.
+        Objetivo: Obtener una ruta directa que valla desde el punto de origen al destino directamente.
+        Retorno: (Ruta) Retorna una ruta que valla desde el punto de origen hasta el destino directamente
+                        Retorna null si no existe una ruta que valla desde el punto de origen al destino.
+     */
     private Ruta encontrarRutaDirecta(Parada origen, Parada destino) {
         for (Ruta ruta : grafo.getRutas(origen)) {
             if (ruta.getDestino().equals(destino)) {
@@ -159,6 +197,16 @@ public class Calculador {
         return null;
     }
 
+    /*
+        Nombre: reconstruirRutaFloidWarshall
+        Argumentos:
+            (Parada) origen: Representa la parada de origen.
+            (Parada) destino: Representa la parada de destino.
+            (Map<Parada,Map<Parada,Ruta>>) rutasIntermedias: Representa un listado de todas las rutas intermedias que tiene una parada.
+            (Criterio) criterio: Representa el criterio destacado.
+        Objetivo: Reconstruir la ruta destacada obtenida por el algorimo de Floyd Warshall.
+        Retorno: (RutaPosible) Retorna el camino destacado del algoritmo FloydWarshall.
+     */
     private RutaPosible reconstruirRutaFloydWarshall(Parada origen, Parada destino,
                                                      Map<Parada, Map<Parada, Ruta>> rutasIntermedias,
                                                      Criterio criterio) {
@@ -180,73 +228,13 @@ public class Calculador {
         return rutaPosible;
     }
 
-    /* public List<Ruta> calcularMST() {
-        List<Ruta> rutas = new ArrayList<>(SistemaTransporte.getSistemaTransporte().getRutas());
-        List<Parada> paradas = new ArrayList<>(SistemaTransporte.getSistemaTransporte().getParadas());
-
-        rutas.sort(Comparator.comparingInt(Ruta::getDistancia));
-
-        Map<Integer, Integer> padres = new HashMap<>();
-        for (Parada parada : paradas) {
-            padres.put(parada.getCodigo(), parada.getCodigo());
-        }
-
-        List<Ruta> mst = new ArrayList<>();
-        int numAristas = paradas.size() - 1;
-
-        for(Ruta ruta : rutas) {
-
-            int raizOrigen = find(padres, ruta.getOrigen().getCodigo());
-            int raizDestino = find(padres, ruta.getDestino().getCodigo());
-
-            if(raizOrigen != raizDestino){
-                mst.add(ruta);
-
-                union(padres, raizOrigen, raizDestino);
-
-            }
-
-            if(mst.size() == numAristas){
-                break;
-            }
-
-        }
-
-        return mst;
-
-    }
-
-    private int find(Map<Integer, Integer> padres, int i) {
-
-        if (padres.get(i) == i) {
-            return i;
-        }
-
-        return find(padres, padres.get(i));
-    }
-
-    private void union(Map<Integer, Integer> padres, int raizI, int raizJ) {
-        padres.put(raizI, raizJ);
-    }
-
-    public List<Ruta> calcularArborescencia(Parada raiz) {
-
-        Map<Parada, Ruta> mejoresEntrantes = new HashMap<>();
-
-        for (Ruta ruta : SistemaTransporte.getSistemaTransporte().getRutas()) {
-            Parada v = ruta.getDestino();
-            if (v.equals(raiz)) continue;
-
-            float costo = ruta.getCosto();
-
-            if (!mejoresEntrantes.containsKey(v) || costo < mejoresEntrantes.get(v).getCosto()) {
-                mejoresEntrantes.put(v, ruta);
-            }
-        }
-
-        return new ArrayList<>(mejoresEntrantes.values());
-    }*/
-
+    /*
+        Nombre: calcularArbolDijkstra
+        Argumentos:
+            (Parada) raiz: Representa el punto de origen del arbol.
+        Objetivo: Crear el arbol de conexiones que tiene una parada a traves de las rutas.
+        Retorno: (List<Ruta>) Retorna una lista de todas las rutas involucradas en el camino.
+     */
     public List<Ruta> calcularArbolDijkstra(Parada raiz) {
         Criterio criterio = Criterio.MENOS_TRASBORDOS;
 

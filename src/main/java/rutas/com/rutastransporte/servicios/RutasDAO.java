@@ -11,8 +11,21 @@ import rutas.com.rutastransporte.utilidades.ConexionDB;
 import java.sql.*;
 import java.util.Iterator;
 
+/*
+    Nombre: RutasDAO
+    Tipo: Clase Implementa -> CRUD<Ruta>
+    Objetivos: Almacenar la logica del servicio de gestión de rutas.
+ */
 public class RutasDAO implements CRUD<Ruta> {
 
+    /*
+        Nombre: insertar
+        Argumentos:
+            (Ruta) ruta: Representa la ruta que se va a insertar.
+        Objetivo: Insertar una parada a la base de datos.
+        Retorno: (boolean) Retorna true si la ruta se insertó correctamente.
+                           Retorna false si la ruta no se logró insertar correctamente.
+     */
     @Override
     public boolean insertar(Ruta ruta) {
         String sql = "INSERT INTO Rutas (nombre_ruta, distancia, costo, tiempo, trasbordos, origen, destino) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -39,6 +52,15 @@ public class RutasDAO implements CRUD<Ruta> {
         }
     }
 
+    /*
+        Nombre: setDatos
+        Argumentos:
+            (Ruta) ruta: Representa la ruta que se tomará de referencia de los datos.
+            (PreparedStatement) pst: Representa el comando SQL.
+        Objetivo: Aplicar los valores de los datos de la ruta.
+        Retorno: -
+        Arroja: (SQLException)
+     */
     private void setDatos(Ruta ruta, PreparedStatement pst) throws SQLException {
         pst.setString(1, ruta.getNombre());
         pst.setInt(2, ruta.getDistancia());
@@ -49,6 +71,14 @@ public class RutasDAO implements CRUD<Ruta> {
         pst.setInt(7, ruta.getDestino().getCodigo());
     }
 
+    /*
+        Nombre: actualizar
+        Argumentos:
+            (Ruta) rutaActualizada: Representa la ruta que se va a actualizar.
+        Objetivo: Actualizar una ruta en la base de datos.
+        Retorno: (boolean) Retorna true si la ruta se logró actualizar exitosamente.
+                           Retorna false si la ruta no se logró eliminar.
+     */
     @Override
     public boolean actualizar(Ruta rutaActualizada) {
         String sql = "UPDATE Rutas SET nombre_ruta = ?, distancia = ?, costo = ?, tiempo = ?, trasbordos = ?, origen = ?, destino = ? WHERE codigo = ?";
@@ -76,6 +106,14 @@ public class RutasDAO implements CRUD<Ruta> {
         }
     }
 
+    /*
+        Nombre: eliminar
+        Argumentos:
+            (Ruta) ruta: Representa la ruta que se va a eliminar
+        Objetivo: Eliminar una ruta de la base de datos.
+        Retorno: -
+        Arroja (NotRemovableException)
+     */
     @Override
     public void eliminar(Ruta ruta) throws NotRemovableException {
 
@@ -88,8 +126,6 @@ public class RutasDAO implements CRUD<Ruta> {
             int filasAfectadas = pstDelete.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("Ruta " + ruta.getCodigo() + " eliminada de la BBDD.");
-
                 SistemaTransporte sistema = SistemaTransporte.getSistemaTransporte();
                 Iterator<Ruta> iterator = sistema.getRutas().iterator();
                 while (iterator.hasNext()) {
@@ -100,15 +136,18 @@ public class RutasDAO implements CRUD<Ruta> {
                 }
                 sistema.getGrafo().eliminarRuta(ruta);
 
-            } else {
-                System.out.println("No se encontró la ruta " + ruta.getCodigo() + " en la BBDD para eliminar.");
             }
-
         } catch (SQLException e) {
             throw new NotRemovableException("Error de SQL al eliminar la ruta: " + e.getMessage());
         }
     }
 
+    /*
+        Nombre: getRutas
+        Argumentos: -
+        Objetivo: Obtener un listado de todas las rutas.
+        Retorno: (ObservableList<Ruta>) Retorna una lista de todas las rutas.
+     */
     public ObservableList<Ruta> getRutas() {
         ObservableList<Ruta> rutas = FXCollections.observableArrayList();
         rutas.addAll(SistemaTransporte.getSistemaTransporte().getRutas());

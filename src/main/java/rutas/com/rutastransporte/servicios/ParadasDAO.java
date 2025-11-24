@@ -11,7 +11,21 @@ import rutas.com.rutastransporte.utilidades.ConexionDB;
 import java.sql.*;
 import java.util.Iterator;
 
+/*
+    Nombre: ParadasDAO
+    Tipo: Clase Implementa -> CRUD<Parada>
+    Objetivos: Almacenar la logica del servicio de gestión de paradas.
+ */
 public class ParadasDAO implements CRUD<Parada> {
+
+    /*
+    Nombre: insertar
+    Argumentos:
+        (Parada) parada: Representa la parada que se va a insertar.
+    Objetivo: Insertar una parada a la base de datos.
+    Retorno: (boolean) Retorna true si la parada se insertó correctamente.
+                       Retorna false si la parada no se logró insertar correctamente.
+ */
     @Override
     public boolean insertar(Parada parada) {
         String sql = "INSERT INTO Paradas (nombre_parada, tipo_parada, ubicacion) VALUES (?, ?, ?)";
@@ -41,6 +55,14 @@ public class ParadasDAO implements CRUD<Parada> {
         }
     }
 
+    /*
+    Nombre: actualizar
+    Argumentos:
+        (Parada) paradaActualizada: Representa la parada que se va a actualizar.
+    Objetivo: Actualizar una parada en la base de datos.
+    Retorno: (boolean) Retorna true si la parada se logró actualizar exitosamente.
+                       Retorna false si la parada no se logró eliminar.
+ */
     @Override
     public boolean actualizar(Parada paradaActualizada) {
         String sql = "UPDATE Paradas SET nombre_parada = ?, tipo_parada = ?, ubicacion = ? WHERE codigo = ?";
@@ -71,6 +93,14 @@ public class ParadasDAO implements CRUD<Parada> {
         }
     }
 
+    /*
+    Nombre: eliminar
+    Argumentos:
+        (Parada) parada: Representa la parada que se va a eliminar.
+    Objetivo: Eliminar una parada de la base de datos.
+    Retorno: -
+    Arroja (NotRemovableException) Cuando una parada esta vinculada con una ruta.
+ */
     @Override
     public void eliminar(Parada parada) throws NotRemovableException {
         String sqlCheck = "SELECT COUNT(*) as count FROM Rutas WHERE origen = ? OR destino = ?";
@@ -106,6 +136,12 @@ public class ParadasDAO implements CRUD<Parada> {
         }
     }
 
+    /*
+    Nombre: getParadas
+    Argumentos: -
+    Objetivo: Obtener un listado de todas las paradas.
+    Retorno: (ObservableList<Parada>) Retorna una lista de todas las paradas.
+ */
     public ObservableList<Parada> getParadas() {
         ObservableList<Parada> paradas = FXCollections.observableArrayList();
         paradas.addAll(SistemaTransporte.getSistemaTransporte().getParadas());
