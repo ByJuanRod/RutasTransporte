@@ -8,6 +8,7 @@ package rutas.com.rutastransporte.modelos;
     Estructura:
         (String) nombreTipo: Representa el nombre del tipo de parada.
         (String) imagenTipo: Representa la imagen del tipo de parada.
+        (String) claseCSS: Representa la clase que se le asocia en CSS.
     Objetivo: Representar los tipos de parada que existen.
  */
 public enum TipoParada {

@@ -91,18 +91,42 @@ public class Ruta {
         this.tiempo = tiempo;
     }
 
+    /*
+        Nombre: getMinutos
+        Argumentos: -
+        Objetivo: Obtener la cantidad de minutos que hay en el registro de tiempo.
+        Retorno: (int) Retorna la cantidad de minutos.
+     */
     public int getMinutos(){
         return (tiempo % 60);
     }
 
+    /*
+        Nombre: getHoras
+        Argumentos: -
+        Objetivo: Obtener la cantidad de horas que hay en el registro de tiempo
+        Retorno: (int) Retorna la cantidad de horas que hay en el registro de tiempo.
+     */
     public int getHoras(){
         return (tiempo / 60);
     }
 
+    /*
+        Nombre: getKilometros
+        Argumentos: -
+        Objetivo: Obtener la cantidad de kilometros que hay en el registro de distancia.
+        Retorno: (int) Retorna la cantidad de kilometros que hay en el registro de distancia.
+     */
     public int getKilometros(){
         return (distancia / 1000);
     }
 
+    /*
+        Nombre: getMetros
+        Argumentos: -
+        Objetivo: Obtener la cantidad de metros que hay en el registro de distancia.
+        Retorno: (int) Retorna la cantidad de metros que hay en el registro de distancia.
+     */
     public int getMetros(){
         return (distancia % 1000);
     }
@@ -113,10 +137,25 @@ public class Ruta {
         return nombre;
     }
 
+    /*
+        Nombre: calcularTiempo
+        Argumentos:
+            (int) horas: Representa la cantidad de horas ingresadas.
+            (int) minutos: Representa la cantidad de minutos ingresadas.
+        Objetivo: Calcular la cantidad total de minutos en el registro de tiempo.
+        Retorno: (int) Retorna la cantidad total de minutos del registro de tiempo.
+     */
     public static int calcularTiempo(int horas, int minutos){
         return horas * 60 + minutos;
     }
 
+    /*
+        Nombre: calcularDistancia
+        Argumentos:
+           (int) kilometros: Representa la cantidad de kilometros que se ingresaron.
+           (int) metros: Representa la cantidad de metros que se ingresaron.
+        Objetivo: Calcular la cantidad total de metros que hay en el registro de distancia.
+     */
     public static int calcularDistancia(int kilometros, int metros){
         return kilometros * 1000 + metros;
     }
@@ -129,11 +168,24 @@ public class Ruta {
         return trasbordos;
     }
 
+    /*
+        Nombre: aplicarEvento
+        Argumentos:
+            (TipoEvento) evento: Representa el tipo de evento que se va a agregar.
+        Objetivo: Asociar un evento a una ruta.
+        Retorno: -
+     */
     public void aplicarEvento(TipoEvento evento) {
         this.eventoActual = evento;
         this.tieneEvento = true;
     }
 
+    /*
+        Nombre: removerEvento
+        Argumentos: -
+        Objetivo: Eliminar un evento de una ruta.
+        Retorno: -
+     */
     public void removerEvento() {
         this.eventoActual = TipoEvento.NORMAL;
         this.tieneEvento = false;
@@ -147,6 +199,9 @@ public class Ruta {
         return eventoActual;
     }
 
+    /*
+        Nombre: getCostoConEvento
+     */
     public float getCostoConEvento() {
         float costoBase = getCosto();
         return tieneEvento ? Math.round(costoBase * eventoActual.getFactorCosto()) : costoBase;

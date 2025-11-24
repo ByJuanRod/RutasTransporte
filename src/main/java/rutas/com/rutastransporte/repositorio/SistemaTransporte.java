@@ -5,6 +5,11 @@ import rutas.com.rutastransporte.servicios.GrafoTransporte;
 
 import java.util.ArrayList;
 
+/*
+    Nombre: SistemaTransporte
+    Tipo: Clase
+    Objetivo: Almacenar la logica del sistema de transporte público.
+ */
 public class SistemaTransporte {
 
     private final ArrayList<Parada> paradas;
@@ -21,6 +26,13 @@ public class SistemaTransporte {
         grafo = new GrafoTransporte();
     }
 
+    /*
+        Nombre: getSistemaTransporte
+        Argumentos: -
+        Objetivo: Obtener la instancia del sistema de transporte publico
+        Retorno: (SistemaTransporte) Retorna la instancia del sistema de transporte actual,
+                                     Si no existe una instancia creara una instancia.
+     */
     public static SistemaTransporte getSistemaTransporte(){
         if(instancia == null){
             instancia = new SistemaTransporte();

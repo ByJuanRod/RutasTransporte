@@ -1,5 +1,18 @@
 package rutas.com.rutastransporte.modelos;
 
+/*
+    Nombre: TipoEvento
+    Tipo: Enum
+    Valores:
+        (ACCIDENTE, DESVIO, CAMINO_LIBRE, ZONA_CONCURRIDA, NORMAL
+    Estructura:
+        (String) nombre: Representa el nombre del tipo de evento.
+        (float) factorTiempo: Representa el costo agregado o disminuido al factor del tiempo.
+        (float) factorDistancia: Representa el factor agregado o disminuido a la distancia.
+        (float) factorCosto: Representa el factor de costo agregado o disminuido al costo.
+        (String) imagen: Representa la imagen asociada al evento.
+   Objetivo: Asociar una ruta a un tipo de evento como parte de la simulación.
+ */
 public enum TipoEvento {
     ACCIDENTE("Accidente","accidente.png", 1.5f, 2.0f, 1.0f),
     DESVIO("Desvío","desvio.png", 1.3f, 1.5f, 1.1f),

@@ -13,8 +13,19 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+    Nombre: CargadorDatos
+    Tipo: Clase
+    Objetivo: Cargar los datos existentes de la base de datos.
+ */
 public class CargadorDatos {
 
+    /*
+        Nombre: cargarDatos
+        Argumentos: -
+        Objetivo: Cargar las paradas, las rutas y los eventos de la base de datos.
+        Retorno: -
+     */
     public static void cargarDatos() {
         GrafoTransporte grafo = SistemaTransporte.getSistemaTransporte().getGrafo();
         ServicioEventos servicioEventos = ServicioEventos.getInstancia();
