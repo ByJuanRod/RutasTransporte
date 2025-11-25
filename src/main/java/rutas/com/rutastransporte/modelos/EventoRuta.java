@@ -2,6 +2,9 @@ package rutas.com.rutastransporte.modelos;
 
 import java.util.Date;
 
+/*
+    Nombre: EventoRuta
+ */
 public class EventoRuta {
     private final Ruta ruta;
     private final TipoEvento tipoEvento;

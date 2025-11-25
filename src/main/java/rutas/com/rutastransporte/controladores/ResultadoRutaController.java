@@ -52,6 +52,13 @@ public class ResultadoRutaController {
 
     Circle circle = new Circle();
 
+    /*
+        Nombre: crearInterfaz
+        Argumentos:
+            (RutaPosible) ruta: Representa la ruta que se tomará como referencia en los resultados.
+        Objetivo: Crear los componentes visuales del control.
+        Retorno: (AnchorPane) Retorna el panel que contiene el controlador.
+     */
     public AnchorPane crearInterfaz(RutaPosible ruta) {
         AnchorPane mainAnchorPane = new AnchorPane();
         mainAnchorPane.setStyle("-fx-background-color: transparent;");
@@ -160,6 +167,16 @@ public class ResultadoRutaController {
         return mainAnchorPane;
     }
 
+
+    /*
+        Nombre: crearLabelTitulo
+        Argumentos:
+            (String) texto: Representa el texto del label
+            (double) x: Representa la coordenada X donde se ubicara el control.
+            (double) y: Representa la coordenada Y donde se ubicara el control.
+        Objetivo: Crear los label de titulo.
+        Retorno: (Label) Retorna un label de titulo con las propiedades establecidas.
+     */
     private Label crearLabelTitulo(String texto, double x, double y) {
         Label label = new Label();
         label.setLayoutX(x);
@@ -172,7 +189,15 @@ public class ResultadoRutaController {
         return label;
     }
 
-
+    /*
+        Nombre: crearLabelValor
+        Argumentos:
+            (String) texto: Representa el texto del label
+            (double) x: Representa la coordenada X donde se ubicara el control.
+            (double) y: Representa la coordenada Y donde se ubicara el control.
+        Objetivo: Crear los label que almacenan valores.
+        Retorno: (Label) Retorna un label de valor con las propiedades establecidas.
+    */
     private Label crearLabelValor(String texto, double x, double y) {
         Label label = new Label();
         label.setLayoutX(x);
@@ -186,6 +211,12 @@ public class ResultadoRutaController {
         return label;
     }
 
+    /*
+        Nombre: cargarDatos
+        Argumentos: -
+        Objetivo: Cargar los datos de la ruta al control de resultados.
+        Retorno: -
+     */
     private void cargarDatos(){
         if(rutaPosible.isEsMejorRuta()){
             innerAnchorPane.setStyle("-fx-background-color: " + Colores.ENFASIS.getColor() + "; -fx-background-radius: 10px;");

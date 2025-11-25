@@ -35,7 +35,6 @@ public class RutasViewController implements Vista<Ruta> {
 
     private FilteredList<Ruta> filteredData;
 
-
     @FXML
     public void initialize() {
         configurarColumnas();
@@ -52,21 +51,8 @@ public class RutasViewController implements Vista<Ruta> {
             return;
         }
 
-        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacion.setTitle("Confirmar eliminación");
-        confirmacion.setHeaderText("¿Está seguro de eliminar la ruta?");
-        confirmacion.setContentText("Ruta: " + rutaSeleccionada.getNombre());
-        confirmacion.showAndWait().ifPresent(response -> {
-            if (response == javafx.scene.control.ButtonType.OK) {
-                try {
-                    rutasDAO.eliminar(rutaSeleccionada);
-                    cargarDatos();
-                    mostrarAlerta("Éxito.", "Ruta eliminada correctamente.");
-                } catch (NotRemovableException ex) {
-                    mostrarAlerta("Error", ex.getMessage());
-                }
-            }
-        });
+        procesarEliminacion(rutaSeleccionada);
+
     }
 
     public void btnActualizarClick(){
@@ -90,6 +76,26 @@ public class RutasViewController implements Vista<Ruta> {
         filtrar();
     }
 
+    public void btnDestacadasClick(){
+        StageBuilder sb = new StageBuilder();
+        sb.setModalidad(Modality.APPLICATION_MODAL);
+        sb.setTitulo("Rutas Destacadas");
+
+        RutasDestacadasController controlador = (RutasDestacadasController) sb.setContenido("RutasDestacadas");
+        Stage st = sb.construir();
+        controlador.setStage(st);
+        st.show();
+    }
+
+    /*
+        Nombre: crearPantalla
+        Argumentos:
+            (String) titulo: Representa el titulo del formulario.
+            (Modalidad) modalidad: Representa la modalidad en la que se lanzará el formulario.
+            (Ruta) ruta: Representa la ruta que se va a insertar o actualizar.
+        Objetivo: Crear los formularios de registro que derivan del apartado de rutas.
+        Retorno: -
+     */
     @Override
     public void crearPantalla(String titulo, Modalidad modalidad, Ruta ruta) {
         StageBuilder sb = new StageBuilder();
@@ -110,6 +116,12 @@ public class RutasViewController implements Vista<Ruta> {
         }
     }
 
+    /*
+        Nombre: cargarDatos
+        Argumentos: -
+        Objetivo: Cargar los datos que necesita el apartado para funcionar.
+        Retorno: -
+     */
     @Override
     public void cargarDatos() {
         ObservableList<Ruta> datosOriginales = rutasDAO.getRutas();
@@ -118,6 +130,12 @@ public class RutasViewController implements Vista<Ruta> {
         filtrar();
     }
 
+    /*
+        Nombre: filtrar
+        Argumentos: -
+        Objetivo: Filtrar los datos de la tabla cuando el usuario lo necesite.
+        Retorno: -
+     */
     @Override
     public void filtrar() {
         String textoBusqueda = txtBuscar.getText().trim().toLowerCase();
@@ -143,6 +161,12 @@ public class RutasViewController implements Vista<Ruta> {
         });
     }
 
+    /*
+        Nombre: configurarColumnas
+        Argumentos: -
+        Objetivo: Asociar cada columna con una propiedad del objeto de ruta.
+        Retorno: -
+     */
     @Override
     public void configurarColumnas() {
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
@@ -159,18 +183,40 @@ public class RutasViewController implements Vista<Ruta> {
         );
     }
 
+    /*
+        Nombre: MostrarAlerta
+        Argumento:
+            (String) titulo: Representa el titulo de la alerta.
+            (String) mensaje: Representa el mensaje de la alerta.
+        Objetivo: Mostrar las alertas del apartado.
+        Retorno: -
+     */
     private void mostrarAlerta(String titulo, String mensaje) {
         alert.obtenerAlerta(Alert.AlertType.INFORMATION).crearAlerta(titulo, mensaje).showAndWait();
     }
 
-    public void btnDestacadasClick(){
-        StageBuilder sb = new StageBuilder();
-        sb.setModalidad(Modality.APPLICATION_MODAL);
-        sb.setTitulo("Rutas Destacadas");
-
-        RutasDestacadasController controlador = (RutasDestacadasController) sb.setContenido("RutasDestacadas");
-        Stage st = sb.construir();
-        controlador.setStage(st);
-        st.show();
+    /*
+        Nombre: ProcesarEliminacion
+        Argumentos:
+            (Ruta) rutaSeleccionada: Representa la ruta que se va a eliminar.
+        Objetivo: Confirmar la eliminación de una ruta.
+        Retorno: -
+     */
+    private void procesarEliminacion(Ruta rutaSeleccionada){
+        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmar eliminación");
+        confirmacion.setHeaderText("¿Está seguro de eliminar la ruta?");
+        confirmacion.setContentText("Ruta: " + rutaSeleccionada.getNombre());
+        confirmacion.showAndWait().ifPresent(response -> {
+            if (response == javafx.scene.control.ButtonType.OK) {
+                try {
+                    rutasDAO.eliminar(rutaSeleccionada);
+                    cargarDatos();
+                    mostrarAlerta("Éxito.", "Ruta eliminada correctamente.");
+                } catch (NotRemovableException ex) {
+                    mostrarAlerta("Error", ex.getMessage());
+                }
+            }
+        });
     }
 }

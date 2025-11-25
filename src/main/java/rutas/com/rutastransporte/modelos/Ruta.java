@@ -201,40 +201,88 @@ public class Ruta {
 
     /*
         Nombre: getCostoConEvento
+        Argumentos: -
+        Objetivo: Obtener el costo de una ruta tomando en cuenta los agregados del evento.
+        Retorno: (float) Retorna el precio total de la ruta incluyendo el costo agregado o disminuido por el evento.
      */
     public float getCostoConEvento() {
         float costoBase = getCosto();
         return tieneEvento ? Math.round(costoBase * eventoActual.getFactorCosto()) : costoBase;
     }
 
+    /*
+        Nombre: getTiempoConEvento
+        Argumentos: -
+        Objetivo: Obtener el tiempo de una ruta tomando en cuenta los agregados del evento.
+        Retorno: (float) Retorna el tiempo total de la ruta incluyendo el valor agregado o disminuido por el evento.
+    */
     public int getTiempoConEvento() {
         int tiempoBase = getTiempo();
         return tieneEvento ? (int)(tiempoBase * eventoActual.getFactorTiempo()) : tiempoBase;
     }
 
+    /*
+        Nombre: getDistanciaConEvento
+        Argumentos: -
+        Objetivo: Obtener la distancia de una ruta tomando en cuenta los agregados del evento.
+        Retorno: (float) Retorna la distancia total de la ruta incluyendo el valor agregado o disminuido por el evento.
+    */
     public int getDistanciaConEvento() {
         int distanciaBase = getDistancia();
         return tieneEvento ? (int)(distanciaBase * eventoActual.getFactorDistancia()) : distanciaBase;
     }
 
+    /*
+        Nombre: getTiempoDiff
+        Argumentos: -
+        Objetivo: Obtener la diferencia entre el tiempo con evento y sin evento.
+        Retorno: (int) Retorna la diferencia entre el tiempo total con evento y sin evento.
+     */
     public int getTiempoDiff(){
         return getTiempoConEvento() - getTiempo();
     }
 
+    /*
+        Nombre: getCostoDiff
+        Argumentos: -
+        Objetivo: Obtener la diferencia entre el costo con evento y sin evento.
+        Retorno: (int) Retorna la diferencia entre el costo total con evento y sin evento.
+     */
     public float getCostoDiff(){
         return getCostoConEvento() - getCosto();
     }
 
+    /*
+        Nombre: getDistanciaDiff
+        Argumentos: -
+        Objetivo: Obtener la diferencia entre la distancia con evento y sin evento.
+        Retorno: (int) Retorna la diferencia entre la distancia total con evento y sin evento.
+    */
     public int getDistanciaDiff(){
         return getDistanciaConEvento() - getDistancia();
     }
 
+    /*
+        Nombre: getTiempoFormatado
+        Argumentos:
+            (float) tiempoTotal: Representa la cantidad total de tiempo en minutos.
+        Objetivo: Crear un tiempo en el formato de horas y minutos.
+        Retorno: (String) Retorna una cadena con los datos en el formato de horas y minutos.
+     */
     public static String getTiempoFormatado(float tiempoTotal){
         int horas = (int) (tiempoTotal / 60);
         int minutos = (int) (tiempoTotal % 60);
 
         return horas + "h " + minutos + "min";
     }
+
+    /*
+        Nombre: getDistanciaFormatado
+        Argumentos:
+            (float) distanciaTotal: Representa la distancia total en metros.
+        Objetivo: Aplicar el formato de kilometros y metros a una distancia.
+        Retorno: (String) Retorna una cadena con los datos en el formato de kilometros y metros.
+     */
 
     public static String getDistanciaFormatado(float distanciaTotal){
         int kilometros = (int) (distanciaTotal / 1000);

@@ -75,10 +75,10 @@ public class RegistroParadaController implements Registro {
         if(validar()){
             Alerta alerta = alertFactory.obtenerAlerta(Alert.AlertType.INFORMATION);
             if(modalidad == Modalidad.INSERTAR){
-                ParadaBuilder parada = new ParadaBuilder();
-                parada.setNombreParada(txtNombre.getText());
-                parada.setTipo(cbxTipoParada.getSelectionModel().getSelectedItem());
-                parada.setUbicacion(txtDireccion.getText());
+                ParadaBuilder parada = new ParadaBuilder()
+                        .setNombreParada(txtNombre.getText())
+                        .setTipo(cbxTipoParada.getSelectionModel().getSelectedItem())
+                        .setUbicacion(txtDireccion.getText());
 
                 if(servicioParadas.insertar(parada.construir())){
                     alerta.crearAlerta("Parada Insertada Exitosamente.","Registro Insertado.").show();

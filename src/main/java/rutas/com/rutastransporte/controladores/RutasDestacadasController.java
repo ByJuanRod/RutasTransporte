@@ -35,35 +35,13 @@ public class RutasDestacadasController {
 
     @FXML
     public void initialize() {
-        calc.setGrafo(SistemaTransporte.getSistemaTransporte().getGrafo());
-        for(Criterio crt : Criterio.values()){
-            if(!crt.equals(Criterio.MEJOR_RUTA)){
-                RutaPosible resultado = calc.floidWarshall(crt);
-                ResultadoRutaController rest = new ResultadoRutaController();
-                AnchorPane panel = rest.crearInterfaz(resultado);
-                rutas.put(crt,panel);
-            }
-        }
+        aplicarFloidWarshall();
 
         botones.put(Criterio.MAS_CORTA,btnCorta);
         botones.put(Criterio.MENOS_TRASBORDOS,btnTrasbordos);
         botones.put(Criterio.MAS_RAPIDA,btnRapida);
         botones.put(Criterio.MAS_ECONOMICO,btnEconomica);
         cambiarOpcion(Criterio.MAS_ECONOMICO);
-    }
-
-    private void cambiarOpcion(Criterio crit){
-        if(ultimoSeleccionado != null){
-            if(ultimoSeleccionado.equals(crit)){
-                return;
-            }
-            botones.get(ultimoSeleccionado).getStyleClass().remove("seleccionado");
-            contenedorRutas.getChildren().clear();
-        }
-
-        ultimoSeleccionado = crit;
-        botones.get(crit).getStyleClass().add("seleccionado");
-        contenedorRutas.getChildren().add(rutas.get(ultimoSeleccionado));
     }
 
     public void btnEconomicaClick(){
@@ -84,6 +62,45 @@ public class RutasDestacadasController {
 
     public void btnCerrarClick(){
         stage.close();
+    }
+
+    /*
+        Nombre: aplicarFloidWarshall
+        Argumentos: -
+        Objetivo: Aplicar el algoritmo de Floid-Warshall para visualizar las mejores rutas del grafo.
+        Retorno: -
+     */
+    public void aplicarFloidWarshall(){
+        calc.setGrafo(SistemaTransporte.getSistemaTransporte().getGrafo());
+        for(Criterio crt : Criterio.values()){
+            if(!crt.equals(Criterio.MEJOR_RUTA)){
+                RutaPosible resultado = calc.floidWarshall(crt);
+                ResultadoRutaController rest = new ResultadoRutaController();
+                AnchorPane panel = rest.crearInterfaz(resultado);
+                rutas.put(crt,panel);
+            }
+        }
+    }
+
+    /*
+        Nombre: cambiarOpcion
+        Argumentos:
+            (Criterio) crit: Representa el criterio el cual se seleccionó.
+        Objetivo: Cambiar la opción seleccionada entre los criterios disponibles
+        Retorno: -
+     */
+    private void cambiarOpcion(Criterio crit){
+        if(ultimoSeleccionado != null){
+            if(ultimoSeleccionado.equals(crit)){
+                return;
+            }
+            botones.get(ultimoSeleccionado).getStyleClass().remove("seleccionado");
+            contenedorRutas.getChildren().clear();
+        }
+
+        ultimoSeleccionado = crit;
+        botones.get(crit).getStyleClass().add("seleccionado");
+        contenedorRutas.getChildren().add(rutas.get(ultimoSeleccionado));
     }
 
 }

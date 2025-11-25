@@ -36,6 +36,7 @@ public class RegistroRutaController implements Registro {
         this.ruta = ruta;
     }
 
+    @Override
     public void setStage(Stage st){
         this.stage = st;
     }
@@ -81,50 +82,9 @@ public class RegistroRutaController implements Registro {
         this.modalidad = modalidad;
     }
 
-    private void cargarParadas(){
-        cbxDestino.getItems().clear();
-        cbxOrigen.getItems().clear();
-        for(Parada parada : SistemaTransporte.getSistemaTransporte().getParadas()){
-            cbxOrigen.getItems().add(parada);
-            cbxDestino.getItems().add(parada);
-        }
-    }
-
     @FXML
     public void initialize(){
         cargarDatos();
-    }
-
-    @Override
-    public void cargarDatos() {
-        cargarParadas();
-        RecursosVisuales.configurarSpinnerNumerico(spnHoras,0,24,0);
-        RecursosVisuales.configurarSpinnerNumerico(spnM,0,999,0);
-        RecursosVisuales.configurarSpinnerNumerico(spnKM,0,100,0);
-        RecursosVisuales.configurarSpinnerNumerico(spnMinutos,0,59,0);
-        RecursosVisuales.configurarSpinnerDecimal(spnCosto,0,1000,10);
-        RecursosVisuales.configurarSpinnerNumerico(spnTrasbordos,1,100,1);
-
-        if(modalidad == Modalidad.ACTUALIZAR){
-            txtNombre.setText(ruta.getNombre());
-            cbxDestino.getSelectionModel().select(ruta.getDestino());
-            cbxOrigen.getSelectionModel().select(ruta.getOrigen());
-            spnTrasbordos.getValueFactory().setValue(ruta.getTrasbordos());
-            spnHoras.getValueFactory().setValue(ruta.getHoras());
-            spnMinutos.getValueFactory().setValue(ruta.getMinutos());
-            spnCosto.getValueFactory().setValue((double)ruta.getCosto());
-            spnM.getValueFactory().setValue(ruta.getMetros());
-            spnKM.getValueFactory().setValue(ruta.getKilometros());
-            imgTransporte.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + ruta.getOrigen().getTipo().getImagen()))));
-            btnRealizar.setText("Actualizar");
-            imgRealizar.translateXProperty().setValue(-20);
-            imgRealizar.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/editar.png"))));
-        }
-        else{
-            cbxOrigen.getSelectionModel().select(cbxOrigen.getItems().getFirst());
-            imgTransporte.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + cbxOrigen.getSelectionModel().getSelectedItem().getTipo().getImagen()))));
-            cbxDestino.getSelectionModel().select(cbxDestino.getItems().get(1));
-        }
     }
 
     public void cbxOrigenChange(){
@@ -145,14 +105,7 @@ public class RegistroRutaController implements Registro {
                 }
             }
             else{
-                ruta.setNombre(txtNombre.getText());
-                ruta.setDestino(cbxDestino.getSelectionModel().getSelectedItem());
-                ruta.setOrigen(cbxOrigen.getValue());
-                ruta.setCosto(Float.parseFloat(spnCosto.getValue().toString()));
-                ruta.setDistancia(Ruta.calcularDistancia(spnKM.getValue(), spnM.getValue()));
-                ruta.setTiempo(Ruta.calcularTiempo(spnHoras.getValue(), spnMinutos.getValue()));
-                ruta.setTrasbordos(spnTrasbordos.getValue());
-
+                aplicarNuevosValores();
                 if(servicioRutas.actualizar(ruta)){
                     alerta.crearAlerta("Ruta Modificada Exitosamente.","Registro Modificado.").show();
                 }
@@ -163,24 +116,30 @@ public class RegistroRutaController implements Registro {
         }
     }
 
-    private RutaBuilder getRutaBuilder() {
-        RutaBuilder rb = new RutaBuilder();
-        rb.setNombre(txtNombre.getText());
-        rb.setOrigen(cbxOrigen.getSelectionModel().getSelectedItem());
-        rb.setDestino(cbxDestino.getSelectionModel().getSelectedItem());
-        rb.setCosto(Float.parseFloat(spnCosto.getValue().toString()));
-        rb.setTiempo(Ruta.calcularTiempo(spnHoras.getValue(), spnMinutos.getValue()));
-        rb.setDistancia(Ruta.calcularDistancia(spnKM.getValue(),spnM.getValue()));
-        rb.setTrasbordos(spnTrasbordos.getValue());
-        return rb;
-    }
-
     public void btnLimpiarClick(){
         limpiar();
     }
 
     public void btnCerrarClick(){
         stage.close();
+    }
+
+    public void btnAutomaticoClick(){
+        if(cbxOrigen.getSelectionModel().getSelectedItem() != null && cbxDestino.getSelectionModel().getSelectedItem() != null){
+            txtNombre.setText("Ruta " + cbxOrigen.getSelectionModel().getSelectedItem() + "-" + cbxDestino.getSelectionModel().getSelectedItem());
+        }
+        else{
+            alertfactory.obtenerAlerta(Alert.AlertType.WARNING).crearAlerta("El origen y destino deben ser paradas existentes para asignar el automático.").show();
+        }
+    }
+
+    private void cargarParadas(){
+        cbxDestino.getItems().clear();
+        cbxOrigen.getItems().clear();
+        for(Parada parada : SistemaTransporte.getSistemaTransporte().getParadas()){
+            cbxOrigen.getItems().add(parada);
+            cbxDestino.getItems().add(parada);
+        }
     }
 
     @Override
@@ -224,12 +183,69 @@ public class RegistroRutaController implements Registro {
         spnTrasbordos.getValueFactory().setValue(1);
     }
 
-    public void btnAutomaticoClick(){
-        if(cbxOrigen.getSelectionModel().getSelectedItem() != null && cbxDestino.getSelectionModel().getSelectedItem() != null){
-            txtNombre.setText("Ruta " + cbxOrigen.getSelectionModel().getSelectedItem() + "-" + cbxDestino.getSelectionModel().getSelectedItem());
+    private RutaBuilder getRutaBuilder() {
+        return new RutaBuilder()
+                .setNombre(txtNombre.getText())
+                .setOrigen(cbxOrigen.getSelectionModel().getSelectedItem())
+                .setDestino(cbxDestino.getSelectionModel().getSelectedItem())
+                .setCosto(Float.parseFloat(spnCosto.getValue().toString()))
+                .setTiempo(Ruta.calcularTiempo(spnHoras.getValue(), spnMinutos.getValue()))
+                .setDistancia(Ruta.calcularDistancia(spnKM.getValue(),spnM.getValue()))
+                .setTrasbordos(spnTrasbordos.getValue());
+    }
+
+    @Override
+    public void cargarDatos() {
+        cargarParadas();
+        RecursosVisuales.configurarSpinnerNumerico(spnHoras,0,24,0);
+        RecursosVisuales.configurarSpinnerNumerico(spnM,0,999,0);
+        RecursosVisuales.configurarSpinnerNumerico(spnKM,0,100,0);
+        RecursosVisuales.configurarSpinnerNumerico(spnMinutos,0,59,0);
+        RecursosVisuales.configurarSpinnerDecimal(spnCosto,0,1000,10);
+        RecursosVisuales.configurarSpinnerNumerico(spnTrasbordos,1,100,1);
+
+        if(modalidad == Modalidad.ACTUALIZAR){
+            rellenarCampos();
+            aplicarEsteticos(Modalidad.ACTUALIZAR);
         }
         else{
-            alertfactory.obtenerAlerta(Alert.AlertType.WARNING).crearAlerta("El origen y destino deben ser paradas existentes para asignar el automático.").show();
+            aplicarEsteticos(Modalidad.INSERTAR);
         }
+    }
+
+    private void aplicarEsteticos(Modalidad modalidad){
+        if(modalidad == Modalidad.ACTUALIZAR){
+            imgTransporte.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + ruta.getOrigen().getTipo().getImagen()))));
+            btnRealizar.setText("Actualizar");
+            imgRealizar.translateXProperty().setValue(-20);
+            imgRealizar.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/editar.png"))));
+        }
+        else{
+            cbxOrigen.getSelectionModel().select(cbxOrigen.getItems().getFirst());
+            imgTransporte.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + cbxOrigen.getSelectionModel().getSelectedItem().getTipo().getImagen()))));
+            cbxDestino.getSelectionModel().select(cbxDestino.getItems().get(1));
+        }
+    }
+
+    private void rellenarCampos(){
+        txtNombre.setText(ruta.getNombre());
+        cbxDestino.getSelectionModel().select(ruta.getDestino());
+        cbxOrigen.getSelectionModel().select(ruta.getOrigen());
+        spnTrasbordos.getValueFactory().setValue(ruta.getTrasbordos());
+        spnHoras.getValueFactory().setValue(ruta.getHoras());
+        spnMinutos.getValueFactory().setValue(ruta.getMinutos());
+        spnCosto.getValueFactory().setValue((double)ruta.getCosto());
+        spnM.getValueFactory().setValue(ruta.getMetros());
+        spnKM.getValueFactory().setValue(ruta.getKilometros());
+    }
+
+    private void aplicarNuevosValores(){
+        ruta.setNombre(txtNombre.getText());
+        ruta.setDestino(cbxDestino.getSelectionModel().getSelectedItem());
+        ruta.setOrigen(cbxOrigen.getValue());
+        ruta.setCosto(Float.parseFloat(spnCosto.getValue().toString()));
+        ruta.setDistancia(Ruta.calcularDistancia(spnKM.getValue(), spnM.getValue()));
+        ruta.setTiempo(Ruta.calcularTiempo(spnHoras.getValue(), spnMinutos.getValue()));
+        ruta.setTrasbordos(spnTrasbordos.getValue());
     }
 }

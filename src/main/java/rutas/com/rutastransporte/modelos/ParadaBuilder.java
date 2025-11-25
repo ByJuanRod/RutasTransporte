@@ -1,18 +1,26 @@
 package rutas.com.rutastransporte.modelos;
 
+/*
+    Nombre: ParadaBuilder
+    Tipo: Clase -> Implementa Builder<Parada>
+    Objetivo: Facilitar la creación de objetos de paradas.
+ */
 public class ParadaBuilder implements Builder<Parada> {
     private final Parada parada = new Parada();
 
-    public void setNombreParada(String nombreParada) {
+    public ParadaBuilder setNombreParada(String nombreParada) {
         parada.setNombreParada(nombreParada);
+        return this;
     }
 
-    public void setTipo(TipoParada tipo) {
+    public ParadaBuilder setTipo(TipoParada tipo) {
         parada.setTipo(tipo);
+        return this;
     }
 
-    public void setUbicacion(String ubicacion) {
+    public ParadaBuilder setUbicacion(String ubicacion) {
         parada.setUbicacion(ubicacion);
+        return this;
     }
 
     @Override

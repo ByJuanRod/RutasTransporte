@@ -12,36 +12,43 @@ public class RutaBuilder implements Builder<Ruta> {
         this.ruta = new Ruta();
     }
 
-    public void setNombre(String nombre) {
+    public RutaBuilder setNombre(String nombre) {
         ruta.setNombre(nombre);
+        return this;
     }
 
-    public void setOrigen(Parada origen) {
+    public RutaBuilder setOrigen(Parada origen) {
         ruta.setOrigen(origen);
+        return this;
     }
 
-    public void setDestino(Parada destino) {
+    public RutaBuilder setDestino(Parada destino) {
         ruta.setDestino(destino);
+        return this;
     }
 
-    public void setDistancia(int distancia) {
+    public RutaBuilder setDistancia(int distancia) {
         ruta.setDistancia(distancia);
+        return this;
     }
 
-    public void setCosto(float costo) {
+    public RutaBuilder setCosto(float costo) {
         ruta.setCosto(costo);
+        return this;
     }
 
-    public void setTiempo(int tiempo) {
+    public RutaBuilder setTiempo(int tiempo) {
         ruta.setTiempo(tiempo);
+        return this;
+    }
+
+    public RutaBuilder setTrasbordos(int trasbordos) {
+        ruta.setTrasbordos(trasbordos);
+        return this;
     }
 
     @Override
     public Ruta construir() {
         return ruta;
-    }
-
-    public void setTrasbordos(int trasbordos) {
-        ruta.setTrasbordos(trasbordos);
     }
 }

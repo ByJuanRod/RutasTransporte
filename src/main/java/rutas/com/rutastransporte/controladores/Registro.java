@@ -1,5 +1,6 @@
 package rutas.com.rutastransporte.controladores;
 
+import javafx.stage.Stage;
 import rutas.com.rutastransporte.utilidades.Modalidad;
 
 /*
@@ -17,4 +18,6 @@ public interface Registro {
     void setModalidad(Modalidad modalidad);
 
     void cargarDatos();
+
+    void setStage(Stage stage);
 }
