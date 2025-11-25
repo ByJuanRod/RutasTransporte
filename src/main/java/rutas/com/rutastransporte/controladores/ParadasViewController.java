@@ -55,22 +55,7 @@ public class ParadasViewController implements Vista<Parada> {
         }
 
         try {
-            Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmacion.setTitle("Confirmar eliminación");
-            confirmacion.setHeaderText("¿Está seguro de eliminar la parada?");
-            confirmacion.setContentText("Parada: " + paradaSeleccionada.getNombreParada());
-            confirmacion.showAndWait().ifPresent(response -> {
-                if (response == javafx.scene.control.ButtonType.OK) {
-                    try {
-                        paradasDAO.eliminar(paradaSeleccionada);
-                        cargarDatos();
-                        mostrarAlerta("Éxito", "Parada eliminada correctamente.");
-                    } catch (NotRemovableException ex) {
-                        mostrarAlerta("Error", ex.getMessage());
-                    }
-                }
-            });
-
+            procesarEliminacion(paradaSeleccionada);
         } catch (Exception ex) {
             mostrarAlerta("Error", "Ocurrió un error al eliminar la parada: " + ex.getMessage());
         }
@@ -179,5 +164,31 @@ public class ParadasViewController implements Vista<Parada> {
         alerta.setHeaderText(null);
         alerta.setContentText(mensaje);
         alerta.showAndWait();
+    }
+
+    /*
+        Nombre: procesarEliminacion
+        Argumentos:
+            (Parada) paradaSeleccionada: Representa la parada que se va a eliminar.
+        Objetivo: Procesar la eliminación de una parada y confirmarla.
+        Retorno: -
+     */
+    private void procesarEliminacion(Parada paradaSeleccionada){
+        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmar eliminación");
+        confirmacion.setHeaderText("¿Está seguro de eliminar la parada?");
+        confirmacion.setContentText("Parada: " + paradaSeleccionada.getNombreParada());
+        confirmacion.showAndWait().ifPresent(response -> {
+            if (response == javafx.scene.control.ButtonType.OK) {
+                try {
+                    paradasDAO.eliminar(paradaSeleccionada);
+                    cargarDatos();
+                    mostrarAlerta("Éxito", "Parada eliminada correctamente.");
+                } catch (NotRemovableException ex) {
+                    mostrarAlerta("Error", ex.getMessage());
+                }
+            }
+        });
+
     }
 }

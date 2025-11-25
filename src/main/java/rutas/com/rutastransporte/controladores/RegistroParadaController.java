@@ -62,11 +62,6 @@ public class RegistroParadaController implements Registro {
         this.pantalla = pantalla;
     }
 
-    public void setTipos(){
-        ObservableList<TipoParada> lista = FXCollections.observableArrayList(TipoParada.values());
-        cbxTipoParada.setItems(lista);
-    }
-
     public void initialize(){
         setTipos();
     }
@@ -89,10 +84,7 @@ public class RegistroParadaController implements Registro {
                 }
             }
             else{
-                parada.setNombreParada(txtNombre.getText());
-                parada.setTipo(cbxTipoParada.getSelectionModel().getSelectedItem());
-                parada.setUbicacion(txtDireccion.getText());
-
+                aplicarNuevosValores();
                 if(servicioParadas.actualizar(parada)){
                     alerta.crearAlerta("Parada Modificada Exitosamente.","Registro Modificado.").show();
                 }
@@ -116,24 +108,29 @@ public class RegistroParadaController implements Registro {
         imgTransporte.setImage(img);
     }
 
+    /*
+        Nombre: cargarDatos
+        Argumentos: -
+        Objetivo: Cargar los datos dependiendo de la modalidad
+        Retorno: -
+     */
     @Override
     public void cargarDatos(){
         txtNombre.requestFocus();
         if(modalidad.equals(Modalidad.ACTUALIZAR)){
-            txtDireccion.setText(parada.getUbicacion());
-            txtNombre.setText(parada.getNombreParada());
-            cbxTipoParada.setValue(parada.getTipo());
-            imgRealizar.translateXProperty().setValue(-20);
-            btnRealizar.setText("Actualizar");
-            imgRealizar.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/editar.png"))));
+            rellenarCampos();
         }
-        else{
-            cbxTipoParada.setValue(TipoParada.BUS);
-        }
-
+        aplicarEsteticos(modalidad);
         cbxTipoParadaSeleccionado();
     }
 
+    /*
+        Nombre: validar
+        Argumentos: -
+        Objetivo:
+        Retorno: (boolean) Retorna true si todos los campos tienen los valores correctos.
+                           Retorna false si algun campo no tiene valores apropiados.
+     */
     @Override
     public boolean validar() {
         Alerta alerta = alertFactory.obtenerAlerta(Alert.AlertType.WARNING);
@@ -150,10 +147,72 @@ public class RegistroParadaController implements Registro {
         return true;
     }
 
+    /*
+        Nombre: limpiar
+        Argumentos: -
+        Objetivo:Limpiar el contenido de texto en el registro.
+        Retorno: -
+     */
     @Override
     public void limpiar() {
         txtDireccion.setText("");
         txtNombre.setText("");
         cbxTipoParada.setValue(TipoParada.BUS);
     }
+
+    /*
+        Nombre: aplicarEsteticos
+        Argumentos: -
+        Objetivo: Aplicar los elementos esteticos a los apartados de registro.
+        Retorno: -
+     */
+    @Override
+    public void aplicarEsteticos(Modalidad modalidad) {
+        if(modalidad == Modalidad.ACTUALIZAR){
+            imgRealizar.translateXProperty().setValue(-20);
+            btnRealizar.setText("Actualizar");
+            imgRealizar.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/editar.png"))));
+        }
+        else{
+            cbxTipoParada.setValue(TipoParada.BUS);
+        }
+    }
+
+    /*
+        Nombre: rellenarCampos
+        Argumentos: -
+        Objetivo: Rellenar los campos con una parada de referencia.
+        Retorno: -
+     */
+    @Override
+    public void rellenarCampos() {
+        txtDireccion.setText(parada.getUbicacion());
+        txtNombre.setText(parada.getNombreParada());
+        cbxTipoParada.setValue(parada.getTipo());
+    }
+
+    /*
+        Nombre: aplicarNuevosValores
+        Argumentos: -
+        Objetivo: Aplicar los valores a la parada.
+        Retorno: -
+     */
+    @Override
+    public void aplicarNuevosValores() {
+        parada.setNombreParada(txtNombre.getText());
+        parada.setTipo(cbxTipoParada.getSelectionModel().getSelectedItem());
+        parada.setUbicacion(txtDireccion.getText());
+    }
+
+    /*
+        Nombre: setTipos
+        Argumentos: -
+        Objetivo: Rellenar las paradas con los tipos de paradas.
+        Retorno: -
+     */
+    public void setTipos(){
+        ObservableList<TipoParada> lista = FXCollections.observableArrayList(TipoParada.values());
+        cbxTipoParada.setItems(lista);
+    }
+
 }

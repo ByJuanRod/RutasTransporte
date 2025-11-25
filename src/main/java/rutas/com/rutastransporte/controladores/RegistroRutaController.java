@@ -133,6 +133,12 @@ public class RegistroRutaController implements Registro {
         }
     }
 
+    /*
+        Nombre: cargarParadas
+        Argumentos: -
+        Objetivo: Cargar todas las paradas y ubicarlas como opciones de destino y origen.
+        Retorno: -
+     */
     private void cargarParadas(){
         cbxDestino.getItems().clear();
         cbxOrigen.getItems().clear();
@@ -142,6 +148,13 @@ public class RegistroRutaController implements Registro {
         }
     }
 
+    /*
+        Nombre: validar
+        Argumentos: -
+        Objetivo: Validar que los campos obligatorios tengan un valor correcto.
+        Retorno: (boolean) Retorna true si todos los campos son correctos.
+                           Retorna false si algun registro obligatorio no tiene el valor indicado.
+     */
     @Override
     public boolean validar() {
         if(txtNombre.getText().isEmpty()){
@@ -166,12 +179,25 @@ public class RegistroRutaController implements Registro {
         return true;
     }
 
+    /*
+        Nombre: crearAlerta
+        Argumentos:
+            (String) mensaje: Representa el mensaje de la alerta.
+        Objetivo: Mostrar las alertas de advertencias.
+        Retorno: (boolean) Retorna el resultado de una advertencia (Por defecto es false)
+     */
     private boolean crearAlerta(String mensaje){
         Alerta alerta = alertfactory.obtenerAlerta(Alert.AlertType.WARNING);
         alerta.crearAlerta(mensaje,"Advertencia de Registro.").show();
         return false;
     }
 
+    /*
+        Nombre: limpiar
+        Argumentos: -
+        Objetivo: Limpiar los valores de los registros.
+        Retorno: -
+     */
     @Override
     public void limpiar() {
         txtNombre.setText("");
@@ -183,6 +209,12 @@ public class RegistroRutaController implements Registro {
         spnTrasbordos.getValueFactory().setValue(1);
     }
 
+    /*
+        Nombre: getRutaBuilder
+        Argumentos: -
+        Objetivo: Facilitar la creación de objetos de rutas.
+        Retorno: (RutaBuilder) Retorna el builder de las rutas con los datos apropiados.
+     */
     private RutaBuilder getRutaBuilder() {
         return new RutaBuilder()
                 .setNombre(txtNombre.getText())
@@ -194,8 +226,15 @@ public class RegistroRutaController implements Registro {
                 .setTrasbordos(spnTrasbordos.getValue());
     }
 
+    /*
+        Nombre: cargarDatos
+        Argumentos: -
+        Objetivo: Cargar los datos necesarios para el funcionamiento de los registros.
+        Retorno: -
+     */
     @Override
     public void cargarDatos() {
+        cbxOrigen.requestFocus();
         cargarParadas();
         RecursosVisuales.configurarSpinnerNumerico(spnHoras,0,24,0);
         RecursosVisuales.configurarSpinnerNumerico(spnM,0,999,0);
@@ -213,7 +252,15 @@ public class RegistroRutaController implements Registro {
         }
     }
 
-    private void aplicarEsteticos(Modalidad modalidad){
+    /*
+        Nombre: aplicarEsteticos
+        Argumentos:
+            (Modalidad) modalidad: Representa la modalidad en la que se inicio el formulario.
+        Objetivo: Aplicar los elementos esteticos al formulario.
+        Retorno: -
+     */
+    @Override
+    public void aplicarEsteticos(Modalidad modalidad){
         if(modalidad == Modalidad.ACTUALIZAR){
             imgTransporte.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + ruta.getOrigen().getTipo().getImagen()))));
             btnRealizar.setText("Actualizar");
@@ -227,7 +274,13 @@ public class RegistroRutaController implements Registro {
         }
     }
 
-    private void rellenarCampos(){
+    /*
+        Nombre: rellenarCampos
+        Argumentos: -
+        Objetivo: Rellenar los campos del formulario con los valores necesarios
+     */
+    @Override
+    public void rellenarCampos(){
         txtNombre.setText(ruta.getNombre());
         cbxDestino.getSelectionModel().select(ruta.getDestino());
         cbxOrigen.getSelectionModel().select(ruta.getOrigen());
@@ -239,7 +292,8 @@ public class RegistroRutaController implements Registro {
         spnKM.getValueFactory().setValue(ruta.getKilometros());
     }
 
-    private void aplicarNuevosValores(){
+    @Override
+    public void aplicarNuevosValores(){
         ruta.setNombre(txtNombre.getText());
         ruta.setDestino(cbxDestino.getSelectionModel().getSelectedItem());
         ruta.setOrigen(cbxOrigen.getValue());

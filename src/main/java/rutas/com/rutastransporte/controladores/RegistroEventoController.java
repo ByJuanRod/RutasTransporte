@@ -30,23 +30,9 @@ public class RegistroEventoController {
     private ComboBox<TipoEvento> cbxTipo;
 
     @FXML
-    private ImageView imgVista;
+    private ImageView imgVista, imgTransporte;
 
     private final AlertFactory af = new AlertFactory();
-
-    public void cargarDatos(){
-        List<Ruta> rutas = ServicioEventos.getInstancia().getRutasSinEventosActivos();
-        if(rutas.isEmpty()){
-            af.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("No se puede insertar un nuevo evento ya que no existen rutas o todas las existentes ya tienen un evento asociado.").show();
-            stage.close();
-            return;
-        }
-        cbxRuta.getItems().addAll(rutas);
-        cbxTipo.getItems().addAll(TipoEvento.values());
-        cbxTipo.getItems().remove(TipoEvento.NORMAL);
-        RecursosVisuales.configurarSpinnerNumerico(spnDuracion,1,60,1);
-        btnLimpiarClick();
-    }
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -63,14 +49,59 @@ public class RegistroEventoController {
     }
 
     public void btnLimpiarClick(){
-        cbxTipo.getSelectionModel().select(0);
-        cbxRuta.getSelectionModel().select(0);
-        spnDuracion.getValueFactory().setValue(1);
+        limpiar();
     }
 
     public void tipoSelChange(){
-        Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + cbxTipo.getSelectionModel().getSelectedItem().getImagen())));
-        imgVista.setImage(img);
+        cambiarImagen(cbxTipo.getSelectionModel().getSelectedItem().getImagen(),imgVista);
     }
 
+    public void rutaChange(){
+        cambiarImagen(cbxRuta.getSelectionModel().getSelectedItem().getOrigen().getTipo().getImagen(),imgTransporte);
+    }
+
+    /*
+        Nombre:  limpiar
+        Argumentos: -
+        Objetivo: Limpiar los valores del registro.
+        Retorno: -
+     */
+    public void limpiar(){
+        cbxTipo.getSelectionModel().select(cbxTipo.getItems().getFirst());
+        cbxRuta.getSelectionModel().select(cbxRuta.getItems().getFirst());
+        spnDuracion.getValueFactory().setValue(1);
+    }
+
+    /*
+        Nombre: cambiarImagen
+        Argumentos:
+            (String) ruta: Representa la ruta de la imagen.
+            (ImageView) objeto: Representa el objeto de imagen.
+        Objetivo: Cambiar las imagenes esteticas del registro.
+        Retorno: -
+     */
+    public void cambiarImagen(String ruta,ImageView objeto){
+        Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + ruta)));
+        objeto.setImage(img);
+    }
+
+    /*
+       Nombre: cargarDatos
+       Argumentos:  -
+       Objetivo: Cargar los datos base para que el registro funcione correctamente.
+       Retorno: -
+     */
+    public void cargarDatos(){
+        List<Ruta> rutas = ServicioEventos.getInstancia().getRutasSinEventosActivos();
+        if(rutas.isEmpty()){
+            af.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("No se puede insertar un nuevo evento ya que no existen rutas o todas las existentes ya tienen un evento asociado.").show();
+            stage.close();
+            return;
+        }
+        cbxRuta.getItems().addAll(rutas);
+        cbxTipo.getItems().addAll(TipoEvento.values());
+        cbxTipo.getItems().remove(TipoEvento.NORMAL);
+        RecursosVisuales.configurarSpinnerNumerico(spnDuracion,1,60,1);
+        limpiar();
+    }
 }

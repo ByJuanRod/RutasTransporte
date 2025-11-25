@@ -92,7 +92,7 @@
             </ImageView>
         </graphic>
     </Button>
-    <ComboBox fx:id="cbxRuta" layoutX="298.0" layoutY="100.0" prefHeight="26.0" prefWidth="426.0" />
+    <ComboBox fx:id="cbxRuta" layoutX="298.0" layoutY="100.0" onAction="#rutaChange" prefHeight="26.0" prefWidth="426.0" />
     <Label layoutX="223.0" layoutY="165.0" prefHeight="28.0" prefWidth="60.0" text="Tipo:">
         <font>
           <Font name="Century Gothic Bold" size="22.0" />
@@ -112,5 +112,9 @@
     </Label>
     <ImageView fx:id="imgVista" fitHeight="40.0" fitWidth="40.0" layoutX="648.0" layoutY="159.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@imagenes/accidente.png" />
+    </ImageView>
+   <Circle fill="#1b4b6b" layoutX="765.0" layoutY="113.0" radius="30.0" stroke="BLACK" strokeType="INSIDE" />
+    <ImageView fx:id="imgTransporte" fitHeight="40.0" fitWidth="40.0" layoutX="747.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@imagenes/taxi.png" />
     </ImageView>
 </AnchorPane>

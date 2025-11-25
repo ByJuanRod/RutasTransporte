@@ -25,6 +25,12 @@ public class PrincipalController {
         cargarDatos();
     }
 
+    /*
+        Nombre: cargarDatos
+        Argumentos: -
+        Objetivo: Cargar los datos base de para que se muestren los resumenes de principal.
+        Retorno: -
+     */
     public void cargarDatos(){
         lblCantRutas.setText(String.valueOf(servicioPrincipal.getCantRutas()));
         lblCantParadas.setText(String.valueOf(servicioPrincipal.getCantParadas()));

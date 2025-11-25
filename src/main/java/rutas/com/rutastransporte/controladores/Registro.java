@@ -20,4 +20,11 @@ public interface Registro {
     void cargarDatos();
 
     void setStage(Stage stage);
+
+    void aplicarEsteticos(Modalidad modalidad);
+
+    void rellenarCampos();
+
+    void aplicarNuevosValores();
+
 }
