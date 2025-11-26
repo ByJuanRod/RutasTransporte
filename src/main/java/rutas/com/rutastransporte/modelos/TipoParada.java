@@ -42,4 +42,12 @@ public enum TipoParada {
     public String toString() {
         return nombreTipo;
     }
+
+    public String getFormateado(){
+        return switch (this){
+            case TipoParada.BUS -> "Parada \nDe Bus";
+            case TipoParada.TAXI -> "Parada \nDe Taxi";
+            case TipoParada.TREN -> "Parada \nDe Tren ";
+        };
+    }
 }

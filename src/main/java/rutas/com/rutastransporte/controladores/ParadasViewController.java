@@ -42,7 +42,6 @@ public class ParadasViewController implements Vista<Parada> {
         cargarDatos();
 
         txtBuscar.textProperty().addListener((observable, oldValue, newValue) -> filtrar());
-
         tblParadas.widthProperty().addListener((obs, oldWidth, newWidth) -> RecursosVisuales.ajustarAnchoColumnas(tblParadas));
     }
 
@@ -68,6 +67,26 @@ public class ParadasViewController implements Vista<Parada> {
             return;
         }
         crearPantalla("Modificar Parada", Modalidad.ACTUALIZAR, parada);
+    }
+
+    public void btnInformeClick(){
+        Parada paradaSeleccionado = tblParadas.getSelectionModel().getSelectedItem();
+        if(paradaSeleccionado != null){
+            StageBuilder sb = new StageBuilder();
+            sb.setModalidad(Modality.APPLICATION_MODAL);
+            sb.setTitulo("Informe de Parada");
+
+            InformeParadaController controlador = (InformeParadaController) sb.setContenido("InformeParada");
+            controlador.setParada(paradaSeleccionado);
+            controlador.cargarDatos();
+
+            Stage st = sb.construir();
+            controlador.setStage(st);
+            st.show();
+        }
+        else{
+            mostrarAlerta("Conflicto de Selección.", "Por favor, seleccione una parada para modificar.");
+        }
     }
 
     public void btnInsertarClick(){

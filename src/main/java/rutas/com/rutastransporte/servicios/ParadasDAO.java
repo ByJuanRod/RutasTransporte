@@ -147,4 +147,5 @@ public class ParadasDAO implements CRUD<Parada> {
         paradas.addAll(SistemaTransporte.getSistemaTransporte().getParadas());
         return paradas;
     }
+
 }
