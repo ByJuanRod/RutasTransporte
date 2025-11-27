@@ -195,6 +195,19 @@ public class Ruta {
         return tieneEvento;
     }
 
+
+    /*
+        Nombre: tieneEfectosNegativos
+        Argumentos: -
+        Objetivo: Determinar si la ruta tiene algun efecto que modifique de forma negativa el costo, tiempo o distancia.
+        Retorno: (boolean) Retorna true si la ruta posee efectos negativos.
+                           Retorna false si la ruta no posee efectos negativos o beneficios.
+     */
+    public boolean tieneEfectosNegativos(){
+        return eventoActual != TipoEvento.NORMAL && eventoActual != TipoEvento.CAMINO_LIBRE;
+    }
+
+
     public TipoEvento getTipoEvento(){
         return eventoActual;
     }

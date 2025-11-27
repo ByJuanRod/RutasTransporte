@@ -7,7 +7,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.modelos.Parada;
 import rutas.com.rutastransporte.modelos.Ruta;
-import rutas.com.rutastransporte.servicios.ServicioParadas;
+import rutas.com.rutastransporte.servicios.InformeParada;
+import rutas.com.rutastransporte.utilidades.Confiabilidad;
 
 import java.util.Objects;
 
@@ -18,10 +19,10 @@ public class InformeParadaController {
     private Parada parada;
 
     @FXML
-    private ImageView imgTransporte;
+    private ImageView imgTransporte, imgConfiabilidad;
 
     @FXML
-    private Label lblParada, lblCobertura, lblRutas, lblEficiencia, lblCosto, lblDistancia, lblTiempo, lblTipo;
+    private Label lblParada, lblCobertura, lblRutas, lblEficiencia, lblCosto, lblDistancia, lblTiempo, lblTipo, lblConfiabilidad;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -36,19 +37,26 @@ public class InformeParadaController {
     }
 
     public void cargarDatos(){
-        ServicioParadas sp = new ServicioParadas(parada);
+        InformeParada ip = new InformeParada(parada);
         lblParada.setText(parada.getNombreParada() + " (" + parada.getTipo().getTipo() + ")");
-        lblCobertura.setText(sp.porcentajeCobertura() + "%");
-        lblRutas.setText(sp.recuentoRuta() + "");
-        lblEficiencia.setText(Math.round(sp.getEficienciaPromedio()) + "%");
-        lblCosto.setText(sp.getCostoPromedio() + "(DOP)");
-        lblDistancia.setText(Ruta.getDistanciaFormatado(sp.getDistanciaPromedio()));
-        lblTiempo.setText(Ruta.getTiempoFormatado(sp.getTiempoPromedio()));
+        lblCobertura.setText(ip.porcentajeCobertura() + "%");
+        lblRutas.setText(ip.recuentoRuta() + "");
+        lblEficiencia.setText(Math.round(ip.getEficienciaPromedio()) + "%");
+        lblCosto.setText(Math.round(ip.getCostoPromedio()) + " (DOP)");
+        lblDistancia.setText(Ruta.getDistanciaFormatado(ip.getDistanciaPromedio()));
+        lblTiempo.setText(Ruta.getTiempoFormatado(ip.getTiempoPromedio()));
         lblTipo.setText(parada.getTipo().getFormateado());
-
         Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + parada.getTipo().getImagen())));
         imgTransporte.setImage(img);
+        getConfiabilidad(ip);
     }
 
+    public void getConfiabilidad(InformeParada ip){
+        int indConf = (int) ip.getIndiceConfiabilidad();
+        lblConfiabilidad.setText(indConf + "%");
+        Confiabilidad conf = Confiabilidad.getConfiabilidad(indConf);
+        Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/rutas/com/rutastransporte/imagenes/" + conf.getImagen())));
+        imgConfiabilidad.setImage(img);
+    }
 
 }

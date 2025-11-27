@@ -65,6 +65,7 @@ class Ruta #AEDEFC{
     + getMinutos() : int
     + getKilometros() : int
     + getMetros() : int
+    + tieneEfectosNegativos() : boolean
     + {static} calcularDistancia(int kilometros, int metros) : int
     + {static} calcularTiempo(int horas, int minutos) : int
     + aplicarEvento(TipoEvento evento) : void
@@ -387,4 +388,7 @@ enum Colores #91ADC8{
     + getColor() : String
 }
 
+enum Confiabilidad #91ADC8{
+
+}
 @enduml
