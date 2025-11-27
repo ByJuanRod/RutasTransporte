@@ -28,7 +28,7 @@
 }
 
 .table-view .table-row-cell:odd {
-    -fx-background-color: #0e0e23;
+    -fx-background-color: #1e1b45;
 }
 
 .table-view .table-row-cell:selected {

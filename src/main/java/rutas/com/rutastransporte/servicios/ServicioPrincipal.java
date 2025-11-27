@@ -80,14 +80,20 @@ public class ServicioPrincipal {
         Retorno: (ObservableList<PieChart.Data>) Retorna un lista que contiene todas las series de datos.
      */
     public ObservableList<PieChart.Data> crearSeries(){
-        ObservableList<PieChart.Data>  datos = FXCollections.observableArrayList();
-        Hashtable<TipoParada, Integer> cantidadPorTipo = getSegmentacion();
+        try{
+            ObservableList<PieChart.Data>  datos = FXCollections.observableArrayList();
+            Hashtable<TipoParada, Integer> cantidadPorTipo = getSegmentacion();
 
-        for(TipoParada tipo :  TipoParada.values()){
-            datos.add(new PieChart.Data(tipo.getTipo(),cantidadPorTipo.get(tipo)));
+            for(TipoParada tipo :  TipoParada.values()){
+                datos.add(new PieChart.Data(tipo.getTipo(),cantidadPorTipo.get(tipo)));
+            }
+
+            return datos;
+        }
+        catch(Exception e){
+            return null;
         }
 
-        return datos;
     }
 
 }

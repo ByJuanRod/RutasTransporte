@@ -97,6 +97,15 @@ public class ParadasViewController implements Vista<Parada> {
         filtrar();
     }
 
+    /*
+        Nombre: crearPantalla
+        Argumentos:
+            (String) titulo: Representa el titulo del apartado.
+            (Modalidad) modalidad: Representa la modalidad en la que se utilizara el formulario.
+            (Parada) objeto: Representa el objeto a insertar o modificar.
+        Objetivo: Crear las pantallas de los formularios de registro.
+        Retorno: -
+     */
     @Override
     public void crearPantalla(String titulo, Modalidad modalidad, Parada objeto) {
         StageBuilder sb = new StageBuilder();
@@ -116,6 +125,12 @@ public class ParadasViewController implements Vista<Parada> {
         st.show();
     }
 
+    /*
+        Nombre: cargarDatos
+        Argumentos: -
+        Objetivo: Cargar las paradas en la tabla.
+        Retorno: -
+     */
     @Override
     public void cargarDatos() {
         ObservableList<Parada> datosOriginales = paradasDAO.getParadas();
@@ -125,6 +140,12 @@ public class ParadasViewController implements Vista<Parada> {
         filtrar();
     }
 
+    /*
+        Nombre: filtrar
+        Argumentos: -
+        Objetivo: Filtrar los datos de le tabla tomando como referencia el valor ingresado como texto de busqueda.
+        Retorno: -
+     */
     @Override
     public void filtrar() {
         String textoBusqueda = txtBuscar.getText().trim().toLowerCase();
@@ -150,6 +171,12 @@ public class ParadasViewController implements Vista<Parada> {
         });
     }
 
+    /*
+        Nombre: configurarColumnas
+        Argumentos: -
+        Objetivo: Configurar las columnas de los campos de la tabla para asociarlas a un una propiedad.
+        Retorno: -
+     */
     @Override
     public void configurarColumnas() {
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
@@ -177,6 +204,14 @@ public class ParadasViewController implements Vista<Parada> {
         });
     }
 
+    /*
+        Nombre: mostrarAlerta
+        Argumentos:
+            (String) titulo: Representa el titulo de la alerta.
+            (String) mensaje: Representa el mensaje de la alerta.
+        Objetivo: Mostrar las alertas informativas asociadas al apartado.
+        Retorno: -
+     */
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle(titulo);

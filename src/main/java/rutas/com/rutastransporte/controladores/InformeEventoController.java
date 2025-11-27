@@ -33,6 +33,12 @@ public class InformeEventoController {
         evento = eventoSeleccionado;
     }
 
+    /*
+        Nombre: cargarDatos
+        Argumentos: -
+        Objetivo: Cargar los datos del informe del evento.
+        Retorno: -
+     */
     public void cargarDatos(){
         lblNombre.setText(evento.getTipoEvento().getNombre());
         lblCosto.setText(evento.getRuta().getCostoDiff() + " (DOP)");
@@ -45,30 +51,44 @@ public class InformeEventoController {
         imgEvento.setImage(img);
     }
 
+    /*
+        Nombre: cargarDescripciones
+        Argumentos: -
+        Objetivo: Representa las descripciones a cargar.
+        Retorno: -
+     */
     private void cargarDescripciones(){
         switch (evento.getTipoEvento()){
             case ACCIDENTE:
-                lblDescTiempo.setText("50% más de Tiempo.");
-                lblDescDistancia.setText("100% más de Distancia.");
-                lblDescCosto.setText("Mismo Costo.");
+                cargarMensajes("50% más de Tiempo.","100% más de Distancia.","Mismo Costo.");
                 break;
 
             case DESVIO:
-                lblDescTiempo.setText("30% más de Tiempo.");
-                lblDescDistancia.setText("50% más de Distancia.");
-                lblDescCosto.setText("10% más de Costo.");
+                cargarMensajes("30% más de Tiempo.","50% más de Distancia.","10% más de Costo.");
                 break;
 
             case CAMINO_LIBRE:
-                lblDescTiempo.setText("30% menos de Tiempo.");
-                lblDescDistancia.setText("10% menos de Distancia.");
-                lblDescCosto.setText("Mismo Costo.");
+                cargarMensajes("30% menos de Tiempo.","10% menos de Distancia.","Mismo Costo.");
                 break;
 
             case ZONA_CONCURRIDA:
-                lblDescTiempo.setText("40% más de Tiempo.");
-                lblDescDistancia.setText("10% más de Distancia");
-                lblDescCosto.setText("20% más de Costo.");
+                cargarMensajes("40% más de Tiempo.","10% más de Distancia","20% más de Costo.");
+                break;
         }
+    }
+
+    /*
+        Nombre: cargarMensajes
+        Argumentos:
+            (String) tiempo: Representa el mensaje de tiempo.
+            (String) distancia: Representa el mensaje de distancia.
+            (String) costo: Representa el mensaje de costo.
+        Objetivo: Cargar los mensajes descriptivos de los eventos.
+        Retorno: -
+     */
+    void cargarMensajes(String tiempo, String distancia, String costo){
+        lblDescTiempo.setText(tiempo);
+        lblDescDistancia.setText(distancia);
+        lblDescCosto.setText(costo);
     }
 }

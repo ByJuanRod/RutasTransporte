@@ -26,20 +26,6 @@ public class MenuPrincipalController {
     @FXML
     private VBox pnlMenu;
 
-    private void cambiarSeleccion(Button btnSeleccionado){
-        for(Node node : pnlMenu.getChildren()){
-            if(node instanceof Button){
-                if(((Button) node).getText().equals(btnSeleccionado.getText())){
-                    node.setStyle("-fx-background-color: " + Colores.DECORATIVOS.getColor());
-                }
-                else{
-                    node.setStyle("-fx-background-color: " + Colores.ENFASIS.getColor());
-                }
-            }
-        }
-
-    }
-
     public void btnParadasClick(){
         cambiarSeleccion(btnParadas);
         cambiarPanel("Paradas");
@@ -70,6 +56,13 @@ public class MenuPrincipalController {
         cambiarPanel("Principal");
     }
 
+    /*
+        Nombre: cambiarPanel
+        Argumentos:
+            (String) nombreSeccion: Representa el nombre del apartado que se va a cargar.
+        Objetivo: Cambiar el panel seleccionado en el apartado de menu.
+        Retorno: -
+     */
     public void cambiarPanel(String nombreSeccion){
         try{
             pnlContenedor.getChildren().clear();
@@ -80,5 +73,27 @@ public class MenuPrincipalController {
             alert.obtenerAlerta(Alert.AlertType.ERROR).crearAlerta("Error al cargar el apartado seleccionado.").show();
         }
     }
+
+    /*
+        Nombre: cambiarSeleccion
+        Argumentos:
+            (Button) btnSeleccionado: Representa el boton que se selecciono.
+        Objetivo: Aplicar los efectos esteticos del cambio de seleccion
+        Retorno: -
+     */
+    private void cambiarSeleccion(Button btnSeleccionado){
+        for(Node node : pnlMenu.getChildren()){
+            if(node instanceof Button){
+                if(((Button) node).getText().equals(btnSeleccionado.getText())){
+                    node.setStyle("-fx-background-color: " + Colores.DECORATIVOS.getColor());
+                }
+                else{
+                    node.setStyle("-fx-background-color: " + Colores.ENFASIS.getColor());
+                }
+            }
+        }
+
+    }
+
 
 }

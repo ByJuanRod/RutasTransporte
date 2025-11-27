@@ -12,7 +12,6 @@ import rutas.com.rutastransporte.utilidades.Confiabilidad;
 
 import java.util.Objects;
 
-
 public class InformeParadaController {
     private Stage stage;
 
