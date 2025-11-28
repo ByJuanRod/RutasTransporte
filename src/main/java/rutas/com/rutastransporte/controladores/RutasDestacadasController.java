@@ -74,7 +74,7 @@ public class RutasDestacadasController {
         calc.setGrafo(SistemaTransporte.getSistemaTransporte().getGrafo());
         for(Criterio crt : Criterio.values()){
             if(!crt.equals(Criterio.MEJOR_RUTA)){
-                RutaPosible resultado = calc.floidWarshall(crt);
+                RutaPosible resultado = calc.floydWarshall(crt);
                 ResultadoRutaController rest = new ResultadoRutaController();
                 AnchorPane panel = rest.crearInterfaz(resultado);
                 rutas.put(crt,panel);

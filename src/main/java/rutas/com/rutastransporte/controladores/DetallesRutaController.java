@@ -40,6 +40,12 @@ public class DetallesRutaController {
     @FXML
     private ImageView imgRapida, imgCorta, imgEconomico, imgAccidente, imgDesvio, imgLibre, imgConcurrido, imgTrasbordos, imgIndicador;
 
+    /*
+        Nombre: cargarDatos
+        Argumentos: -
+        Objetivo: Cargar los datos de los detalles de las rutas.
+        Retorno: -
+     */
     public void cargarDatos(){
         try{
             lblIndicador.setText(ruta.getCriteriosDestacados().getFirst().getNombre());
@@ -60,6 +66,13 @@ public class DetallesRutaController {
         }
     }
 
+    /*
+        Nombre: verificarCriterio
+        Argumentos:
+            (Criterio) criterio: Representa el criterio que se va a evaluar.
+            (LinkedList<Criterio>) criteriosDestacadas: Representa la lista de criterios destacados.
+            (ImageView) img: Representa el objeto que contiene la imagen del criterio.
+     */
     public void verificarCriterio(Criterio criterio, LinkedList<Criterio> criteriosDestacados, ImageView img){
         if(criteriosDestacados.contains(criterio)){
             img.setImage(RecursosVisuales.getTieneCriterio());
@@ -82,6 +95,15 @@ public class DetallesRutaController {
         evaluarEventosCriterios("Ruta destacada por tener la distancia más corta.","No es la ruta con la menos distancia.",Criterio.MAS_CORTA);
     }
 
+    /*
+        Nombre: evaluarEventosCriterios
+        Argumentos:
+            (String) mensajeSi: Representa el mensaje que se mostrara si se cumple el criterio.
+            (String) mensajeNo: Representa el mensaje que se mostrara si no se cumple el criterio.
+            (Criterio) criterio: Representa el criterio que se va a evaluar.
+        Objetivo: Determinar el mensaje apropiado para el estado de los criterios.
+        Retorno: -
+     */
     public void evaluarEventosCriterios(String mensajeSi, String mensajeNo, Criterio criterio){
         if(ruta.getCriteriosDestacados().contains(criterio)){
             alertFactory.obtenerAlerta(Alert.AlertType.INFORMATION).crearAlerta(mensajeSi,"Indicador.").show();
@@ -107,6 +129,15 @@ public class DetallesRutaController {
         evaluarEventosSimulaciones("Se encontró un accidente dentro del camino.","No se encontraron accidentes en el camino.",TipoEvento.ACCIDENTE);
     }
 
+    /*
+        Nombre: evaluarEventosSimulaciones
+        Argumentos:
+            (String) mensajeSi: Representa el mensaje si el camino tiene la simulacion deseada.
+            (String) mensajeNo: Representa el menesaje si el camino no tiene la simulación deseada.
+            (TipoEvento) tipoEvento: Representa el tipo de evento..
+        Objetivo: Crear el mensaje correspondiente a si el camino contiene el evento.
+        Retorno: -
+     */
     public void evaluarEventosSimulaciones(String mensajeSi, String mensajeNo, TipoEvento tipoEvento){
         if(ruta.getRegistroEventos().contains(tipoEvento)){
             alertFactory.obtenerAlerta(Alert.AlertType.INFORMATION).crearAlerta(mensajeSi,"Evento.").show();
@@ -116,6 +147,12 @@ public class DetallesRutaController {
         }
     }
 
+    /*
+        Nombre: aplicarCriterios
+        Argumentos: -
+        Objetivo: Verificar los criterios que tiene vinculado el camino.
+        Retorno: -
+     */
     public void aplicarCriterios(){
         verificarCriterio(Criterio.MAS_RAPIDA, ruta.getCriteriosDestacados(), imgRapida);
         verificarCriterio(Criterio.MAS_CORTA, ruta.getCriteriosDestacados(), imgCorta);
@@ -123,12 +160,27 @@ public class DetallesRutaController {
         verificarCriterio(Criterio.MENOS_TRASBORDOS, ruta.getCriteriosDestacados(), imgTrasbordos);
     }
 
+    /*
+        Nombre: verificarSimulacion
+        Argumentos:
+            (TipoEvento) tipoEvento: Representa el tipo de eventos que se va a verificar.
+            (Set<TipoEvento>) eventos: Representa la lista de eventos.
+            (ImageView) image: Representa el objeto de imagen que almacenara la imagen.
+        Objetivo: Verificar si un camino contiene un evento
+        Retorno: -
+     */
     public void verificarSimulacion(TipoEvento tipoEvento, Set<TipoEvento> eventos, ImageView image){
         if(eventos.contains(tipoEvento)){
             image.setImage(RecursosVisuales.getTieneCriterio());
         }
     }
 
+    /*
+        Nombre: aplicarSimulaciones
+        Argumentos: -
+        Objetivo: Verificar si un evento tiene tiene cada simulacion.
+        Retorno: -
+     */
     public void aplicarSimulaciones(){
         verificarSimulacion(TipoEvento.DESVIO,ruta.getRegistroEventos(),imgDesvio);
         verificarSimulacion(TipoEvento.ACCIDENTE,ruta.getRegistroEventos(),imgAccidente);
@@ -136,6 +188,12 @@ public class DetallesRutaController {
         verificarSimulacion(TipoEvento.ZONA_CONCURRIDA,ruta.getRegistroEventos(),imgConcurrido);
     }
 
+    /*
+        Nombre: crearMensajeSimulacion
+        Argumentos: -
+        Objetivo: Crear los mensajes asociados a las simulaciones.
+        Retorno: (String) Retorna el mensaje que resume los detalles asociados a las simulaciones.
+     */
     public String crearMensajeSimulacion(){
         return "\t\tDetalle de los Eventos\n" +
                 "\nCosto Agregado: " + ruta.getDiffCosto() + " (DOP)" +

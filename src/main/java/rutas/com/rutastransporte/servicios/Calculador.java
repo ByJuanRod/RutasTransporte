@@ -105,33 +105,35 @@ public class Calculador {
     }
 
     /*
-        Nombre: floidWarshall
+        Nombre: floydWarshall
         Argumentos:
             (Criterio) criterio: Representa el criterio que será tomado en cuenta para obtener la mejor ruta en el grafo.
         Objetivo: Obtener la mejor ruta del el grafo segun un criterio seleccionado.
         Retorno: (RutaPosible) Retorna el camino destacado del criterio seleccionado.
      */
-    public RutaPosible floidWarshall(Criterio criterio) {
+    public RutaPosible floydWarshall(Criterio criterio) {
         ServicioEventos.getInstancia().limpiarEventosExpirados();
 
         Map<Parada, Map<Parada, Float>> distancias = new HashMap<>();
-        Map<Parada, Map<Parada, Ruta>> rutasIntermedias = new HashMap<>();
+        Map<Parada, Map<Parada, Parada>> intermedias = new HashMap<>();
 
-        for (Parada origen : grafo.getParadas()) {
-            distancias.put(origen, new HashMap<>());
-            rutasIntermedias.put(origen, new HashMap<>());
+        for (Parada i : grafo.getParadas()) {
+            distancias.put(i, new HashMap<>());
+            intermedias.put(i, new HashMap<>());
 
-            for (Parada destino : grafo.getParadas()) {
-                if (origen.equals(destino)) {
-                    distancias.get(origen).put(destino, 0.0f);
+            for (Parada j : grafo.getParadas()) {
+                if (i.equals(j)) {
+                    distancias.get(i).put(j, 0.0f);
+                    intermedias.get(i).put(j, null);
                 } else {
-                    Ruta rutaDirecta = encontrarRutaDirecta(origen, destino);
+                    Ruta rutaDirecta = encontrarRutaDirecta(i, j);
                     if (rutaDirecta != null) {
                         float peso = getPeso(rutaDirecta, criterio);
-                        distancias.get(origen).put(destino, peso);
-                        rutasIntermedias.get(origen).put(destino, rutaDirecta);
+                        distancias.get(i).put(j, peso);
+                        intermedias.get(i).put(j, j);
                     } else {
-                        distancias.get(origen).put(destino, Float.POSITIVE_INFINITY);
+                        distancias.get(i).put(j, Float.POSITIVE_INFINITY);
+                        intermedias.get(i).put(j, null);
                     }
                 }
             }
@@ -139,6 +141,10 @@ public class Calculador {
 
         for (Parada k : grafo.getParadas()) {
             for (Parada i : grafo.getParadas()) {
+                if (distancias.get(i).get(k) == Float.POSITIVE_INFINITY) {
+                    continue;
+                }
+
                 for (Parada j : grafo.getParadas()) {
                     float distanciaIK = distancias.get(i).get(k);
                     float distanciaKJ = distancias.get(k).get(j);
@@ -149,7 +155,7 @@ public class Calculador {
                             distanciaIK + distanciaKJ < distanciaIJ) {
 
                         distancias.get(i).put(j, distanciaIK + distanciaKJ);
-                        rutasIntermedias.get(i).put(j, rutasIntermedias.get(i).get(k));
+                        intermedias.get(i).put(j, intermedias.get(i).get(k));
                     }
                 }
             }
@@ -176,7 +182,7 @@ public class Calculador {
             return null;
         }
 
-        return reconstruirRutaFloydWarshall(mejorOrigen, mejorDestino, rutasIntermedias, criterio);
+        return reconstruirRutaFloydWarshall(mejorOrigen, mejorDestino, intermedias, criterio);
     }
 
     /*
@@ -198,33 +204,50 @@ public class Calculador {
     }
 
     /*
-        Nombre: reconstruirRutaFloidWarshall
-        Argumentos:
-            (Parada) origen: Representa la parada de origen.
-            (Parada) destino: Representa la parada de destino.
-            (Map<Parada,Map<Parada,Ruta>>) rutasIntermedias: Representa un listado de todas las rutas intermedias que tiene una parada.
-            (Criterio) criterio: Representa el criterio destacado.
-        Objetivo: Reconstruir la ruta destacada obtenida por el algorimo de Floyd Warshall.
-        Retorno: (RutaPosible) Retorna el camino destacado del algoritmo FloydWarshall.
-     */
+    Nombre: reconstruirRutaFloydWarshall
+    Argumentos:
+        (Parada) origen: Representa la parada de origen.
+        (Parada) destino: Representa la parada de destino.
+        (Map<Parada, Map<Parada, Parada>>) intermedias: Mapa de nodos intermedios para reconstruir rutas.
+        (Criterio) criterio: Representa el criterio destacado.
+    Objetivo: Reconstruir la ruta destacada obtenida por el algoritmo de Floyd Warshall.
+    Retorno: (RutaPosible) Retorna el camino destacado del algoritmo FloydWarshall.
+ */
     private RutaPosible reconstruirRutaFloydWarshall(Parada origen, Parada destino,
-                                                     Map<Parada, Map<Parada, Ruta>> rutasIntermedias,
+                                                     Map<Parada, Map<Parada, Parada>> intermedias,
                                                      Criterio criterio) {
         RutaPosible rutaPosible = new RutaPosible();
 
+        if (intermedias.get(origen).get(destino) == null) {
+            return null;
+        }
+
         Parada actual = origen;
+        List<Parada> camino = new ArrayList<>();
+        camino.add(actual);
+
         while (!actual.equals(destino)) {
-            Ruta ruta = rutasIntermedias.get(actual).get(destino);
+            Parada siguiente = intermedias.get(actual).get(destino);
+            if (siguiente == null) {
+                return null;
+            }
+            camino.add(siguiente);
+            actual = siguiente;
+        }
+
+        for (int i = 0; i < camino.size() - 1; i++) {
+            Parada desde = camino.get(i);
+            Parada hasta = camino.get(i + 1);
+
+            Ruta ruta = encontrarRutaDirecta(desde, hasta);
             if (ruta == null) {
                 return null;
             }
 
             rutaPosible.agregarAlCamino(ruta);
-            rutaPosible.agregarCriterioDestacado(criterio);
-
-            actual = ruta.getDestino();
         }
 
+        rutaPosible.agregarCriterioDestacado(criterio);
         return rutaPosible;
     }
 

@@ -49,6 +49,17 @@ public class EventosViewController {
             return;
         }
 
+        procesarEliminacion(eventoSeleccionado);
+    }
+
+    /*
+    Nombre: procesarEliminacion
+    Argumentos:
+        (EventoRuta) eventoSeleccionado: Representa el evento seleccionado.
+    Objetivo: Procesar la eliminación de un evento y confirmar la eliminación.
+    Retorno: -
+    */
+    public void procesarEliminacion(EventoRuta eventoSeleccionado){
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setTitle("Confirmar eliminación");
         confirmacion.setHeaderText("¿Está seguro de eliminar el evento?");
@@ -75,6 +86,12 @@ public class EventosViewController {
         filtrar();
     }
 
+    /*
+    Nombre: crearPantalla
+    Argumentos: -
+    Objetivo: Crear las pantallas de los formularios de registro.
+    Retorno: -
+ */
     public void crearPantalla() {
         StageBuilder sb = new StageBuilder();
         sb.setModalidad(Modality.APPLICATION_MODAL);
@@ -90,6 +107,12 @@ public class EventosViewController {
         st.show();
     }
 
+    /*
+        Nombre: cargarDatos
+        Argumentos: -
+        Objetivo: Cargar las paradas en la tabla.
+        Retorno: -
+    */
     public void cargarDatos() {
         ObservableList<EventoRuta> eventosActivos = FXCollections.observableArrayList();
 
@@ -105,6 +128,12 @@ public class EventosViewController {
         filtrar();
     }
 
+    /*
+    Nombre: filtrar
+    Argumentos: -
+    Objetivo: Filtrar los datos de le tabla tomando como referencia el valor ingresado como texto de busqueda.
+    Retorno: -
+ */
     public void filtrar() {
         String textoBusqueda = txtBuscar.getText().trim().toLowerCase();
         filteredData.setPredicate(evento -> {
@@ -128,6 +157,12 @@ public class EventosViewController {
         });
     }
 
+    /*
+        Nombre: configurarColumnas
+        Argumentos: -
+        Objetivo: Configurar las columnas de los campos de la tabla para asociarlas a un una propiedad.
+        Retorno: -
+     */
     public void configurarColumnas() {
         colCodigo.setCellValueFactory(cellData ->
                 javafx.beans.binding.Bindings.createStringBinding(() ->
@@ -155,6 +190,15 @@ public class EventosViewController {
         );
     }
 
+
+    /*
+        Nombre: mostrarAlerta
+        Argumentos:
+            (String) titulo: Representa el titulo de la alerta.
+            (String) mensaje: Representa el mensaje de la alerta.
+       Objetivo: Mostrar las alertas del programa
+       Retorno: -
+     */
     private void mostrarAlerta(String titulo, String mensaje) {
         alert.obtenerAlerta(Alert.AlertType.INFORMATION).crearAlerta(titulo, mensaje).showAndWait();
     }
