@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS rutas_transporte_db;
 CREATE DATABASE rutas_transporte_db;
 USE rutas_transporte_db;
 
@@ -27,7 +28,7 @@ CREATE TABLE Eventos(
                         tipo_evento VARCHAR(30) NOT NULL,
                         fecha_inicio DATETIME NOT NULL,
                         fecha_fin DATETIME,
-                        ADD UNIQUE KEY uq_ruta_activa (ruta),
-                        FOREIGN KEY (ruta) REFERENCES Rutas(codigo) ON DELETE CASCADE
 
+                        UNIQUE KEY uq_ruta_activa (ruta),
+                        FOREIGN KEY (ruta) REFERENCES Rutas(codigo) ON DELETE CASCADE
 );

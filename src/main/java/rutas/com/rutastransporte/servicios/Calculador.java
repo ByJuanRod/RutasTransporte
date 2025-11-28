@@ -236,7 +236,7 @@ public class Calculador {
         Retorno: (List<Ruta>) Retorna una lista de todas las rutas involucradas en el camino.
      */
     public List<Ruta> calcularArbolDijkstra(Parada raiz) {
-        Criterio criterio = Criterio.MENOS_TRASBORDOS;
+        Criterio criterio = Criterio.DEFAULT;
 
         Map<Parada, Ruta> edgeTo = new HashMap<>();
 
