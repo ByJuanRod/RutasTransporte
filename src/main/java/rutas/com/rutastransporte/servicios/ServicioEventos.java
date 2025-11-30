@@ -282,8 +282,7 @@ public class ServicioEventos {
         try (Connection con = ConexionDB.getConexion();
              PreparedStatement pst = con.prepareStatement(sql)) {
             pst.setTimestamp(1, new Timestamp(new Date().getTime()));
-            int filasAfectadas = pst.executeUpdate();
-            System.out.println("Eventos eliminados: " + filasAfectadas);
+            pst.executeUpdate();
 
         } catch (SQLException e) {
             alt.obtenerAlerta(Alert.AlertType.ERROR)
@@ -332,35 +331,46 @@ public class ServicioEventos {
             pst.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
 
             try (ResultSet rs = pst.executeQuery()) {
-                while (rs.next()) {
-                    int codigoRuta = rs.getInt("ruta");
-                    TipoEvento tipoEvento = TipoEvento.valueOf(rs.getString("tipo_evento"));
-                    Timestamp fechaInicio = rs.getTimestamp("fecha_inicio");
-                    Timestamp fechaFin = rs.getTimestamp("fecha_fin");
-
-                    Ruta rutaEncontrada = null;
-                    for (Ruta ruta : obtenerTodasLasRutas()) {
-                        if (ruta.getCodigo() == codigoRuta) {
-                            rutaEncontrada = ruta;
-                            break;
-                        }
-                    }
-
-                    if (rutaEncontrada != null) {
-                        long duracionRestante = (fechaFin.getTime() - System.currentTimeMillis()) / (60 * 1000);
-
-                        if (duracionRestante > 0) {
-                            EventoRuta eventoRuta = crearEventoDesdeBD(rutaEncontrada, tipoEvento, fechaInicio, fechaFin);
-                            eventosActivos.put(codigoRuta, eventoRuta);
-                            rutaEncontrada.aplicarEvento(tipoEvento);
-                        }
-                    }
-                }
+                procesarDatos(rs);
             }
         } catch (SQLException e) {
             alt.obtenerAlerta(Alert.AlertType.ERROR)
                     .crearAlerta("Error al cargar eventos.", "Error.")
                     .show();
+        }
+    }
+
+    /*
+        procesarDatos
+        Argumentos:
+            (ResultSet) rs: Representa los datos que se van a procesar de la consulta.
+        Objetivo: Cargar los eventos de la base de datos y aplicarlos a la ruta asociada.
+        Retorno: -
+     */
+    private void procesarDatos(ResultSet rs) throws SQLException {
+        while (rs.next()) {
+            int codigoRuta = rs.getInt("ruta");
+            TipoEvento tipoEvento = TipoEvento.valueOf(rs.getString("tipo_evento"));
+            Timestamp fechaInicio = rs.getTimestamp("fecha_inicio");
+            Timestamp fechaFin = rs.getTimestamp("fecha_fin");
+
+            Ruta rutaEncontrada = null;
+            for (Ruta ruta : obtenerTodasLasRutas()) {
+                if (ruta.getCodigo() == codigoRuta) {
+                    rutaEncontrada = ruta;
+                    break;
+                }
+            }
+
+            if (rutaEncontrada != null) {
+                long duracionRestante = (fechaFin.getTime() - System.currentTimeMillis()) / (60 * 1000);
+
+                if (duracionRestante > 0) {
+                    EventoRuta eventoRuta = crearEventoDesdeBD(rutaEncontrada, tipoEvento, fechaInicio, fechaFin);
+                    eventosActivos.put(codigoRuta, eventoRuta);
+                    rutaEncontrada.aplicarEvento(tipoEvento);
+                }
+            }
         }
     }
 

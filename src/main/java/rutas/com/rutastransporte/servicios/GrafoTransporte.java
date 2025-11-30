@@ -55,7 +55,6 @@ public class GrafoTransporte {
         for (List<Ruta> rutas : listaAdyacencia.values()) {
             rutas.removeIf(ruta -> ruta.getDestino().equals(parada));
         }
-
     }
 
     /*
@@ -72,7 +71,6 @@ public class GrafoTransporte {
         if (rutas != null) {
             rutas.remove(ruta);
         }
-
     }
 
     /*

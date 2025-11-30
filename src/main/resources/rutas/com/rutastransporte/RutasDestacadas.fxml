@@ -22,21 +22,21 @@
                strokeLineJoin="BEVEL" width="802.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0"
                AnchorPane.topAnchor="15.0">
         <fill>
-          <LinearGradient endX="0.5227272582776619" startX="0.6477271788048021"
-                          startY="0.22727272727272727">
-              <stops>
-                  <Stop>
-                      <color>
-                          <Color red="0.9137254953384399" green="0.6392157077789307" blue="0.09803921729326248"/>
-                      </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                      <color>
-                          <Color red="0.7137255072593689" green="0.46666666865348816" blue="0.11372549086809158"/>
-                      </color>
-                  </Stop>
-              </stops>
-          </LinearGradient>
+            <LinearGradient endX="0.5227272582776619" startX="0.6477271788048021"
+                            startY="0.22727272727272727">
+                <stops>
+                    <Stop>
+                        <color>
+                            <Color red="0.9137254953384399" green="0.6392157077789307" blue="0.09803921729326248"/>
+                        </color>
+                    </Stop>
+                    <Stop offset="1.0">
+                        <color>
+                            <Color red="0.7137255072593689" green="0.46666666865348816" blue="0.11372549086809158"/>
+                        </color>
+                    </Stop>
+                </stops>
+            </LinearGradient>
         </fill>
     </Rectangle>
     <Circle fill="#1b4b6b" layoutX="59.0" layoutY="59.0" radius="32.0" stroke="WHITE" strokeType="INSIDE"/>
@@ -45,7 +45,7 @@
     </ImageView>
     <Label layoutX="101.0" layoutY="38.0" text="Rutas Destacadas" textFill="WHITE">
         <font>
-          <Font name="Century Gothic Bold" size="32.0"/>
+            <Font name="Century Gothic Bold" size="32.0"/>
         </font>
     </Label>
     <Button fx:id="btnEconomica" layoutX="31.0" layoutY="120.0" mnemonicParsing="false" onAction="#btnEconomicaClick"
@@ -58,10 +58,10 @@
             </ImageView>
         </graphic>
         <font>
-          <Font name="Century Gothic Bold" size="16.0"/>
+            <Font name="Century Gothic Bold" size="16.0"/>
         </font>
         <cursor>
-          <Cursor fx:constant="HAND"/>
+            <Cursor fx:constant="HAND"/>
         </cursor>
     </Button>
     <Button fx:id="btnRapida" layoutX="227.0" layoutY="120.0" mnemonicParsing="false" onAction="#btnRapidaClick"
@@ -74,10 +74,10 @@
             </ImageView>
         </graphic>
         <font>
-          <Font name="Century Gothic Bold" size="16.0"/>
+            <Font name="Century Gothic Bold" size="16.0"/>
         </font>
         <cursor>
-          <Cursor fx:constant="HAND"/>
+            <Cursor fx:constant="HAND"/>
         </cursor>
     </Button>
     <Button fx:id="btnCorta" layoutX="422.0" layoutY="120.0" mnemonicParsing="false" onAction="#btnCortaClick"
@@ -90,10 +90,10 @@
             </ImageView>
         </graphic>
         <font>
-          <Font name="Century Gothic Bold" size="16.0"/>
+            <Font name="Century Gothic Bold" size="16.0"/>
         </font>
         <cursor>
-          <Cursor fx:constant="HAND"/>
+            <Cursor fx:constant="HAND"/>
         </cursor>
     </Button>
     <Button fx:id="btnTrasbordos" layoutX="617.0" layoutY="120.0" mnemonicParsing="false" onAction="#btnTrasbordosClick"
@@ -106,10 +106,10 @@
             </ImageView>
         </graphic>
         <font>
-          <Font name="Century Gothic Bold" size="16.0"/>
+            <Font name="Century Gothic Bold" size="16.0"/>
         </font>
         <cursor>
-          <Cursor fx:constant="HAND"/>
+            <Cursor fx:constant="HAND"/>
         </cursor>
     </Button>
     <VBox fx:id="contenedorRutas" layoutX="34.0" layoutY="205.0" prefHeight="250.0" prefWidth="770.0"/>
@@ -118,10 +118,10 @@
             style="-fx-background-color: #1B4B6B; -fx-text-fill: white; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-border-color: white;"
             text="Cerrar" AnchorPane.bottomAnchor="21.0">
         <font>
-          <Font name="Century Gothic Bold" size="14.0"/>
+            <Font name="Century Gothic Bold" size="14.0"/>
         </font>
         <cursor>
-          <Cursor fx:constant="HAND"/>
+            <Cursor fx:constant="HAND"/>
         </cursor>
         <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" translateX="-30.0">

@@ -23,6 +23,11 @@ public class ParadaBuilder implements Builder<Parada> {
         return this;
     }
 
+    public ParadaBuilder setCodigo(int codigo){
+        parada.setCodigo(codigo);
+        return this;
+    }
+
     @Override
     public Parada construir() {
         return parada;

@@ -11,6 +11,7 @@ import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.modelos.RutaPosible;
 import rutas.com.rutastransporte.RecursosVisuales;
 import rutas.com.rutastransporte.modelos.TipoEvento;
+import rutas.com.rutastransporte.utilidades.Factor;
 import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
 
 import java.util.LinkedList;
@@ -195,11 +196,39 @@ public class DetallesRutaController {
         Retorno: (String) Retorna el mensaje que resume los detalles asociados a las simulaciones.
      */
     public String crearMensajeSimulacion(){
+        float costo = ruta.getDiffCosto();
+        float tiempo = ruta.getDiffTiempo();
+        float distancia = ruta.getDiffDistancia();
+
         return "\t\tDetalle de los Eventos\n" +
-                "\nCosto Agregado: " + ruta.getDiffCosto() + " (DOP)" +
-                "\nTiempo Agregado: " + Ruta.getTiempoFormatado(ruta.getDiffTiempo()) +
-                "\nDistancia Agregada: " + Ruta.getDistanciaFormatado(ruta.getDiffDistancia());
+                getFactorFormateado(Factor.COSTO,costo) +
+                getFactorFormateado(Factor.TIEMPO,tiempo) +
+                getFactorFormateado(Factor.DISTANCIA,distancia);
     }
+
+    private String getFactorFormateado(Factor factor, float valor){
+        if(factor == Factor.DISTANCIA && valor < 0){
+            return "\nDistancia Reducida: " + Ruta.getDistanciaFormatado(valor);
+        }
+        else if(factor == Factor.DISTANCIA && valor >= 0){
+            return "\nDistancia Agregada: " + Ruta.getDistanciaFormatado(valor);
+        }
+        else if(factor == Factor.TIEMPO && valor < 0){
+            return "\nTiempo Reducido: " +  Ruta.getTiempoFormatado(valor);
+        }
+        else if(factor == Factor.TIEMPO && valor >= 0){
+            return "\nTiempo Agregado: " +  Ruta.getTiempoFormatado(valor);
+        }
+        else if(factor == Factor.COSTO && valor < 0){
+            return "\nCosto Reducido: " + valor + " (DOP)";
+        }
+        else if(factor == Factor.COSTO && valor >= 0){
+            return "\nCosto Agregado: " + valor + " (DOP)";
+        }
+
+        return "";
+    }
+
 
     public void mostrarDetallesEventosClick(){
         alertFactory.obtenerAlerta(Alert.AlertType.INFORMATION).crearAlerta(mensajeSimulacion,"Detalles de la Ruta.").show();

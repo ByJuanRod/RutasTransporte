@@ -47,6 +47,11 @@ public class RutaBuilder implements Builder<Ruta> {
         return this;
     }
 
+    public RutaBuilder setCodigo(int codigo) {
+        ruta.setCodigo(codigo);
+        return this;
+    }
+
     @Override
     public Ruta construir() {
         return ruta;

@@ -35,9 +35,15 @@ public class InformeParadaController {
         stage.close();
     }
 
+    /*
+        Nombre: cargarDatos
+        Argumentos: -
+        Objetivo: Cargar los datos del informe.
+        Retorno:  -
+     */
     public void cargarDatos(){
         InformeParada ip = new InformeParada(parada);
-        lblParada.setText(parada.getNombreParada() + " (" + parada.getTipo().getTipo() + ")");
+        lblParada.setText(parada.getNombreParada() + " (" + parada.getUbicacion() + ")");
         lblCobertura.setText(ip.porcentajeCobertura() + "%");
         lblRutas.setText(ip.recuentoRuta() + "");
         lblEficiencia.setText(Math.round(ip.getEficienciaPromedio()) + "%");
@@ -50,6 +56,13 @@ public class InformeParadaController {
         getConfiabilidad(ip);
     }
 
+    /*
+        Nombre: getConfiabilidad
+        Argumentos:
+            (InformeParada) ip: Representa objeto del informe de la parada.
+        Objetivo: Aplicar los efectos esteticos respectivos a la confiabilidad
+        Retorno: -
+     */
     public void getConfiabilidad(InformeParada ip){
         int indConf = (int) ip.getIndiceConfiabilidad();
         lblConfiabilidad.setText(indConf + "%");

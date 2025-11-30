@@ -3,6 +3,7 @@ package rutas.com.rutastransporte.servicios;
 import rutas.com.rutastransporte.modelos.Parada;
 import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.repositorio.SistemaTransporte;
+import rutas.com.rutastransporte.utilidades.Factor;
 
 import java.util.ArrayList;
 
@@ -96,18 +97,18 @@ public class InformeParada {
     /*
          Nombre: getPromedios
          Argumentos:
-            (String) nombre: Representa el nombre del argumento que se utilizará para obtener el promedio.
+            (Factor) factor: Representa el nombre del factor que se utilizará para obtener el promedio.
          Objetivo: Obtener el promedio de todas las rutas respecto a un criterio.
          Retorno: (float) Retorna el valor promedio de las rutas vinculadas respecto al criterio seleccionado.
      */
-    public float getPromedios(String nombre){
+    public float getPromedios(Factor factor){
         if(rutasVinculadas.isEmpty()){
             return 0;
         }
         else{
             float total = 0;
             for(Ruta rt : rutasVinculadas){
-                total += getPeso(rt,nombre);
+                total += getPeso(rt,factor);
             }
 
             return total / rutasVinculadas.size();
@@ -118,31 +119,36 @@ public class InformeParada {
         Nombre: getPeso
         Argumento:
             (Ruta) ruta: Representa la ruta de la que se extraera el valor.
-            (String) nombre: Representa el nombre del campo.
+            (Factor) factor: Representa el factor que sera tomado de referencia.
         Objetivo: Obtener el criterio que se utilizara para los promedios.
         Retorno: (float) Retorna el valor de una propiedad dependiendo del criterio.
      */
-    public float getPeso(Ruta ruta, String nombre){
-        return switch (nombre){
-            case "Tiempo" -> ruta.getTiempoConEvento();
-            case "Costo" -> ruta.getCostoConEvento();
-            case "Distancia" -> ruta.getDistanciaConEvento();
-            default -> throw new IllegalStateException("Unexpected value: " + nombre);
+    public float getPeso(Ruta ruta, Factor factor){
+        return switch (factor){
+            case Factor.TIEMPO -> ruta.getTiempoConEvento();
+            case Factor.COSTO -> ruta.getCostoConEvento();
+            case Factor.DISTANCIA -> ruta.getDistanciaConEvento();
         };
     }
 
     public float getTiempoPromedio() {
-        return getPromedios("Tiempo");
+        return getPromedios(Factor.TIEMPO);
     }
 
     public float getCostoPromedio() {
-        return getPromedios("Costo");
+        return getPromedios(Factor.COSTO);
     }
 
     public float getDistanciaPromedio(){
-        return getPromedios("Distancia");
+        return getPromedios(Factor.DISTANCIA);
     }
 
+    /*
+        Nombre: getIndiceConfiabilidad
+        Argumentos: -
+        Objetivo: Determinar que tan confiable es una parada.
+        Retorno: (double) Retorna el porcentaje de confiabilidad que tiene una parada.
+     */
     public double getIndiceConfiabilidad() {
         long rutasSinEventos = rutasVinculadas.stream()
                 .filter(ruta -> !ruta.tieneEfectosNegativos())

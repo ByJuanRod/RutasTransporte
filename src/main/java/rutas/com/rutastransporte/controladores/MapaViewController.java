@@ -423,7 +423,7 @@ public class MapaViewController {
         Retorno: (List<RutaPosible>) Retorna una lista de rutas posibles que excluyen a la mejor ruta.
      */
     private List<RutaPosible> procesarRutasUnicas(Stack<RutaPosible> posiblesRutas, RutaPosible mejorRuta) {
-        return sm.obtenerRutasUnicasExcluyendoMejor(posiblesRutas, mejorRuta);
+        return sm.obtenerRutasExceptoMejor(posiblesRutas, mejorRuta);
     }
 
     /*

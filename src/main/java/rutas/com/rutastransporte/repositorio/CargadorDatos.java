@@ -1,14 +1,13 @@
 package rutas.com.rutastransporte.repositorio;
 
-import rutas.com.rutastransporte.modelos.Parada;
-import rutas.com.rutastransporte.modelos.Ruta;
-import rutas.com.rutastransporte.modelos.TipoParada;
+import rutas.com.rutastransporte.modelos.*;
 import rutas.com.rutastransporte.servicios.GrafoTransporte;
 import rutas.com.rutastransporte.servicios.ServicioEventos;
 import rutas.com.rutastransporte.utilidades.ConexionDB;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,54 +38,81 @@ public class CargadorDatos {
              Statement stParadas = con.createStatement();
              ResultSet rsParadas = stParadas.executeQuery(sqlParadas)) {
 
-            while (rsParadas.next()) {
-                int codigo = rsParadas.getInt("codigo");
-                String nombre = rsParadas.getString("nombre_parada");
-                String ubicacion = rsParadas.getString("ubicacion");
-                TipoParada tipo = TipoParada.valueOf(rsParadas.getString("tipo_parada"));
-
-                Parada parada = new Parada(codigo, nombre, tipo, ubicacion);
-
-                grafo.agregarParada(parada);
-                SistemaTransporte.getSistemaTransporte().getParadas().add(parada);
-                paradasPorCodigo.put(codigo, parada);
-            }
+            cargarParadas(rsParadas,grafo,paradasPorCodigo);
 
             try (Statement stRutas = con.createStatement();
                  ResultSet rsRutas = stRutas.executeQuery(sqlRutas)) {
 
-                while (rsRutas.next()) {
-                    int codigo = rsRutas.getInt("codigo");
-                    String nombre = rsRutas.getString("nombre_ruta");
-
-                    int origenCodigo = rsRutas.getInt("origen");
-                    int destinoCodigo = rsRutas.getInt("destino");
-
-                    Parada origen = paradasPorCodigo.get(origenCodigo);
-                    Parada destino = paradasPorCodigo.get(destinoCodigo);
-
-                    if (origen != null && destino != null) {
-                        Ruta ruta = new Ruta(
-                                codigo,
-                                nombre,
-                                origen,
-                                destino,
-                                rsRutas.getInt("distancia"),
-                                rsRutas.getFloat("costo"),
-                                rsRutas.getInt("tiempo"),
-                                rsRutas.getInt("trasbordos")
-                        );
-
-                        SistemaTransporte.getSistemaTransporte().getRutas().add(ruta);
-                        grafo.agregarRuta(ruta);
-                    }
-                }
+                cargarRutas(rsRutas,paradasPorCodigo,grafo);
             }
 
             servicioEventos.cargarEventosActivosDesdeBD();
 
         } catch (Exception e) {
             System.out.println("ERROR FATAL AL CARGAR DATOS DE LA BBDD:");
+        }
+    }
+
+    /*
+        Nombre: cargarRutas
+        Argumentos:
+            (ResultSet) rsRutas: Representa los resultados de la operacion SQL.
+            (Map<Integer,Parada>) paradasPorCodigo: Representa las paradas.
+            (GrafoTransporte) grafo: Representa el grafo que tiene el sistema de transporte.
+        Objetivo: Cargar las rutas al sistema de transporte.
+        Retorno: -
+     */
+    private static void cargarRutas(ResultSet rsRutas, Map<Integer,Parada> paradasPorCodigo, GrafoTransporte grafo) throws SQLException {
+        while (rsRutas.next()) {
+
+            int origenCodigo = rsRutas.getInt("origen");
+            int destinoCodigo = rsRutas.getInt("destino");
+
+            Parada origen = paradasPorCodigo.get(origenCodigo);
+            Parada destino = paradasPorCodigo.get(destinoCodigo);
+
+            RutaBuilder ruta = new RutaBuilder()
+                    .setCodigo(rsRutas.getInt("codigo"))
+                    .setNombre(rsRutas.getString("nombre_ruta"))
+                    .setOrigen(origen)
+                    .setDestino(destino)
+                    .setDistancia(rsRutas.getInt("distancia"))
+                    .setCosto(rsRutas.getFloat("costo"))
+                    .setTiempo(rsRutas.getInt("tiempo"))
+                    .setTrasbordos(rsRutas.getInt("trasbordos"));
+
+
+
+            if (origen != null && destino != null) {
+                Ruta rt = ruta.construir();
+                SistemaTransporte.getSistemaTransporte().getRutas().add(rt);
+                grafo.agregarRuta(rt);
+            }
+        }
+    }
+
+    /*
+        Nombre: cargarParadas
+        Argumentos:
+            (ResultSet) rsParadas: Representa los resultados de la operacion SQL.
+            (GrafoTransporte) grafo: Representa el grafo de la aplicación.
+            (Map<Integer,Parada>) paradasPorCodigo: Representa el mapa que contiene todas las paradas.
+        Objetivo: Cargar las paradas al sistema de transporte.
+        Retorno: -
+     */
+    private static void cargarParadas(ResultSet rsParadas, GrafoTransporte grafo, Map<Integer,Parada> paradasPorCodigo) throws SQLException {
+        while (rsParadas.next()) {
+            ParadaBuilder parada = new ParadaBuilder()
+                    .setCodigo(rsParadas.getInt("codigo"))
+                    .setNombreParada(rsParadas.getString("nombre_parada"))
+                    .setUbicacion(rsParadas.getString("ubicacion"))
+                    .setTipo(TipoParada.valueOf(rsParadas.getString("tipo_parada")));
+
+
+            Parada resultado = parada.construir();
+            grafo.agregarParada(resultado);
+            SistemaTransporte.getSistemaTransporte().getParadas().add(resultado);
+            paradasPorCodigo.put(resultado.getCodigo(), resultado);
         }
     }
 }
