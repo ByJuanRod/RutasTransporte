@@ -189,7 +189,7 @@ enum utilidades.Confiabilidad{
     + {static} getConfiabilidad() : Confiabilidad
 }
 
-enum utilidades.Factor{
+enum servicios.Factor{
     COSTO,
     TIEMPO,
     DISTANCIA
@@ -294,36 +294,131 @@ interface servicios.CRUD{
 }
 
 class servicios.Calculador{
-
+    - GrafoTransporte: grafo
+    - getPeso() : float
+    + dijkstra() : RutaPosible
+    + floidWarshall() : RutaPosible
+    + encontrarRutaDirecta() : Ruta
+    - reconstruirRutaFloydWarshall() : RutaPosible
+    + calcularArbolDijkstra() : List<Ruta>
 }
+
+servicios.GrafoTransporte "1" ..o "1" servicios.Calculador
+servicios.Calculador --> modelos.RutaPosible
+servicios.Calculador --> utilidades.Criterio
 
 class servicios.GrafoTransporte{
-
+    - Map<Parada,List<Ruta>>: listaAdyacencia
+    + agregarParada() : void
+    + agregarRutas() : void
+    + eliminarParada() : void
+    + eliminarRuta() : void
+    + actualizarRuta() : void
+    + actualizarParada() : void
 }
+
+modelos.Parada "0...n" ..o "1" servicios.GrafoTransporte
+modelos.Ruta "0...n" ..o "1" servicios.GrafoTransporte
 
 class servicios.InformeParada{
-
+    - ArrayList<Ruta>: rutasVinculadas
+    + porcentajeCobertura() : int
+    + recuentoRuta() : int
+    + getEficienciaPromedio() : double
+    + obtenerRutasVinculadas() : ArrayList<Ruta>
+    + getPromedios() : float
+    + getPeso() : float
+    + getTiempoPromedio() : float
+    + getCostoPromedio() : float
+    + getDistanciaPromedio() : float
+    + getIndiceConfiabilidad() : double
 }
+
+servicios.InformeParada  --> repositorio.SistemaTransporte
+servicios.InformeParada --> servicios.Factor
+modelos.Ruta "...n" ..o "1" servicios.InformeParada
 
 class servicios.ParadasDAO{
-
+    + insertar() : boolean
+    + actualizar() : boolean
+    + eliminar() : void
+    + getParadas() : ObservableList<Parada>
 }
+
+servicios.ParadasDAO ..|> servicios.CRUD
+servicios.ParadasDAO --> repositorio.ConexionDB
+servicios.ParadasDAO --> repositorio.SistemaTransporte
+
+class servicios.RutasDAO{
+    - setDatos() : void
+    + insertar() : boolean
+    + actualizar() : boolean
+    + eliminar() : void
+    + getRutas() : ObservableList<Ruta>
+}
+
+servicios.RutasDAO ..|> servicios.CRUD
+servicios.RutasDAO --> repositorio.ConexionDB
+servicios.RutasDAO --> repositorio.SistemaTransporte
 
 class servicios.ServicioEventos{
-
+  - {static} ServicioEventos: instancia
+  - Map<Integer, EventoRuta>: eventosActivos
+  - Random: random
+  - AlertFactory: alt
+  + insertar() : void
+  + eliminar(Ruta) : void
+  + eliminar(EventoRuta) : void
+  - eliminarEventoDeBD() : void
+  + crearSimulacionEventos() : void
+  - obtenerTodasLasRutas() : ArrayList<Ruta>
+  - generarYGuardarEvento() : void
+  + generarEventoAleatorio() : void
+  + limpiarEventosExpirados() : void
+  + tieneEventoActivo() : boolean
+  + aplicarEventoARuta() : void
+  + limpiarEventosExpiradosBD() : void
+  + guardarEventoEnBD() : void
+  + cargarEventosActivosDesdeBD() : void
+  - procesarDatos() : void
+  - crearEventoDesdeBD() : EventoRuta
+  + getRutasConEventosActivos() : List<Ruta>
+  + getRutasSinEventosActivos() : List<Ruta>
 }
+
+modelos.EventoRuta "0...n" ..o "1" servicios.ServicioEventos
+utilidades.alertas.AlertFactory "1" ..o "1" servicios.ServicioEventos
+servicios.ServicioEventos --> repositorio.ConexionDB
+servicios.ServicioEventos --> repositorio.SistemaTransporte
+servicios.ServicioEventos --> modelos.TipoEvento
 
 class servicios.ServicioMapa{
-
+    - ServicioEventos: servicioEventos
+    + crearSimulacion() : void
+    + obtenerMejorRuta() : RutaPosible
+    - obtenerRutasUnicas() : ArrayList<RutaPosible>
+    - esRutaDuplicada() : boolean
+    - procesarUnicaRuta() : RutaPosible
+    - procesarMultiplesRutas() : RutaPosible
+    - encontrarMejorRutaBase() : RutaPosible
+    - construirMejorRuta() : RutaPosible
+    - agregarCriteriosDestacados() : void
+    - cantCritiriosPorCamino() : int
+    + obtenerRutasExceptoMejor() : ArrayList<RutaPosible>
+    + verificarDuplicacion() : void
 }
+
+servicios.ServicioEventos "1" ..o "1" servicios.ServicioMapa
+servicios.ServicioMapa --> modelos.RutaPosible
+servicios.ServicioMapa --> utilidades.Criterio
 
 class servicios.ServicioPrincipal{
-
+    + getCantRutas() : int
+    + getCantParadas() : int
+    + getCostoPromedio() : float
+    + getSegmentacion() : Hashtable<TipoParada, Integer>
+    + crearSeries() : ObservableList<PieChart.Data>
 }
 
-package excepciones #F08787{}
-
-exception excepciones.notRemovableException{
-
-}
+servicios.ServicioPrincipal --> repositorio.SistemaTransporte
 @enduml

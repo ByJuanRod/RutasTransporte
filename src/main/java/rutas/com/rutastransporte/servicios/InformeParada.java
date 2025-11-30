@@ -3,7 +3,6 @@ package rutas.com.rutastransporte.servicios;
 import rutas.com.rutastransporte.modelos.Parada;
 import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.repositorio.SistemaTransporte;
-import rutas.com.rutastransporte.utilidades.Factor;
 
 import java.util.ArrayList;
 

@@ -11,7 +11,7 @@ import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.modelos.RutaPosible;
 import rutas.com.rutastransporte.utilidades.RecursosVisuales;
 import rutas.com.rutastransporte.modelos.TipoEvento;
-import rutas.com.rutastransporte.utilidades.Factor;
+import rutas.com.rutastransporte.servicios.Factor;
 import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
 
 import java.util.LinkedList;

@@ -1,4 +1,4 @@
-package rutas.com.rutastransporte.utilidades;
+package rutas.com.rutastransporte.servicios;
 
 /*
     Nombre: Factor
