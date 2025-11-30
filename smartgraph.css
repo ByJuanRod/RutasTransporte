@@ -56,6 +56,11 @@
     -fx-fill:#BF092F;
 }
 
+.intermedio{
+    -fx-stroke: #F25912;
+    -fx-fill: #FF6D1F;
+}
+
 .camino{
     -fx-stroke: #f2123b;
     -fx-stroke-width: 5;

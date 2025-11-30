@@ -1,4 +1,4 @@
-package rutas.com.rutastransporte.utilidades;
+package rutas.com.rutastransporte.repositorio;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

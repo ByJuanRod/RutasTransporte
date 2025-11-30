@@ -15,7 +15,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.modelos.RutaPosible;
-import rutas.com.rutastransporte.StageBuilder;
+import rutas.com.rutastransporte.modelos.StageBuilder;
 import rutas.com.rutastransporte.utilidades.Colores;
 
 import java.util.Objects;

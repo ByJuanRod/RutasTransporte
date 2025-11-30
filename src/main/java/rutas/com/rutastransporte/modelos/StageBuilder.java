@@ -1,10 +1,10 @@
-package rutas.com.rutastransporte;
+package rutas.com.rutastransporte.modelos;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import rutas.com.rutastransporte.modelos.Builder;
+import rutas.com.rutastransporte.utilidades.RecursosVisuales;
 import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
 import rutas.com.rutastransporte.utilidades.alertas.Alerta;
 
@@ -68,7 +68,7 @@ public class StageBuilder implements Builder<Stage> {
         Retorno: (Object) Retorna el objeto controlador del contenido.
      */
     public Object setContenido(String nombreRecurso){
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(nombreRecurso + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/rutas/com/rutastransporte/" + nombreRecurso + ".fxml"));
         try{
             Scene contenido = new Scene(fxmlLoader.load());
             stage.setScene(contenido);

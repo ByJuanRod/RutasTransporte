@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import rutas.com.rutastransporte.modelos.Criterio;
+import rutas.com.rutastransporte.utilidades.Criterio;
 import rutas.com.rutastransporte.modelos.RutaPosible;
 import rutas.com.rutastransporte.repositorio.SistemaTransporte;
 import rutas.com.rutastransporte.servicios.Calculador;

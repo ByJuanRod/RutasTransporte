@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 import rutas.com.rutastransporte.modelos.EventoRuta;
 import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.modelos.TipoEvento;
-import rutas.com.rutastransporte.utilidades.ConexionDB;
+import rutas.com.rutastransporte.repositorio.ConexionDB;
 import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
 
 import java.sql.*;

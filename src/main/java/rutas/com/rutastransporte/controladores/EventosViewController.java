@@ -12,8 +12,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import rutas.com.rutastransporte.modelos.EventoRuta;
 import rutas.com.rutastransporte.modelos.Ruta;
-import rutas.com.rutastransporte.RecursosVisuales;
-import rutas.com.rutastransporte.StageBuilder;
+import rutas.com.rutastransporte.utilidades.RecursosVisuales;
+import rutas.com.rutastransporte.modelos.StageBuilder;
 import rutas.com.rutastransporte.servicios.ServicioEventos;
 import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
 

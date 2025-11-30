@@ -2,6 +2,7 @@ package rutas.com.rutastransporte.servicios;
 
 import rutas.com.rutastransporte.modelos.*;
 import rutas.com.rutastransporte.repositorio.SistemaTransporte;
+import rutas.com.rutastransporte.utilidades.Criterio;
 
 import java.util.*;
 

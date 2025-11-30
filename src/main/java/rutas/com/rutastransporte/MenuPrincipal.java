@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import rutas.com.rutastransporte.utilidades.RecursosVisuales;
 
 import java.awt.*;
 import java.io.IOException;

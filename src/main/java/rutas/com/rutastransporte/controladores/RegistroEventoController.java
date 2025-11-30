@@ -7,7 +7,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import rutas.com.rutastransporte.RecursosVisuales;
+import rutas.com.rutastransporte.utilidades.RecursosVisuales;
 import rutas.com.rutastransporte.modelos.EventoRuta;
 import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.modelos.TipoEvento;

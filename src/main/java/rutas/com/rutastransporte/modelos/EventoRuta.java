@@ -37,6 +37,12 @@ public class EventoRuta {
         return !estaActivo();
     }
 
+    /*
+        Nombre: getTiempoRestanteMinutos
+        Argumentos: -
+        Objetivo: Obtener la duracion restante en minutos de un evento.
+        Retorno: (long) Retorna la duracion restante del evento.
+     */
     public long getTiempoRestanteMinutos() {
         Date ahora = new Date();
         if (ahora.after(fechaFin)) {

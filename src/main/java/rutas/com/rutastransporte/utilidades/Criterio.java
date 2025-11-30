@@ -1,4 +1,4 @@
-package rutas.com.rutastransporte.modelos;
+package rutas.com.rutastransporte.utilidades;
 
 /*
     Nombre: Criterio

@@ -1,4 +1,4 @@
-package rutas.com.rutastransporte;
+package rutas.com.rutastransporte.utilidades;
 
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;

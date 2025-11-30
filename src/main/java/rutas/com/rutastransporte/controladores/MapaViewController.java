@@ -17,6 +17,7 @@ import rutas.com.rutastransporte.modelos.*;
 import rutas.com.rutastransporte.repositorio.SistemaTransporte;
 import rutas.com.rutastransporte.servicios.Calculador;
 import rutas.com.rutastransporte.servicios.ServicioMapa;
+import rutas.com.rutastransporte.utilidades.Criterio;
 import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;
 import rutas.com.rutastransporte.utilidades.alertas.Alerta;
 
@@ -288,6 +289,16 @@ public class MapaViewController {
         }
     }
 
+    public void limpiarCamino(){
+        for(Ruta rt : estilizada.getCamino()){
+            SmartStylableNode visualVertex = graphView.getStylableVertex(rt.getDestino());
+            if(visualVertex != null){
+                visualVertex.removeStyleClass("intermedio");
+            }
+        }
+    }
+
+
     /*
         Nombre: estilizarRuta
         Argumentos:
@@ -298,12 +309,30 @@ public class MapaViewController {
     public void estilizarRuta(RutaPosible ruta){
         for(Ruta rt : ruta.getCamino()){
             SmartStylableNode visualRoute = graphView.getStylableEdge(rt);
+            estilizarCamino(rt.getOrigen());
 
             if (visualRoute != null) {
                 visualRoute.addStyleClass("camino");
             }
         }
     }
+
+    /*
+        Nombre: estilizarCamino
+        Argumentos:
+            (Parada) origenIntermedio: Representa el nombre del origen.
+        Objetivo: Aplicar los efecto esteticos a las paradas intermedias en la ruta.
+        Retorno: -
+     */
+    public void estilizarCamino(Parada origenIntermedio){
+        if(origenIntermedio != origen){
+            SmartStylableNode visualVertex = graphView.getStylableVertex(origenIntermedio);
+            if(visualVertex != null){
+                visualVertex.addStyleClass("intermedio");
+            }
+        }
+    }
+
 
     /*
         Nombre: aplicarPorDefecto
@@ -315,7 +344,9 @@ public class MapaViewController {
         if (estilizada != null) {
             for (Ruta rt : estilizada.getCamino()) {
                 graphView.getStylableEdge(rt).removeStyleClass("camino");
+
             }
+            limpiarCamino();
             estilizada = null;
         }
 
@@ -526,7 +557,10 @@ public class MapaViewController {
     }
 
     /*
-
+        Nombre: mostrarAlertaNoHayCamino
+        Argumentos: -
+        Objetivo: Mostrar la alerta de que hacer cuando no hay caminos posibles
+        Retorno: -
      */
     private void mostrarAlertaNoHayCamino() {
         alertFactory.obtenerAlerta(Alert.AlertType.WARNING)

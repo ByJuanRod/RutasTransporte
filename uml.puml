@@ -1,0 +1,329 @@
+@startuml
+
+package modelos #E5D9F2{}
+
+interface modelos.Builder{
+    construir() : <T>
+}
+
+interface modelos.Clonable{
+    clonar() : <T>
+}
+
+class modelos.EventoRuta{
+    - Ruta: ruta
+    - TipoEvento: tipoEvento
+    - Date: fechaInicio
+    - Date: fechaFin
+    - boolean: activo
+
+    + estaExpirado() : boolean
+    + getTiempoRestanteMinutos() : long
+}
+
+modelos.Ruta "1" ..o "1" modelos.EventoRuta
+
+class modelos.Parada{
+    - int: codigo
+    - String: nombreParada
+    - TipoParada: tipo
+    - String: ubicacion
+}
+
+modelos.TipoParada "1" ..o "1" modelos.Parada
+
+class modelos.ParadaBuilder{
+    - Parada: parada
+    + setNombreParada() : ParadaBuilder
+    + setCodigo() : ParadaBuilder
+    + setTipo() : ParadaBuilder
+    + setUbicacion() : ParadaBuilder
+    + construir() : Parada
+}
+
+modelos.ParadaBuilder ..|> modelos.Builder
+modelos.Parada "1" ..o "1" modelos.ParadaBuilder
+
+class modelos.Ruta{
+    - int: codigo
+    - String: nombre
+    - Parada: origen
+    - Parada: destino
+    - int: distancia
+    - float: costo
+    - int: tiempo
+    - int: trasbordos
+    - TipoEvento: eventoActual
+    - boolean: tieneEvento
+    + getMinutos() : int
+    + getHoras() : int
+    + getKilometros() : int
+    + getMetros() : int
+    + {static} calcularTiempo() : int
+    + {static} calcularDistancia() : int
+    + aplicarEvento() : void
+    + removerEvento() : void
+    + tieneEfectosNegativos() : boolean
+    + getCostoConEvento() : float
+    + getTiempoConEvento() : int
+    + getDistanciaConEvento() : int
+    + getTiempoDiff() : int
+    + getDistanciaDiff() : int
+    + getCostoDiff() : float
+    + {static} getTiempoFormatado() : String
+    + {static} getDistanciaFormatado() : String
+}
+
+class modelos.StageBuilder{
+    - Stage: stage
+    - AlertFactory: alertFactory
+    + setTitulo() : void
+    + setSize() : void
+    + setModalidad() : void
+    + setContenido() : Object
+    + construir() : Stage
+}
+
+modelos.StageBuilder ..|> modelos.Builder
+utilidades.alertas.AlertFactory "1" ..o "1" modelos.StageBuilder
+
+class modelos.RutaPosible{
+    - LinkedList<Ruta>: camino
+    - float: costoTotal
+    - float: distanciaTotal
+    - float: tiempoTotal
+    - int: cantTrasbordos
+    - LinkedList<Criterio>: criteriosDestacados
+    - boolean: esMejorRuta
+    - Set<TipoEvento>: registroEventos
+    - float: costoBase
+    - float: distanciaBase
+    - float: tiempoBase
+    + agregarTiempo() : void
+    + agregarCosto() : void
+    + agregarDistancia() : void
+    + agregarFirst() : void
+    + getTiempoFormatado() : void
+    + agregarAlCamino() : void
+    + agregarAlCaminoFirst() : void
+    + getDistanciaFormatado() : String
+    + getCaminoTexto() : String
+    + clonar() : RutaPosible
+}
+
+modelos.Ruta "0...n" ..o "1" modelos.RutaPosible
+utilidades.Criterio "0...n" ..o "1" modelos.RutaPosible
+modelos.TipoEvento "0...n" ..o "1" modelos.RutaPosible
+
+modelos.RutaPosible ..|> modelos.Clonable
+
+class modelos.RutaBuilder{
+    - Ruta: ruta
+    + setNombre() : RutaBuilder
+    + setOrigen() : RutaBuilder
+    + setDestino() : RutaBuilder
+    + setDistancia() : RutaBuilder
+    + setCosto() : RutaBuilder
+    + setTiempo() : RutaBuilder
+    + setTrasbordos() : RutaBuilder
+    + setCodigo() : RutaBuilder
+}
+
+enum modelos.TipoEvento{
+    - String: nombre
+    - float: factorTiempo
+    - float: factorDistancia
+    - float: factorCosto
+    - String: imagen
+    + getNombre() : String
+    + getFactorTiempo() : float
+    + getFactorDistancia() : float
+    + getFactorCosto() : float
+    + getImagen() : String
+
+    ACCIDENTE,
+    DESVIO,
+    CAMINO_LIBRE,
+    ZONA_CONCURRIDA,
+    NORMAL
+}
+
+enum modelos.TipoParada{
+    - String: nombreTipo
+    - String: imagenTipo
+    - String: claseCSS
+    + getTipo() : String
+    + getImagen() : String
+    + getClase() : String
+    + getFormateado() : String
+    BUS
+    TAXI
+    TREN
+}
+
+modelos.RutaBuilder ..|> modelos.Builder
+modelos.Ruta "1" ..o "1" modelos.RutaBuilder
+modelos.Parada "2" ..o "1" modelos.Ruta
+modelos.TipoEvento "1" ..o "1" modelos.EventoRuta
+modelos.TipoEvento "1" ..o modelos.Ruta
+
+
+package utilidades #AAC4F5{}
+
+enum utilidades.Colores{
+    - String: color
+    + getColor() : String
+    FONDO,
+    ENFASIS,
+    DETALLES,
+    DECORATIVOS
+}
+
+enum utilidades.Confiabilidad{
+    - String: nombre
+    - String: imagen
+    - String minimo
+    + getNombre() : String
+    + getImagen() : String
+    ALTA, MEDIA, BAJA, CRITICA
+    + {static} getConfiabilidad() : Confiabilidad
+}
+
+enum utilidades.Factor{
+    COSTO,
+    TIEMPO,
+    DISTANCIA
+}
+
+enum utilidades.Modadidad{
+    INSERTAR,
+    ELIMINAR,
+    ACTUALIZAR
+}
+
+enum utilidades.Criterio{
+    - String: nombre
+    - String: imagen
+    + getNombre() : String
+    + getImagen() : String
+    MAS_ECONOMICO,
+    MAS_RAPIDA,
+    MAS_CORTA,
+    MENOS_TRASBORDOS,
+    MEJOR_RUTA,
+    DEFAULT
+}
+
+package utilidades.alertas #A7C1A8{}
+
+interface utilidades.alertas.Alerta{
+    crearAlerta(String,String) : Alert
+    crearAlerta(String) : Alert
+}
+
+class utilidades.alertas.AlertaAdvertencia{
+    crearAlerta(String,String) : Alert
+    crearAlerta(String) : Alert
+}
+
+class utilidades.alertas.AlertaError{
+    crearAlerta(String,String) : Alert
+    crearAlerta(String) : Alert
+}
+
+class utilidades.alertas.AlertaInformacion{
+    crearAlerta(String,String) : Alert
+    crearAlerta(String) : Alert
+}
+
+class utilidades.alertas.AlertFactory{
+    + obtenerAlerta() : Alerta
+}
+
+utilidades.alertas.AlertFactory --> Alerta
+
+utilidades.alertas.AlertaAdvertencia ..|> Alerta
+utilidades.alertas.AlertaError ..|> Alerta
+utilidades.alertas.AlertaInformacion ..|> Alerta
+
+class utilidades.RecursosVisuales{
+    - {static} Image: icono
+    - {static} Image: tieneCriterio
+    - {static} Dimension: registroDim
+    + {static} configurarSpinnerNumerico() : void
+    + {static} configurarSpinnerDecimal() : void
+    + {static} ajustarAnchoColumnas() : void
+}
+
+
+package repositorio #FFE6A9{}
+
+class repositorio.ConexionDB{
+    - {static} String: URL
+    - {static} String: USER
+    - {static} String: PASSWORD
+
+    + {static} getConexion() : Connection
+}
+
+class repositorio.CargadorDatos{
+    + {static} cargarDatos() : void
+    - {static} cargarRutas() : void
+    - {static} cargarParadas() : void
+}
+
+repositorio.CargadorDatos --> repositorio.ConexionDB
+repositorio.CargadorDatos --> repositorio.SistemaTransporte
+
+class repositorio.SistemaTransporte{
+    - ArrayList<Parada>: paradas
+    - ArrayList<Ruta>: rutas
+    - {static} SistemaTransporte: instancia
+    - GrafoTransporte: grafo
+    + getParadas(): ArrayList<Parada>
+    + getRutas(): ArrayList<Ruta>
+    + getGrafo(): GrafoTransporte
+}
+
+package servicios #FFC7A7{}
+
+interface servicios.CRUD{
+    insertar() : boolean
+    actualizar() : boolean
+    eliminar() : void
+}
+
+class servicios.Calculador{
+
+}
+
+class servicios.GrafoTransporte{
+
+}
+
+class servicios.InformeParada{
+
+}
+
+class servicios.ParadasDAO{
+
+}
+
+class servicios.ServicioEventos{
+
+}
+
+class servicios.ServicioMapa{
+
+}
+
+class servicios.ServicioPrincipal{
+
+}
+
+package excepciones #F08787{}
+
+exception excepciones.notRemovableException{
+
+}
+@enduml

@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import rutas.com.rutastransporte.modelos.Parada;
 import rutas.com.rutastransporte.modelos.Ruta;
 import rutas.com.rutastransporte.modelos.RutaBuilder;
-import rutas.com.rutastransporte.RecursosVisuales;
+import rutas.com.rutastransporte.utilidades.RecursosVisuales;
 import rutas.com.rutastransporte.repositorio.SistemaTransporte;
 import rutas.com.rutastransporte.servicios.RutasDAO;
 import rutas.com.rutastransporte.utilidades.alertas.AlertFactory;

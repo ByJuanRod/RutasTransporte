@@ -20,9 +20,7 @@ public class Parada {
         this.ubicacion = ubicacion;
     }
 
-    public Parada() {
-
-    }
+    public Parada() {}
 
     public int getCodigo() {
         return codigo;

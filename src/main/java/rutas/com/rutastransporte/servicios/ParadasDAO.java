@@ -3,10 +3,9 @@ package rutas.com.rutastransporte.servicios;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import rutas.com.rutastransporte.excepciones.NotRemovableException;
-import rutas.com.rutastransporte.modelos.CRUD;
 import rutas.com.rutastransporte.modelos.Parada;
 import rutas.com.rutastransporte.repositorio.SistemaTransporte;
-import rutas.com.rutastransporte.utilidades.ConexionDB;
+import rutas.com.rutastransporte.repositorio.ConexionDB;
 
 import java.sql.*;
 import java.util.Iterator;

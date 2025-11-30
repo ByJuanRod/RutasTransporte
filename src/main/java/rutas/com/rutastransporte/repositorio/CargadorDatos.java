@@ -3,7 +3,6 @@ package rutas.com.rutastransporte.repositorio;
 import rutas.com.rutastransporte.modelos.*;
 import rutas.com.rutastransporte.servicios.GrafoTransporte;
 import rutas.com.rutastransporte.servicios.ServicioEventos;
-import rutas.com.rutastransporte.utilidades.ConexionDB;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

@@ -1,5 +1,7 @@
 package rutas.com.rutastransporte.modelos;
 
+import rutas.com.rutastransporte.utilidades.Criterio;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
