@@ -14,8 +14,7 @@ public enum Criterio {
     MAS_CORTA("Ruta Más Corta", "distancia.png"),
     MAS_RAPIDA("Ruta Más Rápida", "tiempo.png"),
     MENOS_TRASBORDOS("Ruta con Menos Trasbordos", "trasbordos.png"),
-    MEJOR_RUTA("Mejor Ruta", "mejor.png"),
-    DEFAULT("Ruta por Defecto", "default.png");
+    MEJOR_RUTA("Mejor Ruta", "mejor.png");
 
     private final String nombre;
     private final String imagen;

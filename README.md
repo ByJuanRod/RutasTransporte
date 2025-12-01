@@ -5,21 +5,21 @@
 </p>
 <p>Para ejecutar el proyecto localmente, sigue estos <b>3 pasos obligatorios</b>:</p>
 
-<h3>1. Instalar Docker</h3>
+<h3>🐋 1. Instalar Docker</h3>
 <p>Asegúrate de tener <b>Docker Desktop</b> instalado y corriendo en tu computadora.<br>
 <a href="https://www.docker.com/products/docker-desktop/">Descargar Docker Desktop</a>
 </p>
 
-<h3>2. Iniciar el Contenedor de MySQL</h3>
+<h3>📁 2. Iniciar el Contenedor de MySQL</h3>
 <p>Abre una terminal (PowerShell o Terminal) y ejecuta el siguiente comando. Esto descargará la imagen de MySQL y la iniciará con la configuración correcta:</p>
 
-<pre><code>docker run -d --name mi-proyecto-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=tu_clave_secreta mysql:8</code></pre>
+<pre><code>docker run -d --name mi-proyecto-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=claveruta mysql:8</code></pre>
 <p><i>(Espera un minuto la primera vez que lo ejecutes mientras descarga la imagen).</i></p>
 
-<h3>3. Crear y Poblar las Tablas</h3>
+<h3>📚 3. Crear y Poblar las Tablas</h3>
 <p>Una vez que el contenedor esté corriendo (puedes verlo en Docker Desktop):</p>
 <ol>
-    <li>Conéctate a la base de datos local (<code>localhost:3306</code>, usuario <code>root</code>, contraseña <code>tu_clave_secreta</code>) usando un cliente como DBeaver.</li>
+    <li>Conéctate a la base de datos local (<code>localhost:3306</code>, usuario <code>root</code>, contraseña <code>claveruta</code>) usando un cliente como DBeaver.</li>
     <li>Ejecuta el script <code><b>database/schema.sql</b></code> para crear las tablas (<code>paradas</code>, <code>rutas</code>, <code>eventos</code>).</li>
     <li>Ejecuta el script <code><b>database/data.sql</b></code> para insertar los datos de prueba.</li>
 </ol>
@@ -89,3 +89,44 @@ con algun criterio en especifico. Los criterios disponibles dentro del programa 
     <li>Ruta Más Económica</li>
     <li>Ruta Con Menos Trasbordos</li>
 </ul>
+
+<h2>⚓ Estructura del Proyecto</h2>
+<p>
+    El proyecto se encuentra dividido en una estructura que engloba las funcionalidades de acuerdo a los objetivos generales que tienen dentro del proyecto.
+    en la definición general del proyecto se encuentran los archivos <coode>Informe.pdf</coode> que contiene la descripción y funcionamiento general detallado del proyecto,
+    el archivo <code>uml.puml</code> que contiene el diagrama UML de la lógica utilizada en el proyecto y las carpetas <code>database y src</code> que contienen la lógica vinculada al programa.
+</p>
+
+<h3>🔗 Elementos de Codificación</h3>
+<p>
+    En la carpeta <code>java</code> se encuentran los elementos vinculados con la lógica del programa y su funcionamiento.
+    La estructura que sigue el proyecto en general es la siguiente:
+</p>
+<ol>
+    <li><b>Controladores:</b> Contiene la lógica de los componentes visuales del programa.</li>
+    <li><b>Excepciones:</b> Contiene la lógica de las excepciones personalizadas que utiliza el programa.</li>
+    <li><b>Modelos:</b> Almacena los componentes estructurales del programa.</li>
+    <li><b>Repositorio:</b> Almacena las clases que se utilizan como fuentes de datos.</li>
+    <li><b>Servicios:</b> Contiene la definición de las clases que se utilizan para registionar el funcionamiento del programa.</li>
+    <li><b>Utilidades:</b> Almacena los componentes que sirven para complementar el comportamiento de otros apartados.</li>
+    <li><b>Utilidades > Alertas:</b> Contiene la definición de las alertas generales que utiliza el programa.</li>
+</ol>
+
+<h3>🎬 Recursos Visuales</h3>
+<p>
+    La carpeta <code>resources</code> contiene todos los recursos visuales que el programa utiliza, contiene los estilos CSS, las imágenes y los archivos FXML asociados a los apartados del programa.
+    La estructura de los recursos visuales tiene la siguiente lógica:
+</p>
+<ol>
+    <li><b>Estilos:</b> Contiene los documentos CSS que estan vinculados a utilidades específicas del programa.</li>
+    <li><b>Imágenes:</b> Contiene las imágenes que se utilizan como complemento del diseño.</li>
+    <li><b>rutastransporte</b> Almacena los documentos FXML que se utilizan como recursos visuales.</li>
+</ol>
+
+<h2>⏩  Pruebas Realizadas</h2>
+<p>
+    El programa fue probado en dsitentas condiciones para evidenciar el funcionamiento 
+    ante circunstancias específicas. El caso base que se proporciona en <code>schema.sql</code> plantea un total
+    de 20 paradas y 40 rutas paran lograr probar el comportamiento del mapa de rutas de transporte. El programa también fue probado en escenarios con
+    100 paradasy 200 rutas de transporte.
+</p>

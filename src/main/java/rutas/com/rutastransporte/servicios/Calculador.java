@@ -260,7 +260,7 @@ public class Calculador {
         Retorno: (List<Ruta>) Retorna una lista de todas las rutas involucradas en el camino.
      */
     public List<Ruta> calcularArbolDijkstra(Parada raiz) {
-        Criterio criterio = Criterio.DEFAULT;
+        Criterio criterio = Criterio.MAS_ECONOMICO;
 
         Map<Parada, Ruta> edgeTo = new HashMap<>();
 

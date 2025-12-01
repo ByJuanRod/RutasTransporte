@@ -1,10 +1,65 @@
 USE rutas_transporte_db;
 
-INSERT INTO Paradas (nombre_parada, tipo_parada, ubicacion)
-VALUES
-    ('Parada Central', 'BUS', 'Av. 27 de Febrero esq. Estrella Sadhalá'),
-    ('Estación Principal', 'TREN', 'Av. Juan Pablo Duarte');
+INSERT INTO Paradas (nombre_parada, tipo_parada, ubicacion) VALUES
+('Terminal Norte', 'BUS', 'Av. Principal Norte 123, Santo Domingo'),
+('Plaza Central', 'TREN', 'Calle Central 456, Santo Domingo'),
+('Estación Sur', 'BUS', 'Av. Sur 789, Santo Domingo'),
+('Mercado Municipal', 'TAXI', 'Calle Mercado 101, Santo Domingo'),
+('Hospital Regional', 'TAXI', 'Av. Salud 202, Santo Domingo'),
+('Universidad UASD', 'TREN', 'Ciudad Universitaria 303, Santo Domingo'),
+('Centro Comercial Blue Mall', 'BUS', 'Av. Sarasota, Santo Domingo'),
+('Aeropuerto Las Américas', 'BUS', 'Autopista Las Américas, Punta Caucedo'),
+('Parque Industrial Haina', 'BUS', 'Zona Industrial Haina, San Cristóbal'),
+('Estación de Tren', 'TREN', 'Calle Ferrocarril 707, Santo Domingo'),
+('Playa Boca Chica', 'TAXI', 'Costera Boca Chica, Boca Chica'),
+('Museo del Hombre Dominicano', 'TAXI', 'Plaza de la Cultura, Santo Domingo'),
+('Estadio Quisqueya', 'BUS', 'Av. Tiradentes, Santo Domingo'),
+('Biblioteca Nacional', 'TAXI', 'Plaza de la Cultura, Santo Domingo'),
+('Zoológico Nacional', 'BUS', 'Av. La Vega, Santo Domingo'),
+('Jardín Botánico', 'BUS', 'Av. República de Colombia, Santo Domingo'),
+('Puerto Sans Souci', 'BUS', 'Muelle Sans Souci, Santo Domingo'),
+('Zona Colonial', 'TREN', 'Calle Las Damas, Santo Domingo'),
+('Piantini', 'TAXI', 'Av. Abraham Lincoln, Santo Domingo'),
+('Mirador del Sur', 'BUS', 'Av. Mirador del Sur, Santo Domingo');
 
-INSERT INTO Rutas (nombre_ruta, origen, destino, distancia, costo, tiempo, trasbordos)
-VALUES
-    ('Ruta Expreso 1', 1, 2, 2500, 50.0, 15, 0);
+INSERT INTO Rutas (nombre_ruta, distancia, costo, tiempo, trasbordos, origen, destino) VALUES
+('Terminal Norte - Plaza Central', 12500, 85.00, 35, 1, 1, 2),
+('Estación Sur - Plaza Central', 9800, 65.00, 28, 1, 3, 2),
+('Aeropuerto - Zona Colonial', 32500, 350.00, 65, 2, 8, 18),
+('UASD - Parque Industrial', 18500, 120.00, 42, 1, 6, 9),
+('Hospital - Plaza Central', 7500, 50.00, 22, 1, 5, 2),
+('Blue Mall - Zona Colonial', 5800, 45.00, 18, 1, 7, 18),
+('Boca Chica - Estadio Quisqueya', 31500, 280.00, 60, 2, 11, 13),
+('Museo - Biblioteca Nacional', 1200, 25.00, 8, 1, 12, 14),
+('Terminal Norte - UASD Express', 14200, 95.00, 38, 1, 1, 6),
+('Boca Chica - Puerto Sans Souci', 28400, 240.00, 58, 2, 11, 17),
+('Parque Industrial - Estación Sur', 16300, 110.00, 40, 1, 9, 3),
+('Ruta Nocturna Central', 11200, 75.00, 32, 1, 2, 5),
+('Estación Sur - Blue Mall Directo', 8400, 60.00, 25, 1, 3, 7),
+('UASD - Biblioteca Nacional', 6200, 42.00, 20, 1, 6, 14),
+('Zoológico - Jardín Botánico', 15600, 105.00, 38, 1, 15, 16),
+('Zona Colonial - Museo', 2800, 35.00, 12, 1, 18, 12),
+('Estadio - Blue Mall', 4100, 38.00, 15, 1, 13, 7),
+('Piantini - Plaza Central', 5300, 40.00, 17, 1, 19, 2),
+('Mirador - Zona Colonial', 17600, 115.00, 41, 1, 20, 18),
+('Terminal Norte - Aeropuerto', 38200, 400.00, 72, 3, 1, 8),
+('Plaza Central - Estación de Tren', 13400, 90.00, 36, 1, 2, 10),
+('Terminal Norte - Hospital Rápido', 11800, 80.00, 33, 1, 1, 5),
+('Mercado - Hospital', 3200, 30.00, 10, 1, 4, 5),
+('Plaza Central - Museo', 2100, 28.00, 9, 1, 2, 12),
+('Zoológico - Botánico Directo', 14500, 98.00, 35, 1, 15, 16),
+('Puerto - Zona Colonial', 23400, 190.00, 50, 1, 17, 18),
+('UASD - Estadio Express', 5100, 39.00, 16, 1, 6, 13),
+('Aeropuerto - Parque Industrial', 40800, 420.00, 78, 3, 8, 9),
+('Terminal Norte - Estación Sur Directa', 21800, 150.00, 48, 1, 1, 3),
+('Ruta Circular Zona Colonial', 6800, 48.00, 24, 1, 18, 18),
+('Hospital - UASD', 4300, 36.00, 14, 1, 5, 6),
+('Mirador - Boca Chica', 29600, 260.00, 62, 2, 20, 11),
+('Estación Tren - Aeropuerto', 44600, 480.00, 85, 3, 10, 8),
+('Biblioteca - Museo', 800, 20.00, 5, 1, 14, 12),
+('Blue Mall - Parque Industrial', 15700, 108.00, 39, 1, 7, 9),
+('Piantini - Hospital', 6100, 43.00, 19, 1, 19, 5),
+('Terminal Norte - Estación Sur Express', 22500, 155.00, 50, 1, 1, 3),
+('Plaza Central - Zona Cultural', 4900, 37.00, 20, 1, 2, 12),
+('Estadio - Boca Chica', 32800, 290.00, 66, 2, 13, 11),
+('Aeropuerto Express - Centro', 28700, 320.00, 68, 1, 8, 2);
