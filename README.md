@@ -105,6 +105,7 @@ con algun criterio en especifico. Los criterios disponibles dentro del programa 
 <ol>
     <li><b>Controladores:</b> Contiene la lógica de los componentes visuales del programa.</li>
     <li><b>Excepciones:</b> Contiene la lógica de las excepciones personalizadas que utiliza el programa.</li>
+    <li><b>Algoritmos:</b> Contiene los algoritmos complementarios del programa.</li>
     <li><b>Modelos:</b> Almacena los componentes estructurales del programa.</li>
     <li><b>Repositorio:</b> Almacena las clases que se utilizan como fuentes de datos.</li>
     <li><b>Servicios:</b> Contiene la definición de las clases que se utilizan para registionar el funcionamiento del programa.</li>
